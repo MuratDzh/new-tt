@@ -1,0 +1,21 @@
+@if(avatar){
+<img [src]="avatar" width="140" height="140" />
+<!-- <img [src]='profileImg$|async|img' width="140" height="140"> -->
+} @else if(profileImg$) {
+<img [src]="profileImg$ | async | img" width="140" height="140" />
+<!-- <img [src]='avatar' width="140" height="140"> -->
+} @else {
+<img [src]="avatarDefault" width="140" height="140" />
+}
+<!-- <img [src]='avatar' width="140" height="140"> -->
+<div #dnd dnd class="upload" tabindex="0" (avatar)="uploadAvatar($event)">
+  <img
+    class="upload-img"
+    src="./../../../assets/svg/lll.svg"
+    width="16"
+    height="16"
+    alt=""
+  />
+  <span> Перетащите изображение или  Загрузите  </span>
+  <input #input type="file" tabindex="-1" (change)="uploadImg($event)" />
+</div>

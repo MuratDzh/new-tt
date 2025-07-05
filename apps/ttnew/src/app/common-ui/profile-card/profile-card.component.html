@@ -1,0 +1,85 @@
+<div class="profile-card">
+  <div class="avatar-name">
+    <img
+      [src]="profile.avatarUrl | img"
+      width="70px"
+      alt="avatar"
+      class="profile-card__avatar"
+    />
+    <div class="profile-card__name">
+      <strong class="h6">{{ profile.firstName }}</strong>
+      <span class="subtitle">{{ profile.username }}</span>
+    </div>
+  </div>
+  <div class="profile-card__description">
+    {{ profile.description }}
+  </div>
+  <div class="profile-card__tags">
+    <div class="skill-tag" *ngFor="let tag of profile.stack">{{ tag }}</div>
+  </div>
+  <div class="profile-card__btns">
+    @if (profile.isSubscribed){
+    <button class="btn-transparent btn-w44 svg-btn" (click)="onUnsubscribe()">
+      <svg
+        [appSvgDir]="'subscribed'"
+        viewBox="-1 -1 16 16"
+        width="16"
+        height="16"
+        style="width: 16px; height: 16px"
+      >
+        <use></use>
+      </svg>
+    </button>
+    <button (click)="onSendMessage()" class="btn-primary subscribe_btn">
+      <span>Написать</span>
+      <svg
+        [appSvgDir]="'subscribe'"
+        viewBox="0 -2 16 16"
+        width="16"
+        height="16"
+      >
+        <use></use>
+      </svg>
+    </button>
+    <button
+      class="btn-transparent btn-w44 unsubscribe"
+      (click)="onUnsubscribe()"
+    >
+      <svg
+        [appSvgDir]="'unsubscribe'"
+        viewBox="0 1 16 16"
+        width="16"
+        height="16"
+      >
+        <use></use>
+      </svg>
+    </button>
+    } @else {
+    <button (click)="onSubscribe()" class="btn-primary subscribe_btn">
+      <span>Подписаться</span>
+      <svg
+        [appSvgDir]="'subscribe'"
+        viewBox="0 -2 16 16"
+        width="16"
+        height="16"
+      >
+        <use></use>
+      </svg>
+    </button>
+    <button class="btn-primary btn-w44">
+      <svg
+        [appSvgDir]="'unsubscribe'"
+        viewBox="0 0 16 16"
+        width="16"
+        height="16"
+      >
+        <use></use>
+      </svg>
+    </button>
+    }
+
+    <!--                <div class="btn-primary subscribe_btn">-->
+
+    <!--                </div>-->
+  </div>
+</div>

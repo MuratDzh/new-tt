@@ -1,0 +1,31 @@
+%btn {
+  border-radius: var(--border-radius);
+  font-size: var(--fs-btn);
+  line-height: var(--lh-btn);
+  font-weight: var(--fw-btn);
+  padding: var(--padding-btn);
+  max-height: var(--height-btn);
+}
+
+%input {
+  width: 100%;
+  background-color: var(--dark-color);
+  height: var(--height-btn);
+  font-family: 'JetBrainsMono';
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  color: var(--light-color);
+  line-height: var(--input-lh);
+
+  &::placeholder {
+    color: var(--light-grey-transparent);
+  }
+}
+
+%input-mod {
+  border: none;
+
+  &::placeholder {
+    padding-left: 0;
+  }
+}

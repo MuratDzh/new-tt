@@ -1,0 +1,43 @@
+@if (profile.id===me) {
+<app-post-input
+  (post)="getPostFromChild($event)"
+  [updatedPost]="updatedPost"
+></app-post-input>
+}
+<!-- {{(posts$|async)|json}} -->
+@if (posts$|async; as posts) { @for (post of posts; track post.id) {
+<app-post
+  #postCom
+  [post]="post"
+  [me]="me"
+  (createCom)="createCom($event, post)"
+  [upComRes]="updatedComment"
+>
+  @if (profile.id===me) {
+  <!-- {{post|json}} -->
+  <button (click)="toDel(post)">Delete post</button>
+  <button (click)="toUpdate(post)">Update post</button>
+
+  } @for(comment of post.comments; track comment.postId; let i = $index){
+  <app-comment [comment]="comment">
+    @if (comment.author.id==me) {
+    <button (click)="onDelCom(comment, post.author.id)">Del</button>
+
+    <button (click)="onUpdateCom(comment, post.author.id)" class="mb8">
+      Update
+    </button>
+    <!--                        <button (click)="onUpdateCom(i, comment.postId)" class="mb8">Update</button>-->
+    <!--                        <button (click)="onGetCom(comment)" class="mb8">Get Comment</button>-->
+
+    }
+  </app-comment>
+  }
+  <div #createComment>
+    <textarea [(ngModel)]="postCom.text"></textarea>
+    <button (click)="postCom.toCreateCom()">Add Comment from Parent</button>
+  </div>
+</app-post>
+
+} }
+
+<!-- (del)="toDel(post)" (update)="toUpdate(post)" -->

@@ -1,0 +1,79 @@
+.profile-card {
+  border: var(--border-light);
+  border-radius: var(--border-radius);
+  padding: 32px 24px;
+  max-width: 1092px;
+  display: grid;
+  grid-template-columns: 232px 1fr 200px min-content;
+  column-gap: 32px;
+  align-items: center;
+  margin-bottom: 8px;
+  background-color: var(--dark-color);
+
+  &__avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .subscribe_btn {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .avatar-name {
+    display: flex;
+    column-gap: 20px;
+    user-select: none;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    justify-content: center;
+  }
+
+  &__tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__btns {
+    display: flex;
+
+    column-gap: 6px;
+  }
+}
+
+.svg-btn {
+  padding: 14px;
+  background-color: transparent;
+  border: var(--border-primary);
+  color: var(--primary-color);
+  border-radius: var(--border-radius);
+
+  &:hover {
+    border-color: var(--primary-color-hover);
+    box-shadow: 0px 0px 10px -1px var(--primary-color);
+    //background-color: var(--link-active-bg-color);
+    border-color: var(--primary-color);
+  }
+}
+
+.unsubscribe {
+  padding: 14px;
+  background-color: transparent;
+  border: var(--border-primary-red);
+  color: var(--red-primary);
+  border-radius: var(--border-radius);
+  &:hover {
+    color: var(--red-primary);
+    box-shadow: 0px 0px 10px -1px var(--red-primary);
+    border-color: var(--red-primary);
+  }
+}

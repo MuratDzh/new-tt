@@ -1,0 +1,64 @@
+<form [formGroup]="form">
+  <label>
+    <span>Имя</span>
+    <input type="text" formControlName="firstName" />
+  </label>
+  <label>
+    <span>Фамилия</span>
+    <input type="text" formControlName="lastName" />
+  </label>
+  <label class="label_select mb-16">
+    <span>Год рождения</span>
+    <select formControlName="birthday">
+      @for (i of years; track $index) {
+      <option value="{{ i }}">{{ i }}</option>
+      }
+    </select>
+  </label>
+  <fieldset formGroupName="address">
+    <legend>
+      <span> Адрес </span>
+    </legend>
+    <label>
+      <span>Город</span>
+      <input type="text" formControlName="city" />
+    </label>
+    <label>
+      <span>Улица</span>
+      <input type="text" formControlName="street" />
+    </label>
+  </fieldset>
+  <fieldset class="phones" formArrayName="phones">
+    <legend>
+      <span> Телефон </span>
+    </legend>
+
+    <div class="btn-wrapper mb20">
+      <button
+        class="btn-primary phone-primary btn-w44"
+        (click)="addPhone()"
+      ></button>
+    </div>
+
+    <div
+      class="tel_wrapper"
+      [formGroupName]="i"
+      *ngFor="let item of form.controls.phones.controls; index as i"
+    >
+      <select class="select-phone" formControlName="label">
+        <option value="work">Рабочий</option>
+        <option value="home">Домашний</option>
+      </select>
+      <input type="text" formControlName="phone" />
+      <button
+        class="btn-transparent phone-transparent btn-w44"
+        type="button"
+        (click)="delPhone(i)"
+      ></button>
+    </div>
+  </fieldset>
+  <textarea formControlName="textarea"></textarea>
+  <div class="btn-wrapper">
+    <button class="btn-primary" (click)="onSubmit()">Submit</button>
+  </div>
+</form>

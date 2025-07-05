@@ -1,0 +1,112 @@
+:host {
+  display: block;
+  // height: 100dvh;
+  position: relative;
+  padding: 20px 12px;
+  background-color: var(--dark-color);
+
+  .logo {
+    margin-left: 16px;
+  }
+
+  .to-subscribers {
+    margin-top: 20px;
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--primary-color-hover);
+
+    &:hover {
+      color: var(--light-grey-transparent);
+    }
+  }
+}
+
+p.medium-text.p-i {
+  color: var(--light-grey-transparent);
+}
+
+.mine-menu {
+  &_list {
+    list-style: none;
+  }
+
+  &_item {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+
+    &:hover {
+      color: var(--primary-color-hover);
+    }
+
+    & .active {
+      background-color: var(--link-active-bg-color);
+      border-radius: var(--border-radius);
+      color: var(--primary-color-hover);
+      cursor: auto;
+    }
+  }
+
+  &_a {
+    display: grid;
+    height: 40px;
+    grid-template-columns: 16px 1fr max-content;
+    column-gap: 6px;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.to-my-settings {
+  width: calc(300px - 2 * 12px);
+  position: fixed;
+  bottom: 20px;
+
+  .active {
+    background-color: var(--link-active-bg-color);
+    border-radius: var(--border-radius);
+    color: var(--primary-color-hover);
+    cursor: auto;
+  }
+
+  &-link {
+    display: grid;
+    grid-template-columns: 32px 1fr 16px;
+    column-gap: 12px;
+    padding-inline: 12px;
+    height: 40px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color-hover);
+    }
+  }
+
+  &-p {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+}
+
+a.subscription {
+  text-decoration: none;
+  color: var(--light-color);
+}

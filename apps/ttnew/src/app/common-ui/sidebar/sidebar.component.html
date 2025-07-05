@@ -1,0 +1,61 @@
+<img
+  class="mb20 logo"
+  width="61px"
+  height="74px"
+  src="./../../../assets/svg/Logo-Tik-Talk.png"
+  alt="logo"
+/>
+<nav class="mb20 mine-menu">
+  <ul class="mine-menu_list">
+    <li class="mn8 mine-menu_item" *ngFor="let item of menuItems">
+      <a
+        class="mine-menu_a p-i"
+        [routerLink]="item.link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <svg [appSvgDir]="item.icon" viewBox="0 0 16 16" width="16" height="16">
+          <use></use>
+        </svg>
+        <span>{{ item.lebel }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<p class="medium-text p-i mb20">Подписки</p>
+
+@for (sub of ((subscriptions$|async)|subscribersSlice:50); track sub.id) {
+<a
+  style="text-decoration: none; cursor: pointer"
+  [routerLink]="['/profile', sub.id]"
+  class="subscription"
+>
+  <app-subscriber-card [subscriber]="sub"></app-subscriber-card>
+</a>
+
+}
+
+<a [routerLink]="'/subscribers'" class="to-subscribers medium-text p-i">
+  <p class="medium-text">Все подписки</p>
+  <svg [appSvgDir]="'arrow'" viewBox="0 0 6 9" width="6" height="9">
+    <use></use>
+  </svg>
+</a>
+
+<div class="to-my-settings">
+  <a
+    [routerLink]="'settings'"
+    routerLinkActive="active"
+    class="to-my-settings-link"
+  >
+    <img
+      [src]="(me ? me.avatarUrl : '') | img"
+      [alt]="me?.username"
+      class="to-my-settings-img"
+    />
+    <p class="to-my-settings-p">{{ me?.username }}</p>
+    <svg [appSvgDir]="'gear-weel'" viewBox="0 0 16 16" width="16" height="16">
+      <use></use>
+    </svg>
+  </a>
+</div>

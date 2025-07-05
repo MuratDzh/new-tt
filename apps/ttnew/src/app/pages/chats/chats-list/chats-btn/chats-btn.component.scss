@@ -1,0 +1,23 @@
+a {
+  display: block;
+  padding: 24px 20px;
+  border-bottom: var(--border-light);
+  color: var(--light-color);
+  &:hover {
+    background-color: var(--link-active-bg-color);
+  }
+}
+
+.active {
+  background-color: var(--link-active-bg-color);
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}

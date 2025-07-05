@@ -1,0 +1,130 @@
+@import './../../../extends';
+
+:host {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  column-gap: 48px;
+}
+
+.user {
+  display: flex;
+  column-gap: 24px;
+  align-items: center;
+  padding-bottom: 32px;
+  border-bottom: 1px dashed var(--light-color);
+
+  &-img {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+  }
+
+  &-first-name {
+    display: block;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  &-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+.user-wrapper {
+  padding-inline: 24px;
+}
+
+.skills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.form-wrapper {
+  background-color: var(--dark-color);
+  border-radius: var(--border-radius);
+  border: var(--border-light);
+  padding: 32px;
+  height: calc(100dvh - 2 * 24px);
+  position: relative;
+
+  &-input,
+  &-textarea {
+    @extend %input;
+    @extend %input-mod;
+
+    border-bottom: var(--border-light);
+  }
+
+  &-textarea {
+    height: max-content;
+    max-height: 128px;
+    resize: vertical;
+    overflow: hidden;
+    line-height: 21px;
+    padding-block: 12px;
+
+    &::placeholder {
+      // padding-top: 12px;
+    }
+  }
+
+  &-label {
+    .label-span {
+      color: var(--light-grey-transparent);
+    }
+  }
+
+  .two-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+  }
+}
+
+.btns-wrapper,
+.btn-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.btns-wrapper {
+  width: calc(100% - 2 * 30px);
+  position: absolute;
+  bottom: 32px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.p14 {
+  padding: 14px;
+}
+
+.btn-transparent {
+  &:hover {
+    border-width: 1px;
+    box-shadow: 0px 0px 10px -1px var(--primary-color-hover);
+    background-color: var(--link-active-bg-color);
+    border-color: var(--primary-color-hover);
+  }
+}
+
+app-avatar-upload {
+  padding-block: 16px;
+  border-bottom: var(--border-light);
+}
+
+// .edit{
+//     height: 44px;
+//     border-bottom: var(--border-light);
+//     z-index: -1;
+//     max-height: 108px;
+//         resize: auto;
+// }
+
+// .test-wrapper{
+//     position: relative;
+
+// }
