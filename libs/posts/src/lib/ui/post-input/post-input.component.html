@@ -1,0 +1,37 @@
+
+    <form [formGroup]="form" class="post-form">
+        <div class="post-form-title_wrapper">
+            <ng-content></ng-content>
+            
+            <textarea formControlName="title" class="post-form-title"
+            placeholder="Заголовок поста..."
+            (input)="onTextareaInput($event)"
+            (blur)="onTextareaInput($event)"
+            appTextarea
+            ></textarea>
+            <div class="btns_wrapper">
+                @if (form.controls.content.valid||form.controls.title.valid) {
+               
+                    <button (click)="exit($event)" class="btn-transparent btn-w44 busket">
+                        <img  src="./assets/svg/busket.svg" width="24" height="24" alt="" class="busket-img" />
+                    </button>
+                }
+                <button (click)="createPost()" class="post-form-create btn-primary btn-w44 create-post">
+                <svg class="create-post" [appSvgDir]="'send'" viewBox="0 0 16 16" width="16" height="16" style="width: 16px; height: 16px">
+                    <use></use>
+                </svg>
+                </button>
+            </div>
+        </div>
+        
+        <textarea  formControlName="content" [ngClass]="{hidden:!isFullView, postFormText:form.controls.content.invalid}"
+        
+        placeholder="Текст поста..." (input)="onTextareaInput($event)" 
+        (blur)="onTextareaInput($event)"
+        [appTextarea]="form.controls.content.value"
+        ></textarea>
+        <!-- <textarea formControlName="content" [ngClass]="isFullView? {hidden:false}: {hidden:true}" 
+        [ngClass]="{postFormCreate: !form.controls.content.touched} " class="post-form-create"
+        placeholder="Текст поста..." (input)="onTextareaInput($event)"
+        ></textarea> -->
+    </form>

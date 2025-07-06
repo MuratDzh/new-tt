@@ -1,0 +1,75 @@
+:host{
+    display: block;
+    padding: 16px;
+    border: var(--border-light);
+    border-radius: var(--border-radius);
+    background-color: var(--dark-color);
+    // height: 76px;
+}
+
+.post-form{
+    display: grid;
+    gap: 20px;
+}
+
+textarea{
+    
+    min-height: 44px;
+    width: 100%;
+    background-color: var(--dark-color);
+    padding-block: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    resize: none;
+    border: none;
+    color: var(--light-color);
+    overflow-y: hidden;
+
+    &::placeholder{
+        color: var(--light-color);
+    }
+}
+
+.post-form-title_wrapper{
+    display: grid;
+    grid-template-columns: 32px 1fr  max-content;
+    align-items: center;
+    gap: 12px;
+}
+
+.btns_wrapper{
+    display: flex;
+    gap: 12px;
+}
+
+.post-form-text{
+    border: var(--border-light-grey);
+    border-radius: var(--border-radius)
+
+    
+}
+.postFormText{
+    border: var(--border-light-grey);
+    border-radius: var(--border-radius)
+
+    
+}
+
+.hidden{
+    display: none;
+}
+
+.test{
+    z-index: 100;
+}
+
+.post-form-create{
+    position: relative;
+    height: 44px;
+
+    svg{
+        position: absolute;
+        right: 11px;
+        bottom: 11px;
+    }
+}

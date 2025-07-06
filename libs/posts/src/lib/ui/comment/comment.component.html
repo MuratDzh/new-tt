@@ -1,0 +1,18 @@
+<ng-content select="app-avatar-circle"></ng-content>
+<div class="comment_wrapper">
+    <div class="wrapper">
+        <ng-content select="span"></ng-content>
+        <span class="date">{{comment.createdAt|ttDate}}</span>
+    </div>
+    <div class="comment-body_wrapper">
+
+        <p>{{ comment.text }}</p>
+        <div>
+            <ng-content select="button"></ng-content>
+            <div class="hidden-btns">
+                
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

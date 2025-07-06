@@ -1,0 +1,42 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  column-gap: 64px;
+  align-items: center;
+  padding-bottom: 24px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  padding-inline: 20px;
+}
+
+.btn-wrapper {
+  display: flex;
+  gap: 16px;
+  padding: 24px;
+}
+
+.user {
+  display: flex;
+  column-gap: 24px;
+  align-items: center;
+
+  &-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+  }
+
+  &-first-name {
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  &-name {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}

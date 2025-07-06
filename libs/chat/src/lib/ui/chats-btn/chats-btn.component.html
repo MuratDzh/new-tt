@@ -1,0 +1,19 @@
+<a [routerLink]="[chat.id]" [routerLinkActive]="'active'">
+  <img [src]="chat.userFrom.avatarUrl | img" [alt]="chat.userFrom.username" />
+  <div class="chat-text-wrapper">
+    <div class="user-info">
+      <span>{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</span>
+      <span>{{ chat.createdAt | date : 'dd/MM/YY HH:mm' }}</span>
+    </div>
+    <div class="description">
+      <p>{{ chat.message }}</p>
+      @if (chat.unreadMessages){
+
+      <div class="message-count">{{chat.unreadMessages}}</div>
+      }
+    </div>
+
+  </div>
+</a>
+
+

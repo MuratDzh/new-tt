@@ -1,0 +1,28 @@
+<ng-content select="app-avatar-circle"></ng-content>
+
+<div class="post_wrapper">
+    <div class="post-body-and-btn">
+        
+            <div class="post-body-wrapper">
+            
+            <div class="wrapper">
+                <ng-content select="span"></ng-content>
+                <span class="date">{{post.createdAt|date:"dd/mm/yyyy HH:MM"}}</span>
+                
+            </div>
+            <h6 class="title">{{ post.title }}</h6>
+            <p>{{ post.content }}</p>
+
+            </div>
+            
+            <ng-content select=".btn-hidden"></ng-content>
+            <div class="btn-hidden">
+            <ng-content select="app-hidden-buttons" class="app-hidden-buttons"></ng-content>
+            </div>
+    </div>
+    
+    <ng-content></ng-content>
+    
+</div>
+
+

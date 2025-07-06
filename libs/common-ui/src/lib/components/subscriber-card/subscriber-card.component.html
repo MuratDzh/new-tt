@@ -1,0 +1,5 @@
+<img
+  [src]="(subscriber ? subscriber.avatarUrl : '') | img"
+  [alt]="subscriber ? subscriber.username : ''"
+/>
+<p>{{ subscriber?.firstName }} {{ subscriber?.lastName }}</p>

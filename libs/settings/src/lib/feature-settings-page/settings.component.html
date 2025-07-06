@@ -1,0 +1,110 @@
+@if (me$|async; as me) {
+<div class="user-wrapper">
+  <div class="user mb32">
+    <img class="user-img" [src]="me.avatarUrl | img" [alt]="me.username" />
+    <div>
+      <span class="user-first-name mb4"
+        >{{ me.firstName }} {{ me.lastName }}</span
+      >
+      <span class="user-name">{{ me.username }}</span>
+    </div>
+  </div>
+  <div class="skills-wrapper mb32">
+    <h6 class="h6 mb16">Навыки</h6>
+    <div class="skills">
+      <div class="skill-tag" *ngFor="let tag of me.stack">{{ tag }}</div>
+    </div>
+  </div>
+  <div class="description-wrapper">
+    <h6 class="h6 mb16">О себе</h6>
+    <p class="description">{{ me.description }}</p>
+  </div>
+</div>
+
+}
+<form class="form-wrapper" [formGroup]="form">
+  <div class="two-input">
+    <label class="form-wrapper-label">
+      <span class="mb4 label-span">Имя</span>
+      <input
+        formControlName="firstName"
+        class="form-wrapper-input mb20"
+        type="text"
+        placeholder="Введите данные"
+      />
+    </label>
+    <label class="form-wrapper-label">
+      <span class="mb4 label-span">Фамилия</span>
+      <input
+        formControlName="lastName"
+        class="form-wrapper-input mb20"
+        type="text"
+        placeholder="Введите данные"
+      />
+    </label>
+  </div>
+  <label class="form-wrapper-label">
+    <span class="mb4 label-span">Telegram username</span>
+    <input
+      formControlName="username"
+      class="form-wrapper-input mb20"
+      type="text"
+      placeholder="Введите данные"
+    />
+  </label>
+  <label class="form-wrapper-label">
+    <span class="mb4 label-span">О себе</span>
+    <textarea
+      formControlName="description"
+      appTextarea
+      class="form-wrapper-textarea mb20"
+      placeholder="Введите данные"
+    ></textarea>
+  </label>
+  <label class="form-wrapper-label">
+    <span class="mb4 label-span">Аватарка</span>
+    <app-avatar-upload [profile$]="me$" class="mb20"></app-avatar-upload>
+  </label>
+  <label class="form-wrapper-label">
+<!--    <span class="mb4 label-span">Навыки</span>-->
+<!--    <input-->
+<!--      formControlName="stack"-->
+<!--      class="form-wrapper-input mb20"-->
+<!--      type="text"-->
+<!--      placeholder="Введите данные"-->
+<!--    />-->
+    <app-stack-input formControlName="stack"
+                     type="text"
+                     placeholder="Введите данные">
+      <span class="mb4 label-span">Навыки</span>
+    </app-stack-input>
+  </label>
+  <!-- <div class="test-wrapper">
+        <div appTextarea [contentEditable]="true" class="edit form-wrapper-textarea"></div>
+
+    </div> -->
+  <div class="btns-wrapper">
+    <div class="btn-wrapper">
+      <button class="btn-transparent busket">
+        <img
+          src="./assets/svg/busket.svg"
+          width="24"
+          height="24"
+          alt=""
+        />
+      </button>
+      <button class="btn-transparent exit">
+        <img
+          src="./assets/svg/exit.svg"
+          width="20"
+          height="20"
+          alt=""
+        />
+      </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-transparent">Отмена</button>
+      <button class="btn-primary" (click)="onSave()">Сохранить</button>
+    </div>
+  </div>
+</form>

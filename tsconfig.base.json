@@ -19,7 +19,20 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
-    "paths": {},
+    "paths": {
+      "@tt/tt-auth": ["libs/tt-auth/src/index.ts"],
+      "@tt/chat": ["libs/chat/src/index.ts"],
+      "@tt/common-ui": ["libs/common-ui/src/index.ts"],
+      "@tt/interfaces/*": ["libs/interfaces/src/lib/*"],
+      "@tt/layout": ["libs/layout/src/index.ts"],
+      "@tt/login": ["libs/login/src/index.ts"],
+      "@tt/posts": ["libs/posts/src/index.ts"],
+      "@tt/profile": ["libs/profile/src/index.ts"],
+      "@tt/search": ["libs/search/src/index.ts"],
+      "@tt/settings": ["libs/settings/src/index.ts"],
+      "@tt/shared": ["libs/shared/src/index.ts"],
+      "@tt/sidebar": ["libs/sidebar/src/index.ts"]
+    },
     "baseUrl": ".",
     "rootDir": "."
   },

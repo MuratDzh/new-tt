@@ -1,0 +1,16 @@
+<ng-content></ng-content>
+<div class="all-tags-wrapper">
+  @for (i of value|async; track i; let index = $index;){
+  <div class="tag-wrapper">
+    <button class="to-close" (click)="onDel(index, $event)" type="button">
+      <svg [appSvgDir]="'toclose'" viewBox="-3 -3 16 16" width="16" height="16">
+        <use></use>
+      </svg>
+    </button>
+
+    <span>{{i}}</span>
+  </div>
+  }
+  <input [placeholder]="placeholder" [formControl]="inputValue" >
+</div>
+

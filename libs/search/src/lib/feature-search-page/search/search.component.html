@@ -1,0 +1,36 @@
+<app-profile-filter #appProfileFilter class="mb20"></app-profile-filter>
+
+@if(!(isAccLoaded$|async)){
+<p>...loading</p>
+} @if ((appProfileFilter.accounts$|async); as profiles) { @for (profile of
+profiles; track profile; let last=$last) {
+
+<app-profile-card
+  (toSubscribe)="onSubscribe(profile)"
+  (toSendMessage)="onSendMessage(profile)"
+  (toUnsubscribe)="onUnsubscribe(profile)"
+  [profile]="profile"
+></app-profile-card>
+  @if (last){
+  @defer (on viewport ){
+    <lib-infinite-scroll-trigger (trigger)="onSetFilteredAccounts()"></lib-infinite-scroll-trigger>
+  } @placeholder () {
+    <div></div>
+  }}
+
+} } @else { @for (profile of acc$|async; track profile; let last=$last) {
+
+<app-profile-card
+  (toSubscribe)="onSubscribe(profile)"
+  (toSendMessage)="onSendMessage(profile)"
+  (toUnsubscribe)="onUnsubscribe(profile)"
+  [profile]="profile"
+></app-profile-card>
+
+  @if (last){
+    @defer (on viewport ){
+      <lib-infinite-scroll-trigger (trigger)="onSetAllAccounts()"></lib-infinite-scroll-trigger>
+    } @placeholder () {
+      <div></div>
+    }}
+} }
