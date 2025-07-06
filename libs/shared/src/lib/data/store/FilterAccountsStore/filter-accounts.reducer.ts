@@ -24,14 +24,17 @@ const FilterAccountsFeature = createFeature({
       page: 1
     })),
     on(FilterAccountsActions.filterAccountsSuccess, (state, action) => {
-      let accounts = {
-        ...action.accounts,
-        items: (state.accounts?.items as Profile[])?(state.accounts?.items  as Profile[]).concat(action.accounts.items as Profile[]):action.accounts.items  as Profile[],
-      };
-      // console.log("accounts", accounts);
+
+      console.log('state.accounts?.page', state.accounts?.page);
+      console.log('action.accounts.page', action.accounts.page);
+      console.log(
+        action.accounts.pages<action.accounts.page?"yes":action.accounts
+      );
+     
+      console.log("accounts", action.accounts);
       return {
         ...state,
-        accounts: accounts,
+        accounts: action.accounts.pages<action.accounts.page?state.accounts:action.accounts,
         isAccountsLoaded: true,
       }
     }),
