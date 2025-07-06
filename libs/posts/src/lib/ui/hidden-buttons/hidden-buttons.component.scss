@@ -1,0 +1,25 @@
+:host-context(.hidden){
+    display: none;
+}
+
+:host{
+    position: relative;
+    z-index: 100;
+
+    .hidden-buttons_wrapper{
+        position: absolute;
+        display: flex;
+        padding: 20px;
+        gap: 20px;
+        border: var(--border-light);
+        box-shadow: 0px 0px 30px -1px var(--grey-color);
+        // -webkit-box-shadow: 0px 0px 100px 66px rgba(0, 0, 0, 1);
+        //     -moz-box-shadow: 0px 0px 100px 66px rgba(0, 0, 0, 1);
+        //     box-shadow: 0px 0px 100px 66px rgba(0, 0, 0, 1);
+        border-radius: var(--border-radius);
+        background-color: var(--dark-color);
+        width: min-content;
+        right: -44px;
+        top: -44px;
+    }
+}

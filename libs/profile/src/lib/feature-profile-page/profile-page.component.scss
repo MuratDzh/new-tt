@@ -1,0 +1,60 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  column-gap: 64px;
+  padding-top: 24px;
+}
+
+.about {
+  padding-inline: 24px;
+}
+
+.about-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 16px;
+
+  .h6 {
+    text-align: left;
+  }
+}
+
+.subscribersAmount {
+  font-weight: 700;
+  line-height: 16px;
+  padding: 2px 6px;
+  color: var(--dark-color);
+  border-radius: var(--border-radius);
+  background-color: rgb(152, 233, 171);
+  border: none;
+}
+
+.subscribers {
+  display: flex;
+  column-gap: 6px;
+
+  .sub-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    &:hover::after {
+      content: attr(data-title);
+    }
+  }
+
+  .sub-btn {
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.skills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}

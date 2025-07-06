@@ -1,0 +1,61 @@
+a {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+  padding: 24px 20px;
+  border-bottom: var(--border-light);
+  color: var(--light-color);
+  &:hover {
+    background-color: var(--link-active-bg-color);
+    
+    .user-info {
+        color: var(--primary-color-hover);
+      }
+  }
+}
+
+.active {
+  background-color: var(--link-active-bg-color);
+  cursor:default;
+  .user-info {
+      color: var(--primary-color);
+    }
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.chat-text-wrapper{
+  display: grid;
+  gap: 16px;
+}
+
+.description{
+  line-height: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.user-info{
+  color: var(--light-grey-transparent);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+
+}
+
+.message-count{
+  color: var(--dark-color);
+  padding:1px 5px;
+  height: min-content;
+  background-color: var(--primary-color);
+  font-weight: 700;
+}

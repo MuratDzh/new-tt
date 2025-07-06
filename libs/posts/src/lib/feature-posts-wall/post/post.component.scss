@@ -1,0 +1,80 @@
+:host{
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  border: var(--border-light);
+  border-radius: var(--border-radius);
+  padding: 20px;
+//   max-height: 390px;
+//   overflow: auto;
+}
+
+.date{
+  color: var(--light-grey-transparent);
+}
+
+.title{
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.post-body-and-btn{
+  // display: flex;
+  // justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  column-gap: 8px;
+
+}
+
+.btn-hidden-and-posts-body_wrapper{
+  // display: flex;
+  // justify-content: space-between;
+  // gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  gap: 8x;
+}
+
+.post_wrapper{
+  position: relative;
+  display: grid;
+
+  gap: 12px;
+}
+
+// .btn-hidden{
+//   // display: flex;
+//   display: grid;
+//   position: relative;
+// }
+
+.app-hidden-buttons{
+  position: absolute;
+  // top: -44px;
+  // right: 52px;
+}
+
+.btn-hidden{
+  position: absolute;
+  right:44px;
+  top: 44px;
+}
+
+.btns_wrapper{
+  display: grid;
+}
+
+.post-body-wrapper{
+  position: relative;
+  display: grid;
+  gap: 8px;
+}
+
+.wrapper{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

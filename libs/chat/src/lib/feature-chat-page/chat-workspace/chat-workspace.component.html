@@ -1,0 +1,48 @@
+@if (companion) {
+<app-chat-workspace-header>
+  <app-subscriber-card
+    center
+    [subscriber]="companion"
+  ></app-subscriber-card>
+  <!-- <img [src]="(chat.userFirst.avatarUrl)|img" [alt]="chat.userFirst.firstName">
+    <span>{{chat.userFirst.firstName}} {{chat.userFirst.lastName}}</span> -->
+</app-chat-workspace-header>
+}
+<app-chat-wrapper class="chat-wrapper">
+  <app-chat-messages #chats>
+    @if (messages$|async; as messages) {
+       @for (mes of messages;let i=$index; track mes.id) {
+        <div class="date-wrapper-wrapper">
+          <div class="date-wrapper" *messageGroupDate="messages; index:i">
+            <span>{{mes.createdAt|messagrGroupDate}}</span>
+          </div>
+        </div>
+        <div [ngClass]="mes.userFromId==myId?'is-me-massage-and-avatar-wrapper':'massage-and-avatar-wrapper'" >
+          <app-avatar-circle [profileAvatar]="mes.isMyMessage || mes.userFromId == myId? myAvatar :  companion.avatarUrl"></app-avatar-circle>
+          <div class="message-wrapper">
+            <div class="username">
+              <strong>{{mes.user?.firstName}} {{mes.user?.lastName}}</strong>
+              <span>{{mes.createdAt|date:'HH:mm':'GMT+6'}}</span>
+            </div>
+
+            <div class="test" #messageText>
+              <div [ngClass]="mes.userFromId==myId? 'is-me': ''" class="text-wrapper">
+                <p>{{ mes.text }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </app-chat-messages>
+  <app-message-input class="message-input-wrapper">
+    <app-avatar-circle [profileAvatar]="myAvatar"></app-avatar-circle>
+    <textarea [formControl]="message" class="textarea" [appTextarea]="message.value" (input)="onInput()"></textarea>
+    <button (click)="onSendMessage()" class="btn-primary btn-w44 comment-create">
+      <svg [appSvgDir]="'send'" viewBox="0 0 16 16" width="16" height="16" style="width: 16px; height: 16px">
+        <use></use>
+      </svg>
+    </button>
+
+  </app-message-input>
+</app-chat-wrapper>

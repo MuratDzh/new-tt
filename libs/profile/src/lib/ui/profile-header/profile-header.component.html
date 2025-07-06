@@ -1,0 +1,46 @@
+@if (profile$|async; as profile){
+<div class="user">
+  <img
+    class="user-img"
+    [src]="(profile ? profile.avatarUrl : '') | img"
+    [alt]="profile ? profile.username : ''"
+  />
+  <span class="user-first-name"
+    >{{ profile?.firstName }} {{ profile?.lastName }}</span
+  >
+  <span class="user-name">{{ profile?.username }}</span>
+</div>
+@if (profile?.username==="MuratDzh") {
+<div class="btn-wrapper">
+  <button class="btn btn-primary" (click)="toSettings()">
+    <span>Редактировать</span>
+    <svg appSvgDir="gear-weel" viewBox="-2 -2 16 16" width="16" height="16">
+      <use></use>
+    </svg>
+  </button>
+</div>
+} @else {
+<div class="btn-wrapper">
+  <button class="btn btn-primary" (click)="toSendMessage(profile!.id)">
+    <span>Написать</span>
+    <svg appSvgDir="send" viewBox="-2 -2 16 16" width="16" height="16">
+      <use></use>
+    </svg>
+  </button>
+  @if (profile?.isSubscribed){
+  <button class="btn btn-transparent" (click)="toUnsubscribe()">
+    <span>Отписаться</span>
+    <!--        <svg appSvgDir="send" viewBox="-2 -2 16 16" width="16" height="16">-->
+    <!--          <use></use>-->
+    <!--        </svg>-->
+  </button>
+  } @else {
+  <button class="btn btn-transparent" (click)="toSubscribe()">
+    <span>Подписаться</span>
+    <!--        <svg appSvgDir="send" viewBox="-2 -2 16 16" width="16" height="16">-->
+    <!--          <use></use>-->
+    <!--        </svg>-->
+  </button>
+  }
+</div>
+} }

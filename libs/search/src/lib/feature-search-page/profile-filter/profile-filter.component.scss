@@ -1,0 +1,58 @@
+@import '../../../../../../apps/ttnew/src/extends';
+
+:host {
+  // height: 100px;
+  max-width: 1092px;
+  display: block;
+  border: var(--border-light);
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.25);
+  padding: 16px 20px;
+  background-color: var(--dark-color);
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 44px;
+  gap: 40px;
+}
+
+input {
+  @extend %input;
+  @extend %input-mod;
+
+  margin-bottom: 0;
+}
+
+label {
+  border-bottom: var(--border-light);
+  .label-span {
+    color: var(--light-grey-transparent);
+  }
+
+  .input-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.to-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.svg-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--light-color);
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+.form-wrapper-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

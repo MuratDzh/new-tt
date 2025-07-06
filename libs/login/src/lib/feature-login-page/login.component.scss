@@ -1,0 +1,63 @@
+@import '../../../../../apps/ttnew/src/extends';
+
+:host {
+  display: grid;
+  width: 1112px;
+  margin-inline: auto;
+  grid-template-columns: 440px 335px;
+  height: 100dvh;
+  align-items: center;
+  column-gap: 232px;
+
+  .login-form {
+    display: grid;
+  }
+
+  span {
+    display: block;
+  }
+
+  input {
+    padding: 12px 52px 12px 20px;
+    border: var(--border-light);
+    border-radius: var(--border-radius);
+    @extend %input;
+  }
+
+  .shadow {
+    position: relative;
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      background-color: var(--grey-color);
+      position: absolute;
+      border-radius: var(--border-radius);
+      top: 3px;
+      left: 3px;
+      z-index: -1;
+    }
+
+    &:active {
+      &::after {
+        content: '';
+        background-color: var(--dark-color);
+        z-index: -1;
+      }
+    }
+  }
+
+  .password {
+    position: relative;
+  }
+
+  .password-btn {
+    height: 44px;
+    width: 44px;
+    position: absolute;
+    // background-color: red;
+    background-color: transparent;
+    border: none;
+    right: 8px;
+  }
+}

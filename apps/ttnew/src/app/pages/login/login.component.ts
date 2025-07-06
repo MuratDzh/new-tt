@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -30,18 +30,15 @@ export class LoginComponent {
       validators: Validators.required,
       nonNullable: true,
     }),
-    password: new FormControl<string>('oyg2fWZm6x', {
+    password: new FormControl<string>('fl6BGnq2av', {
       validators: Validators.required,
       nonNullable: true,
     }),
   });
-
+  private store=inject(Store);
   backendErr$ = this.store.select(selectBackendErrors);
 
-  constructor(
-    // private auth: AuthService,
-    private store: Store
-  ) {}
+  
 
   onSubmit() {
     if (this.form.valid) {

@@ -1,0 +1,95 @@
+@if (profile.id===myId) {
+    <app-post-input (post)="getPostFromChild($event)" [updatedPost]="updatedPost">
+        <app-avatar-circle [profileAvatar]="myProfile!.avatarUrl"></app-avatar-circle>
+
+
+    </app-post-input>
+}
+
+<div class="posts__wrapper" #wrapper>
+@if (posts$|async; as posts) {
+    @for (post of posts; track post.id) {
+
+        <app-post #postCom [post]="post" [me]="myId"
+        (createCom)="createCom($event,post)" [upComRes]="updatedComment">
+            <app-avatar-circle [profileAvatar]="profile.avatarUrl"></app-avatar-circle>
+            <span class="profile-name">{{profile.firstName}} {{profile.lastName}}</span>
+
+
+
+            @if (profile.id===myId) {
+
+                <button class="btn-hidden" (click)="showButtons(post.id, $event)">...</button>
+
+            }
+
+
+            <app-hidden-buttons  [commentId]="post.id">
+                <button (click)="toDel(post)" class="btn-transparent btn-w44 busket">
+                    <img src="./assets/svg/busket.svg"  width="24" height="24" alt="" />
+                </button>
+                <button (click)="toUpdate(post)" class="btn-transparent btn-w44 update">
+                    <svg [appSvgDir]="'edit'" viewBox="0 0 24 24" width="18" height="18" class="update-img">
+                        <use></use>
+                    </svg>
+                </button>
+            </app-hidden-buttons>
+
+            @if (post.comments.length; as length) {
+                <div class="comments-amount">
+                    <svg [appSvgDir]="'comments'" viewBox="0 0 12 12" width="16" height="16">
+                        <use></use>
+                    </svg>
+                    <span>{{length}}</span>
+                </div>
+            }
+
+            <div class="comments_wrapper">
+            @for(comment of post.comments; track comment.postId; let i = $index){
+                <app-comment [comment]="comment"  >
+                    <app-avatar-circle [profileAvatar]="comment.author.avatarUrl||myProfile!.avatarUrl"></app-avatar-circle>
+                    <span class="comment-author-name">{{comment.author.username}}</span>
+                    <app-hidden-buttons #hiddenButton [commentId]="comment.id">
+
+                            <button (click)="onDelCom( comment, post.author.id, $event)" class="btn-transparent btn-w44 busket">
+                                <img class="" src="./assets/svg/busket.svg" width="24"
+                                height="24" alt="" />
+                            </button>
+                            <button (click)="onUpdateCom(comment, post.author.id, $event)" class="btn-transparent btn-w44 update">
+                                <svg [appSvgDir]="'edit'" viewBox="0 0 24 24" width="18" height="18" class="update-img">
+                                    <use></use>
+                                </svg>
+                            </button>
+                    </app-hidden-buttons>
+
+                    @if (comment.author.id==myId) {
+                        <button class="btn-hidden" (click)="showButtons(comment.id, $event)">...</button>}
+
+
+                </app-comment>
+            }
+        </div>
+
+            <app-comment-input #createComment><!--  -->
+                <app-avatar-circle [profileAvatar]="myProfile!.avatarUrl"></app-avatar-circle>
+                <textarea [(ngModel)]="postCom.text" class="textarea"
+                placeholder="Ваш комментарий..."></textarea>
+                <button (click)="postCom.toCreateCom()" class="btn-primary btn-w44 comment-create">
+                    <svg [appSvgDir]="'send'" viewBox="0 0 16 16" width="16" height="16" style="width: 16px; height: 16px">
+                        <use></use>
+                    </svg>
+                </button>
+
+            </app-comment-input>
+
+        </app-post>
+
+    }
+
+}
+</div>
+
+<!-- (del)="toDel(post)" (update)="toUpdate(post)" -->
+
+
+

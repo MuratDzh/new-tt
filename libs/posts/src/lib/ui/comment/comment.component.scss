@@ -1,0 +1,43 @@
+:host{
+    display: grid;
+    grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding-block: 8px;
+  padding-right: 28px;
+  
+}
+
+.date {
+    color: var(--light-grey-transparent);
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.comment_wrapper {
+    display: grid;
+    column-gap: 8px;
+}
+
+.comment-body_wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 44px;
+    column-gap: 8px;
+
+    
+}
+
+.hidden-btns {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px; }
