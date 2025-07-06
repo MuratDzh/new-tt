@@ -12,10 +12,11 @@ import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/curren
 import { ChatWsNativeService } from './chat-ws-native.service';
 import { ChatWSServiceInterface } from '@tt/interfaces/chat';
 import { CookieService } from 'ngx-cookie-service';
-import {ChatWSMessageType, isErrorMessage, isNewMessage, isUnreadMessage} from '../interfaces';
+import {ChatWSMessageType} from './../interfaces/chat-ws-message.interface';
+import {isErrorMessage, isNewMessage, isUnreadMessage} from './../interfaces/type-guard';
 import {Profile} from "@tt/interfaces/profile";
 import {ChatWsRxjsService} from "./chat-ws-rxjs.service";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+
 
 @Injectable({
   providedIn: 'root',

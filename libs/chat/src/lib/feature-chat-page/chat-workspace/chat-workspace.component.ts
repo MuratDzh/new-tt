@@ -18,7 +18,7 @@ import { MessageInputComponent } from '../../../../../common-ui/src/lib/componen
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ChatRes, Message } from 'libs/interfaces/src/lib/chat/chats.interface';
-import { ChatsService } from '../../data/services';
+import { ChatsService } from './../../data/services';
 
 import {SvgDirective } from "@tt/common-ui";
 import { Store } from '@ngrx/store';
@@ -27,6 +27,7 @@ import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/curren
 import {MessageGroupDateDirective, MessagrGroupDatePipe} from "@tt/shared";
 import {TextareaDirective, AvatarCircleComponent, SubscriberCardComponent} from "@tt/common-ui";
 import {Profile} from "@tt/profile";
+import { inject } from '@angular/core';
 
 
 
@@ -88,15 +89,16 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   @ViewChildren("messageText")
   messageText!: QueryList<ElementRef<HTMLDivElement>>;
 
+   store=inject(Store)
+
 
   constructor(
     private chatService: ChatsService,
     private router: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private store: Store
+    private cdr: ChangeDetectorRef
   ) {}
 
-  message = new FormControl('', {validators: Validators.required , nonNullable: true });
+  message = new FormControl('', {validators: Validators.required , nonNullable: true })
 
   @ResizeDecorator
   @HostListener('window:click', ['$event'])

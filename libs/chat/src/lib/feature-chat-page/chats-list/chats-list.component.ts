@@ -10,7 +10,7 @@ import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ChatsBtnComponent } from '../../ui/chats-btn/chats-btn.component';
 import { Chat } from 'libs/interfaces/src/lib/chat/chats.interface';
-import { ChatsService } from '../../data/services';
+import { ChatsService } from './../../data/services';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

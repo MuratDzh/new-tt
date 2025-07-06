@@ -36,8 +36,8 @@ export class SearchComponent implements OnInit {
   acc$!: Observable<Profile[] | null>;
 
   isAccLoaded$!: Observable<boolean>;
-
-  constructor(private store: Store, private chatsService: ChatsService, private router: Router) {}
+  chatsService=inject(ChatsService)
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.acc$ = this.store

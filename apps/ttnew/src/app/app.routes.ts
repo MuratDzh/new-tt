@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { SearchComponent } from './pages/search/search.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
-import { LayoutComponent } from './common-ui/layout/layout.component';
-import { CanActivateAuth } from './auth/access.guard';
-import { SettingsComponent } from './pages/settings/settings.component';
+import { LayoutComponent } from '../../../../libs/layout/src/lib/feature-layout/layout/layout.component';
+import { ProfilePageComponent } from '../../../../libs/profile/src/lib/feature-profile-page/profile-page.component';
+import { getProfileResolver } from '../../../../libs/shared/src/lib/data/store/profileStore/profile.resolver';
+import { getPostResolver } from '../../../../libs/posts/src/lib/data/store/postStore/post.resolver';
+import { getSubscribersResolver } from '../../../../libs/shared/src/lib/data/store/subscribersStore/subscribers.resolver';
+import { SubscriptionsResolver } from '../../../../libs/shared/src/lib/data/store/subscriptionsStore/subscriptions.resolver';
+import { SettingsComponent } from '../../../../libs/settings/src/lib/feature-settings-page/settings.component';
+import { SearchComponent } from '../../../../libs/search/src/lib/feature-search-page/search/search.component';
+import { getAllAccountsResolver } from '../../../../libs/shared/src/lib/data/store/AccountsStore/accounts.resolver';
+import { ChatsRoutes } from '../../../../libs/chat/src/lib/feature-chat-page/chats.routes';
+import { CurrentUserResolver } from '../../../../libs/shared/src/lib/data/store/currentUserStore/current-user.resolver';
+import { CanActivateAuth } from '../../../../libs/tt-auth/src/lib/tt-auth/access.guard';
+import { LoginComponent } from './../../../../libs/login/src';
 
-import { ChatsRoutes } from './pages/chats/chats.routes';
-import { CurrentUserResolver } from './data/currentUserStore/current-user.resolver';
-import { getSubscribersResolver } from './data/subscribersStore/subscribers.resolver';
-import { getAllAccountsResolver } from './pages/search/AccountsStore/accounts.resolver';
-import { getProfileResolver } from './pages/profile-page/profileStore/profile.resolver';
-import { getPostResolver } from './pages/profile-page/postStore/post.resolver';
-import { SubscriptionsResolver } from './data/subscriptionsStore/subscriptions.resolver';
 
 export const routes: Routes = [
   {

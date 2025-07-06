@@ -1,3 +1,4 @@
 import { ChatWSMessageType } from "./chat-ws-message.interface";
-export * from './type-guard'
-export { ChatWSMessageType }
+
+import * as typeGuard from './type-guard'
+export { ChatWSMessageType , typeGuard}
