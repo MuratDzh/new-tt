@@ -34,7 +34,7 @@ const SubscriptionsFeatureReducer = createFeature({
       return {
         ...state,
         total: state.total + 1,
-        items: [...state.items!, action.profile],
+        items: [...(state.items as Profile[]), action.profile],
       };
     }),
     on(SubscriptionsActions.unsubscribeSuccess, (state, action) => {

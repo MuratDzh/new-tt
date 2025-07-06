@@ -4,7 +4,9 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profile } from '../../data/interfaces/profile.interface';
@@ -12,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { ImgPipe } from '../../../../../common-ui/src/lib/pipes/img.pipe';
 import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-profile-card',
@@ -21,7 +24,7 @@ import { Router } from '@angular/router';
   styleUrl: './profile-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileCardComponent {
+export class ProfileCardComponent implements OnChanges {
   @Input()
   profile!: Profile;
 
@@ -34,9 +37,17 @@ export class ProfileCardComponent {
   @Output()
   toUnsubscribe = new EventEmitter();
 
-  router=inject(Router)
+  router = inject(Router)
+  cdr=inject(ChangeDetectorRef)
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes){}
+      console.log('OnChanges', changes);
+      
+  }
 
-  onSubscribe() {
+  onSubscribe(e: Event) {
+    
     this.toSubscribe.emit();
   }
 

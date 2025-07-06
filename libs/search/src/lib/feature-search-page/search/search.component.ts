@@ -42,7 +42,11 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.acc$ = this.store
       .select(selectAccounts)
-      .pipe(debounceTime(100),map((v) => (v ? v.items : null)))
+      .pipe(map((v) => {
+        console.log('СМОТРИМ как МЕНЯЕТСЯ Список', v);
+        
+        return v ? v.items : null
+      }))
 
     let IsFilteredAccountsLoaded = false;
     this.store
@@ -60,11 +64,18 @@ export class SearchComponent implements OnInit {
 
   onSubscribe(profile: Profile) {
     // profile.isSubscribed=true
-    this.store.dispatch(SubscriptionsActions.subscribe({ profile }));
+    this.store.dispatch(SubscriptionsActions.subscribe({ profile })) ;
     this.store.dispatch(
       UpdateStorsAfterSubscrube.updateStorsAfterSubscribe({ profile })
     );
+    this.acc$ = this.store.select(selectAccounts).pipe(
+      // debounceTime(0),
+      map((v) => {
+        console.log('СМОТРИМ как МЕНЯЕТСЯ Список', v);
 
+        return v ? v.items : null;
+      })
+    );
   }
 
   onUnsubscribe(profile: Profile) {
@@ -73,7 +84,14 @@ export class SearchComponent implements OnInit {
       this.store.dispatch(
         UpdateStorsAfterSubscrube.updateStorsAfterUnsubscribe({ profile })
       );
+    this.acc$ = this.store.select(selectAccounts).pipe(
+        // debounceTime(0),
+        map((v) => {
+          console.log('СМОТРИМ как МЕНЯЕТСЯ Список', v);
 
+          return v ? v.items : null;
+        })
+      );
   }
 
   onSendMessage(profile: Profile) {

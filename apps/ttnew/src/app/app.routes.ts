@@ -19,7 +19,12 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: '/profile/me', pathMatch: 'full' },
+      {
+        path: '',
+        redirectTo: '/profile/me',
+        pathMatch: 'full',
+        resolve: {},
+      },
       {
         path: 'profile/:id',
         component: ProfilePageComponent,
@@ -45,6 +50,7 @@ export const routes: Routes = [
     ],
     resolve: {
       me: CurrentUserResolver,
+      subscriptions: SubscriptionsResolver,
     },
     canActivate: [CanActivateAuth],
   },

@@ -2,7 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { AccountsStateInterface } from './accounts-state.interface';
 import { AccountsActions } from './accounts.actions';
 import {Subscribers} from "@tt/interfaces/subscribers";
-import {Profile} from "@tt/interfaces/profile";
+import {Profile} from "@tt/interfaces/profile"
 
 const AccountsInitialState: AccountsStateInterface = {
   isAccountsLoaded: false,
@@ -25,13 +25,22 @@ const getAccountsFeature = createFeature({
         items: (state.accounts?.items as Profile[])?(state.accounts?.items  as Profile[]).concat(action.accounts?.items as Profile[]):action.accounts?.items  as Profile[],
       };
       console.log('222')
-      return {
-        ...state,
-      accounts: state.page===action.accounts?.page ? state.accounts : accounts,
-      isAccountsLoaded: true,
-        pages: action.accounts!.pages as number,
-        total: action.accounts!.total,
-      }
+      console.log('action.accounts!.page', action.accounts!.page);
+      console.log('state.page', state.page);
+      console.log("state.accounts!.items![0]",state.accounts?.items?.[0])
+      console.log("actions.accounts!.items![0]",action.accounts?.items?.[0]);
+      
+      
+        return {
+          ...state,
+          accounts:
+            state.page !== action.accounts!.page
+              ? action.accounts ? action.accounts : state.accounts
+              : accounts,
+          isAccountsLoaded: true,
+          pages: action.accounts!.pages as number,
+          total: action.accounts!.total,
+        };
     }),
     on(AccountsActions.setPage, (state, action) => ({
       ...state,

@@ -55,7 +55,7 @@
       </svg>
     </button>
     } @else {
-    <button (click)="onSubscribe()" class="btn-primary subscribe_btn">
+    <button (click)="onSubscribe($event)" class="btn-primary subscribe_btn">
       <span>Подписаться</span>
       <svg
         [appSvgDir]="'subscribe'"
