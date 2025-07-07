@@ -1,0 +1,20 @@
+:host{
+    overflow-y: auto;
+    display: grid;
+    gap: 8px;
+
+    &::-webkit-scrollbar {
+            height: 24px;
+            width: 4px;
+        }
+    
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 2px;
+            border: none;
+        }
+}

@@ -19,7 +19,7 @@ import {
 
   UpdateStorsAfterSubscrube,
 } from '../../../../../shared/src/lib/data/store/subscriptionsStore/subscriptions.actions';
-import {InfiniteScrollTriggerComponent} from "@tt/common-ui";
+import {InfiniteScrollTriggerComponent, WrapperComponent} from "@tt/common-ui";
 import {ChatsService} from "@tt/chat";
 import {Chat, ChatRes} from "@tt/interfaces/chat";
 import {Router} from "@angular/router";
@@ -27,7 +27,10 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [ProfileCardComponent, CommonModule, ProfileFilterComponent, InfiniteScrollTriggerComponent],
+  imports: [
+    ProfileCardComponent, CommonModule, ProfileFilterComponent,
+    InfiniteScrollTriggerComponent, WrapperComponent
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
