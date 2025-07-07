@@ -3,6 +3,10 @@
   padding: 20px;
 }
 
+legend{
+  padding-inline: 10px;
+}
+
 form {
   width: 40dvw;
   margin-inline: auto;
@@ -73,7 +77,8 @@ option {
   gap: 20px;
 }
 
-.phone-transparent {
+.phone-transparent,
+.address-transparent {
   font-size: 24px;
   padding-block: 6px 14px;
   position: relative;
@@ -96,6 +101,19 @@ option {
       color: rgb(190, 35, 7);
     }
   }
+}
+
+.address-transparent{
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  color: tomato;
+  // margin-bottom: 30px;
+  &:after{
+    content: '';
+  }
+
+  
 }
 
 .phone-primary {

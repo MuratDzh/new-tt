@@ -30,7 +30,7 @@ export const CurrentUserResolver: ResolveFn<Profile | boolean|Observable<Profile
         return service
           .getMe()
           .pipe(tap((me) => {
-            // window.localStorage.setItem('me', JSON.stringify(me));
+            window.localStorage.setItem('me', JSON.stringify(me));
             store.dispatch(CurrentUserActions.getMe())
           }));
         // }

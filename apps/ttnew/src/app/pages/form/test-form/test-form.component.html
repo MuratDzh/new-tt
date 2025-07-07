@@ -15,7 +15,7 @@
       }
     </select>
   </label>
-  <fieldset formGroupName="address">
+  <!-- <fieldset formGroupName="address">
     <legend>
       <span> Адрес </span>
     </legend>
@@ -27,7 +27,26 @@
       <span>Улица</span>
       <input type="text" formControlName="street" />
     </label>
+  </fieldset> -->
+
+  <fieldset formArrayName="dadataAddresses">
+    <legend>
+      <span> Адрес </span>
+    </legend>
+    <div class="btn-wrapper mb8">
+      <button class="btn-primary phone-primary btn-w44" (click)="toAddDadataAddress()"></button>
+    </div>
+    @for(address of form.controls.dadataAddresses.controls; let i=$index ; track address; let last=$last){
+
+      <app-dadata-address [formControlName]="i"></app-dadata-address>
+      <button [ngStyle]="{'margin-bottom':last? '8px':'30px'}" class="btn-transparent address-transparent btn-w44" type="button" (click)="toDelDadataAddress(i)">
+        Удалить адрес
+      </button>
+    }
   </fieldset>
+
+  <!-- <app-dadata-address formControlName="dadataAddress"></app-dadata-address> -->
+
   <fieldset class="phones" formArrayName="phones">
     <legend>
       <span> Телефон </span>

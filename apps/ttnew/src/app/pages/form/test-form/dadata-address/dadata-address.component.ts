@@ -23,6 +23,7 @@ import {DadataService} from "../../../../services/dadata/dadata.service";
 import {DadataSuggestions} from "../../../../services/dadata/dadata.interface";
 
 
+
 @Component({
   selector: 'app-dadata-address',
   standalone: true,
@@ -30,99 +31,94 @@ import {DadataSuggestions} from "../../../../services/dadata/dadata.interface";
   templateUrl: './dadata-address.component.html',
   styleUrl: './dadata-address.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers:[
+  providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
       useExisting: forwardRef(() => DadataAddressComponent),
-    }
-  ]
+    },
+  ],
 })
-export class DadataAddressComponent implements ControlValueAccessor, OnInit{
+export class DadataAddressComponent implements ControlValueAccessor, OnInit {
+  dadataService = inject(DadataService);
+  suggestions$!: Subscription;
+  suggestions: any = {};
 
-  dadataService=inject(DadataService);
-  suggestions$!:Subscription
-  suggestions: any={}
+  onChange(v: any){}
 
-  isDropdownOpen=signal<boolean>(false);
-  search=new FormControl('')
+  isDropdownOpen = signal<boolean>(false);
+  search = new FormControl('');
 
-  sugs$=this.search.valueChanges.pipe(
-
+  sugs$ = this.search.valueChanges.pipe(
     debounceTime(500),
-    switchMap(v=> {
-      return this.dadataService.getSuggestions(v)
+    switchMap((v) => {
+      return this.dadataService.getSuggestions(v);
     }),
-    tap(v=>this.isDropdownOpen.set(!!v.length))
-  )
+    tap((v) => this.isDropdownOpen.set(!!v.length))
+  );
 
-  el=inject(ElementRef)
+  el = inject(ElementRef);
 
-  @HostListener("window:click", ['$event'])
-  onWinClick(e:Event){
-    if(e.target!==this.el.nativeElement.children[1]){
-
-      this.isDropdownOpen.set(false)
+  @HostListener('window:click', ['$event'])
+  onWinClick(e: Event) {
+    if (e.target !== this.el.nativeElement.children[1]) {
+      this.isDropdownOpen.set(false);
     }
   }
 
-  dadataAddress= this.getAddress()
+  dadataAddress = this.getAddress();
 
   ngOnInit() {
-    this.dadataAddress.valueChanges.subscribe(value=>{
-      this.onChange(value)
-      this.onTouched()
-    })
+    this.dadataAddress.valueChanges.subscribe((value) => {
+      this.onChange(value);
+      this.onTouched();
+    });
   }
 
-  getAddress(){
+  getAddress() {
     return new FormGroup({
       city: new FormControl('', [Validators.required]),
       street: new FormControl('', [Validators.required]),
       building: new FormControl('', [Validators.required]),
       apartment: new FormControl(''),
-    })
+    });
   }
 
-  writeValue(obj: any){
-
-    if(typeof  obj.city !== "string"){
-      obj={
-        city:obj.city.value,
-        street:obj.street.value,
-        building:obj.building.value,
-        apartment:obj.apartment.value,
-      }
-
+  writeValue(obj: any) {
+    if (typeof obj.city !== 'string') {
+      obj = {
+        city: obj.city.value,
+        street: obj.street.value,
+        building: obj.building.value,
+        apartment: obj.apartment.value,
+      };
     }
-    this.dadataAddress.setValue(obj)
+    this.dadataAddress.setValue(obj);
   }
-  registerOnChange(fn: any){
-    this.onChange=fn
+  registerOnChange(fn: any) {
+    this.onChange = fn;
   }
-  registerOnTouched(fn: any){
-    this.onTouched=fn
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
   }
-  setDisabledState?(isDisabled: boolean){}
+  setDisabledState?(isDisabled: boolean) {}
 
-  onChange(v: any){
+  onTouched() {}
 
-  }
-
-  onTouched(){}
-
-  onSuggestionsPicker(val:DadataSuggestions){
+  onSuggestionsPicker(val: DadataSuggestions) {
     this.search.setValue(val.value);
 
-    this.dadataAddress.patchValue({
-      city:val.data.city||val.data.settlement,
-      street: val.data.street,
-      building: val.data.house,
-      apartment: val.data.flat||""
-    }, {emitEvent:false})
-    this.onChange(this.dadataAddress.value)
-    this.onTouched()
-    this.isDropdownOpen.set(false)
+    this.dadataAddress.patchValue(
+      {
+        city: val.data.city || val.data.settlement,
+        street: val.data.street,
+        building: val.data.house,
+        apartment: val.data.flat || '',
+      },
+      { emitEvent: false }
+    );
+    this.onChange(this.dadataAddress.value);
+    this.onTouched();
+    this.isDropdownOpen.set(false);
   }
-
 }

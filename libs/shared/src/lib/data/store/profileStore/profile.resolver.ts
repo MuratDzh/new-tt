@@ -41,9 +41,9 @@ export const getProfileResolver: ResolveFn<any> = (
     )
     .subscribe((v) => (currentUserId = v?.id));
   let myId: number | string = (JSON.parse(window.localStorage.getItem("me") as string) as Profile).id;
- 
+//  let myId:string|number
   
-  // store.select(selectMe).subscribe((v) => (myId = v!.id));
+  store.select(selectMe).subscribe((v) => (myId = v!.id));
 
   return store.pipe(
     select(selectProfileIds),
