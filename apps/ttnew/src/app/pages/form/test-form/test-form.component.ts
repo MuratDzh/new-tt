@@ -39,6 +39,9 @@ export class TestFormComponent implements OnInit {
       city: new FormControl(''),
       street: new FormControl(''),
     }),
+    dadataAddresses: new FormArray([
+      new FormControl()
+    ]),
     phones: new FormArray([
       new FormGroup({
         label: new FormControl('work', { nonNullable: true }),
@@ -67,6 +70,10 @@ export class TestFormComponent implements OnInit {
         phone: new FormControl(8),
       })
     );
+  }
+
+  getDadadaAddress() {
+    return
   }
 
   delPhone(i: number) {
