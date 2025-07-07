@@ -1,0 +1,51 @@
+<!--<fieldset [formGroup]="dadataAddress" class="address-wrapper">-->
+  <ng-container [formGroup]="dadataAddress" class="address-wrapper">
+<!--  <legend>-->
+<!--    <span> Адрес </span>-->
+<!--  </legend>-->
+
+
+  <app-child-input type="text" [formControl]="search">
+    <label>
+      <span>Поиск адреса</span>
+
+    </label>
+  </app-child-input>
+  @if (sugs$|async; as sugs){
+  @if (isDropdownOpen()){
+    <div class="dropdown-wrapper">
+      <ul>
+
+        @for (sug of sugs; track sug){
+          <li><button (click)="onSuggestionsPicker(sug)" class="suggest-picker-btn"><span>{{sug.value }} </span></button></li>
+        }
+      </ul>
+    </div>
+  }
+  }
+
+      <div class="address mb20" >
+
+
+        <label>
+          <span>Город</span>
+          <input type="text" formControlName="city" />
+        </label>
+        <label>
+          <span>Улица</span>
+          <input type="text" formControlName="street" />
+        </label>
+        <label>
+          <span>Дом</span>
+          <input type="text" formControlName="building" />
+        </label>
+        <label>
+          <span>Квартира</span>
+          <input type="text" formControlName="apartment" />
+        </label>
+      </div>
+  </ng-container>
+<!--</fieldset>-->
+
+
+

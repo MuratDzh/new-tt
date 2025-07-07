@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { RatingComponent } from './rating/rating.component';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,7 +17,7 @@ import {
 @Component({
   selector: 'app-test-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RatingComponent],
   templateUrl: './test-form.component.html',
   styleUrl: './test-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +46,7 @@ export class TestFormComponent implements OnInit {
       }),
     ]),
     textarea: new FormControl(''),
+    rating: new FormControl('😀'),
   });
 
   constructor(private cdr: ChangeDetectorRef) {}
