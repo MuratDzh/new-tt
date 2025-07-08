@@ -29,15 +29,15 @@
     </label>
   </fieldset> -->
 
-  <fieldset formArrayName="dadataAddresses">
+  <fieldset formArrayName="dadataAddresses" class="dadataAddresses">
     <legend>
       <span> Адрес </span>
     </legend>
-    <div class="btn-wrapper mb8">
+    <div class="btn-wrapper">
       <button class="btn-primary phone-primary btn-w44" (click)="toAddDadataAddress()"></button>
     </div>
     @for(address of form.controls.dadataAddresses.controls; let i=$index ; track address; let last=$last){
-
+      
       <app-dadata-address [formControlName]="i"></app-dadata-address>
       <button [ngStyle]="{'margin-bottom':last? '8px':'30px'}" class="btn-transparent address-transparent btn-w44" type="button" (click)="toDelDadataAddress(i)">
         Удалить адрес
@@ -76,9 +76,42 @@
       ></button>
     </div>
   </fieldset>
+  <fieldset formGroupName="work">
+    <legend>
+      <span> Последнее место работы</span>
+    </legend>
+    <div class="date-wrapper mb8">
+      <label class="date-width">
+        <span>Начало</span>
+        <input type="date" formControlName="start" class="date" />
+      </label>
+      <label class="date-width">
+        <span>Окончание</span>
+        <input type="date" formControlName="end" class="date" />
+      </label>
+    </div>
+    <label>
+      <span>Название организации</span>
+      <input type="text" formControlName="job-company" placeholder='ООО "Рога и Копыта"'/>
+    </label>
+  </fieldset>
+    <fieldset formGroupName="features">
+        <legend>
+          <span> Дополнительно </span>
+        </legend>
+        @for(feature of form.controls.features.controls|keyvalue:sort; track feature; let i=$index){
+        <div >
+          <label class="feature-wrapper mb8">
+          <input type="checkbox" [formControlName]="feature.key" class="checkbox"/>
+          <span>{{features[i].label}}</span>
+        </label>
+      </div>
+      }
+      </fieldset>
+      
   <textarea formControlName="textarea"></textarea>
   <app-rating formControlName="rating"></app-rating>
   <div class="btn-wrapper">
-    <button class="btn-primary" (click)="onSubmit()">Submit</button>
+    <button class="btn-primary submit" (click)="onSubmit()">Отправить</button>
   </div>
 </form>

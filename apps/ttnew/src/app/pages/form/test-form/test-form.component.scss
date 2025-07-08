@@ -19,6 +19,10 @@ fieldset {
   border: var(--border-light);
   border-radius: var(--border-radius);
   margin-bottom: 20px;
+
+}
+.dadataAddresses {
+  padding-top: 10px;
 }
 
 .phones {
@@ -130,4 +134,52 @@ option {
 
 .select-phone {
   font-size: 14px;
+}
+.btn-primary{
+  
+  padding-inline: 20px;
+}
+
+.submit{
+  margin-block-start: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.checkbox{
+  height: 18px;
+  width: 18px;
+  accent-color: var(--primary-color);
+}
+
+.feature-wrapper{
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  span{
+    font-size: 14px;
+    display: block;
+  }
+}
+
+.date-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.date::-webkit-calendar-picker-indicator{
+  width: 16px;
+  height: 16px;
+  background-color: var(--primary-color);
+}
+
+.date-width{
+  width: 100%;
+}
+
+.date{
+  font-size: 16px;
 }

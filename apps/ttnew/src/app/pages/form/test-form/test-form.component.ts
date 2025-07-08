@@ -4,18 +4,29 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
 } from '@angular/core';
 import {
   FormArray,
   FormControl,
   FormGroup,
+  FormRecord,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { DadataAddressComponent } from './dadata-address/dadata-address.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import { firstValueFrom, tap } from 'rxjs';
+import { Address, Feature, MockService } from '../../../services/mock.service';
+
+function datePickerValidate():ValidatorFn {
+  return () => {
+    return null
+  }
+}
+
 
 @Component({
   selector: 'app-test-form',
@@ -32,6 +43,7 @@ import { tap } from 'rxjs';
 })
 export class TestFormComponent implements OnInit {
   years: number[] = [];
+  features!: Feature[]
 
   form = new FormGroup({
     firstName: new FormControl('', [
@@ -59,10 +71,17 @@ export class TestFormComponent implements OnInit {
         phone: new FormControl('+7'),
       }),
     ]),
+    work: new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+      'job-company': new FormControl(),
+    }),
+    features: new FormRecord({}),
     textarea: new FormControl(''),
     rating: new FormControl('😀'),
   });
 
+  mockService=inject(MockService)
   constructor(private cdr: ChangeDetectorRef) {
     this.form.controls.phones.valueChanges.pipe(
       tap(v => {
@@ -294,7 +313,27 @@ export class TestFormComponent implements OnInit {
     for (let i = 0; i < 100; i++) {
       this.years.push(date - i);
     }
+
+    firstValueFrom(
+      this.mockService.getFeatures().pipe(
+        tap((features) => {
+          this.features=features
+          for (let feature of features) {
+            this.form.controls.features.setControl(feature.code, new FormControl(feature.value))
+          }
+        })
+      )
+    );
+    firstValueFrom(this.mockService.getAddresses().pipe(
+      tap(addresses => {
+        this.form.controls.dadataAddresses.clear()
+        for (let address of addresses) {
+          this.form.controls.dadataAddresses.controls.push(this.getDadadaAddress(address))
+        }
+      })
+    ))
   }
+
 
   addPhone() {
     this.form.controls.phones.insert(
@@ -310,12 +349,12 @@ export class TestFormComponent implements OnInit {
     this.form.controls.phones.removeAt(i);
   }
 
-  getDadadaAddress(): FormGroup {
+  getDadadaAddress(address:Address={}): FormGroup {
     return new FormGroup({
-      city: new FormControl('Чистополь', [Validators.required]),
-      street: new FormControl('', [Validators.required]),
-      building: new FormControl('', [Validators.required]),
-      apartment: new FormControl(''),
+      city: new FormControl(address.city?address.city:'Чистополь', [Validators.required]),
+      street: new FormControl(address.street?address.street:'', [Validators.required]),
+      building: new FormControl(address.building?address.building:'', [Validators.required]),
+      apartment: new FormControl(address.apartment?address.apartment:''),
     });
   }
 
@@ -327,7 +366,14 @@ export class TestFormComponent implements OnInit {
     this.form.controls.dadataAddresses.removeAt(i)
   }
 
+  sort() {
+    return 0
+  }
+
   onSubmit() {
     console.log(this.form.value);
+    if (this.form.valid) {
+      console.log('Все ОК')
+    }
   }
 }
