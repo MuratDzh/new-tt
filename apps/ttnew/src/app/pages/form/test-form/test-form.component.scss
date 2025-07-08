@@ -45,7 +45,10 @@ select {
 }
 
 textarea {
-  height: 140px;
+  padding-block: 8px;
+  height: 100px;
+  font-size: 14px;
+  resize: vertical;
 }
 
 button,
@@ -59,12 +62,12 @@ select {
 }
 
 .label_select {
-  display: flex;
+  display: grid;
   gap: 8px;
 }
 
 select {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--light-color);
   background-color: transparent;
   border: none;
@@ -182,4 +185,20 @@ option {
 
 .date{
   font-size: 16px;
+}
+
+small{
+  color: tomato;
+  font-size: 12px;
+  
+}
+
+input.ng-touched.ng-invalid{
+  border-color: tomato;
+}
+
+.passport-wrapper{
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 40px;
 }

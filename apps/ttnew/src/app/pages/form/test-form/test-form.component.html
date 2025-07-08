@@ -1,12 +1,28 @@
 <form [formGroup]="form">
+  @if( form.controls.firstName.touched&&
+  form.controls.firstName.hasError('required')){
+  <small>Введите Имя</small>
+  <br>
+  }
   <label>
     <span>Имя</span>
     <input type="text" formControlName="firstName" />
   </label>
+  @if( form.controls.lastName.touched&&
+  form.controls.lastName.hasError('required')){
+  <small>Введите Фамилию</small>
+  <br>
+  }
   <label>
     <span>Фамилия</span>
     <input type="text" formControlName="lastName" />
   </label>
+  @if( form.controls.birthday.touched&&
+  form.controls.birthday.hasError('required')){
+  <small>Укажите год рождения</small>
+  <br>
+  }
+  <div class="passport-wrapper mb8">
   <label class="label_select mb-16">
     <span>Год рождения</span>
     <select formControlName="birthday">
@@ -15,6 +31,11 @@
       }
     </select>
   </label>
+  <label class="label_select mb-16">
+    <span>Паспорт</span>
+    <input type="text" formControlName="passport" />
+  </label>
+</div>
   <!-- <fieldset formGroupName="address">
     <legend>
       <span> Адрес </span>
@@ -60,10 +81,16 @@
     </div>
 
     <div
-      class="tel_wrapper"
+      
       [formGroupName]="i"
       *ngFor="let item of form.controls.phones.controls; index as i"
     >
+    @if( form.controls.phones.controls[i].controls.phone.touched&&
+    form.controls.phones.controls[i].controls.phone.invalid&&
+    form.controls.phones.controls[i].controls.phone.hasError('phoneNumberLengthValidate')){
+    <small>{{form.controls.phones.controls[i].controls.phone.getError('phoneNumberLengthValidate')}}</small>
+    }
+    <div class="tel_wrapper">
       <select class="select-phone" formControlName="label">
         <option value="work">Рабочий</option>
         <option value="home">Домашний</option>
@@ -75,11 +102,18 @@
         (click)="delPhone(i)"
       ></button>
     </div>
+    </div>
   </fieldset>
   <fieldset formGroupName="work">
     <legend>
       <span> Последнее место работы</span>
     </legend>
+    @if( form.controls.work.controls.start.touched&&
+    form.controls.work.controls.end.touched&&
+    form.controls.work.hasError('datePickerValidate')){
+    <small>{{form.controls.work.getError('datePickerValidate')}}</small>
+    }
+    
     <div class="date-wrapper mb8">
       <label class="date-width">
         <span>Начало</span>
@@ -90,11 +124,17 @@
         <input type="date" formControlName="end" class="date" />
       </label>
     </div>
+    @if( form.controls.work.controls.jobCompany.touched&&
+    form.controls.work.controls.jobCompany.invalid){
+    <small>Введите название организации </small>
+    <br>
+    }
     <label>
       <span>Название организации</span>
-      <input type="text" formControlName="job-company" placeholder='ООО "Рога и Копыта"'/>
+      <input type="text" formControlName="jobCompany" placeholder='ООО "Рога и Копыта"'/>
     </label>
   </fieldset>
+ 
     <fieldset formGroupName="features">
         <legend>
           <span> Дополнительно </span>
@@ -108,8 +148,10 @@
       </div>
       }
       </fieldset>
-      
-  <textarea formControlName="textarea"></textarea>
+   <label> 
+    <span>Вопросы и предложения</span>  
+  <textarea formControlName="textarea" placeholder="Введите текст..."></textarea>
+  </label>
   <app-rating formControlName="rating"></app-rating>
   <div class="btn-wrapper">
     <button class="btn-primary submit" (click)="onSubmit()">Отправить</button>
