@@ -4,12 +4,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   inject,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import {
   AbstractControl,
-  ControlContainer,
   FormArray,
   FormControl,
   FormGroup,
@@ -46,8 +48,10 @@ function datePickerValidate():ValidatorFn {
   }
 }
 
-function phoneNumberLengthValidate():ValidatorFn {
+function phoneNumberLengthValidate(): ValidatorFn {
+  
   return (control: AbstractControl<string>) => {
+    console.log('phoneNumberLengthValidate');
     if (control.value.startsWith('8')) {
       return control.value.length == 15 ? null : { phoneNumberLengthValidate: 'Введите корректный номер' };
     }
@@ -59,7 +63,6 @@ function phoneNumberLengthValidate():ValidatorFn {
     
   }
 }
-
 
 @Component({
   selector: 'app-test-form',
@@ -74,7 +77,7 @@ function phoneNumberLengthValidate():ValidatorFn {
   styleUrl: './test-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TestFormComponent implements OnInit {
+export class TestFormComponent implements OnInit, OnChanges, DoCheck {
   years: number[] = [];
   features!: Feature[];
 
@@ -88,10 +91,7 @@ export class TestFormComponent implements OnInit {
       Validators.minLength(3),
     ]),
     birthday: new FormControl('', Validators.required),
-    // address: new FormGroup({
-    //   city: new FormControl(''),
-    //   street: new FormControl(''),
-    // }),
+    passport: new FormControl('', ),
     dadataAddresses: new FormArray([
       this.getDadadaAddress(),
       this.getDadadaAddress(),
@@ -119,6 +119,7 @@ export class TestFormComponent implements OnInit {
 
   mockService = inject(MockService);
   constructor(private cdr: ChangeDetectorRef) {
+    console.log('constructor');
     this.form.controls.phones.valueChanges
       .pipe(
         tap((v) => {
@@ -168,7 +169,7 @@ export class TestFormComponent implements OnInit {
                     0,
                     this.form.controls.phones.controls[i].controls.phone.value!
                       .length - 1
-                  )
+                  ), {emitEvent:false}
                 );
               }
 
@@ -200,7 +201,7 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(2, 3)
-                      )
+                      ), {emitEvent:false}
                   );
                 }
                 if (
@@ -216,7 +217,7 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(6, 7)
-                      )
+                      ), {emitEvent: false}
                   );
                 }
                 if (
@@ -232,7 +233,8 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(10, 11)
-                      )
+                      ),
+                    { emitEvent: false }
                   );
                 }
                 if (
@@ -248,7 +250,8 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(13, 14)
-                      )
+                      ),
+                    { emitEvent: false }
                   );
                 }
                 if (
@@ -258,7 +261,8 @@ export class TestFormComponent implements OnInit {
                   this.form.controls.phones.controls[i].controls.phone.setValue(
                     this.form.controls.phones.controls[
                       i
-                    ].controls.phone.value!.slice(0, 16)
+                    ].controls.phone.value!.slice(0, 16),
+                    { emitEvent: false }
                   );
                 }
               }
@@ -282,7 +286,8 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(1, 2)
-                      )
+                      ),
+                    { emitEvent: false }
                   );
                 }
                 if (
@@ -298,7 +303,8 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(5, 6)
-                      )
+                      ),
+                    { emitEvent: false }
                   );
                 }
                 if (
@@ -314,7 +320,8 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(9, 10)
-                      )
+                      ),
+                    { emitEvent: false }
                   );
                 }
                 if (
@@ -330,7 +337,8 @@ export class TestFormComponent implements OnInit {
                           this.form.controls.phones.controls[i].controls.phone
                             .value as string
                         ).slice(12, 13)
-                      )
+                      ),
+                    { emitEvent: false }
                   );
                 }
                 if (
@@ -340,7 +348,8 @@ export class TestFormComponent implements OnInit {
                   this.form.controls.phones.controls[i].controls.phone.setValue(
                     this.form.controls.phones.controls[
                       i
-                    ].controls.phone.value!.slice(0, 15)
+                    ].controls.phone.value!.slice(0, 15),
+                    { emitEvent: false }
                   );
                 }
               }
@@ -350,9 +359,40 @@ export class TestFormComponent implements OnInit {
         takeUntilDestroyed()
       )
       .subscribe();
+    
+    this.form.controls.birthday.valueChanges.pipe(
+      tap(v => {
+        console.log('birthday',v);
+        let currentDateYear = new Date().getFullYear()
+        console.log('birthday', currentDateYear - Number(v) < 16);
+        this.form.controls.passport.enable()
+          this.form.controls.passport.removeValidators(
+          Validators.required
+        );
+        if (currentDateYear - Number(v) > 15) {
+          this.form.controls.passport.addValidators(Validators.required)
+          this.form.controls.passport.updateValueAndValidity()
+          // this.form.controls.passport.markAsTouched()
+        }
+        if (currentDateYear - Number(v) < 16) {
+          this.form.controls.passport.disable()
+        }
+      }),
+      takeUntilDestroyed()
+    ).subscribe()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      console.log('ngOnChanges');
+      
+  }
+
+  ngDoCheck(): void {
+    console.log('ngDoCheck');
   }
 
   ngOnInit(): void {
+    console.log('ngOnInit');
     let date = new Date().getFullYear();
 
     for (let i = 0; i < 100; i++) {

@@ -200,5 +200,5 @@ input.ng-touched.ng-invalid{
 .passport-wrapper{
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: 40px;
+  column-gap: 40px;
 }

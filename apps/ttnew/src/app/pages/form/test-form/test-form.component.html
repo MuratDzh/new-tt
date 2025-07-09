@@ -23,6 +23,10 @@
   <br>
   }
   <div class="passport-wrapper mb8">
+    @if( form.controls.passport.touched&&
+    form.controls.passport.hasError('required')){
+      <small></small>
+    <small>Укажите номер и серию паспорта</small> }
   <label class="label_select mb-16">
     <span>Год рождения</span>
     <select formControlName="birthday">
@@ -31,7 +35,8 @@
       }
     </select>
   </label>
-  <label class="label_select mb-16">
+  <label class="label_select">
+   
     <span>Паспорт</span>
     <input type="text" formControlName="passport" />
   </label>
