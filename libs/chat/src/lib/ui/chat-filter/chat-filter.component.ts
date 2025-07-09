@@ -10,14 +10,14 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './chat-filter.component.scss',
 })
 export class ChatFilterComponent {
-  @Output()
-  value=new EventEmitter<string>()  
+  // @Output()
+  // value=new EventEmitter<string>()  
     
   search = new FormControl()
   
-  toSentValue() {
-    console.log('this.search.value', this.search.value);
+  // toSentValue() {
+  //   console.log('this.search.value', this.search.value);
     
-    this.value.emit(this.search.value)
-  }
+  //   this.value.emit(this.search.value)
+  // }
 }

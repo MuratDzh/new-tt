@@ -40,8 +40,6 @@ export class ChatsListComponent implements OnInit, OnChanges {
   constructor(private chatsService: ChatsService) { }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges', changes);
-
     // if (changes['valueFromFiltreComp'].currentValue) {
     //   this.toFilter();
     // }
@@ -84,6 +82,6 @@ export class ChatsListComponent implements OnInit, OnChanges {
     //     : null;
     // }
     ));
-    console.log('toFilter()', this.filteredChats);
+   
   }
 }
