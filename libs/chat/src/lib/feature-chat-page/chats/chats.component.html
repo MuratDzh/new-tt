@@ -1,4 +1,9 @@
-<app-chats-list></app-chats-list>
+<div class="chat-list-wrapper">
+  <!-- <app-chat-filter #search (value)="takeValueFromFiltreComp($event)"></app-chat-filter> -->
+  <app-chat-filter #search ></app-chat-filter>
+<!-- <app-chats-list [valueFromFiltreComp]="valueFromFiltreComp" [value]="search.search.value"></app-chats-list> -->
+<app-chats-list  [value]="search.search.value"></app-chats-list>
+</div>
 <div>
   <router-outlet></router-outlet>
 </div>

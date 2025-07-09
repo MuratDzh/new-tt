@@ -2,13 +2,22 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { RouterOutlet } from '@angular/router';
 import { ChatsListComponent } from '../chats-list/chats-list.component';
+import { ChatFilterComponent } from '../../ui/chat-filter/chat-filter.component';
 
 @Component({
   selector: 'app-chats',
   standalone: true,
-  imports: [ChatsListComponent, RouterOutlet],
+  imports: [ChatsListComponent, RouterOutlet, ChatFilterComponent],
   templateUrl: './chats.component.html',
   styleUrl: './chats.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatsComponent {}
+export class ChatsComponent {
+  // valueFromFiltreComp = '';
+
+  // takeValueFromFiltreComp(v: string) {
+    
+  //   this.valueFromFiltreComp = v;
+  //   console.log('valueFromFiltreComp', this.valueFromFiltreComp);
+  // }
+}

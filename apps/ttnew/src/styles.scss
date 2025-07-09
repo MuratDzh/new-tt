@@ -9,6 +9,20 @@
   margin: 0;
   padding: 0;
 }
+*::-webkit-scrollbar {
+  height: 24px;
+  width: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  border: none;
+}
 
 :root {
   --dark-color: #000;

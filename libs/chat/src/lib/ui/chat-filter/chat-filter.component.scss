@@ -1,0 +1,14 @@
+:host{
+    display: grid;
+    height: 76px;
+    border-bottom: var(--border-light);
+    padding: 16px 20px;
+}
+
+input{
+    width: 100%;
+    background-color: transparent;
+    color: var(--light-color);
+    border: none;
+    border-bottom: var(--border-light);
+}
