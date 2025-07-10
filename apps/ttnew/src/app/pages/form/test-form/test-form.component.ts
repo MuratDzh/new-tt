@@ -118,6 +118,7 @@ export class TestFormComponent implements OnInit, OnChanges, DoCheck {
   });
 
   mockService = inject(MockService);
+  
   constructor(private cdr: ChangeDetectorRef) {
     console.log('constructor');
     this.form.controls.phones.valueChanges
@@ -392,6 +393,7 @@ export class TestFormComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnInit(): void {
+    
     console.log('ngOnInit');
     let date = new Date().getFullYear();
 
@@ -442,16 +444,10 @@ export class TestFormComponent implements OnInit, OnChanges, DoCheck {
 
   getDadadaAddress(address: Address = {}): FormGroup {
     return new FormGroup({
-      city: new FormControl(address.city ? address.city : 'Чистополь', [
-        Validators.required,
-      ]),
-      street: new FormControl(address.street ? address.street : '', [
-        Validators.required,
-      ]),
-      building: new FormControl(address.building ? address.building : '', [
-        Validators.required,
-      ]),
-      apartment: new FormControl(address.apartment ? address.apartment : ''),
+      city: new FormControl(address.city ?? 'Чистополь', [Validators.required]),
+      street: new FormControl(address.street ?? '', [Validators.required]),
+      building: new FormControl(address.building ?? '', [Validators.required]),
+      apartment: new FormControl(address.apartment ?? ''),
     });
   }
 
