@@ -30,20 +30,20 @@ export class LayoutComponent {
   unredMessagesCount = signal<number>(0);
 
   constructor() {
-    // this.chatService.wsConnect().pipe(
-    //   filter(v=>!!v),
-    //   tap(v=>{
-    //     isUnreadMessage(v)? this.unredMessagesCount.set(v.data.count) : null
-    //     console.log('TAP Count',this.unredMessagesCount())
-    //   }),
-    //   takeUntilDestroyed())
-    // .subscribe()
+    this.chatService.wsConnect().pipe(
+      filter(v=>!!v),
+      tap(v=>{
+        isUnreadMessage(v)? this.unredMessagesCount.set(v.data.count) : null
+        console.log('TAP Count',this.unredMessagesCount())
+      }),
+      takeUntilDestroyed())
+    .subscribe()
 
   }
 
   ngOnInit(): void {
-      // this.chatService.wsConnect()
-    this.chatService
+    // this.chatService.wsConnect()
+   
   }
 
 }

@@ -131,7 +131,7 @@ export interface PostFormValue {
   providers: [DatePipe],
 })
 export class PostFeedComponent
-  implements OnDestroy, OnChanges, OnInit, AfterViewInit
+  implements OnDestroy,  OnInit, AfterViewInit, AfterViewChecked
 {
   posts$!: Observable<PostRes[] | null | undefined>;
 
@@ -172,10 +172,12 @@ export class PostFeedComponent
     this.cdr.markForCheck();
   }
 
+  @ViewChild('wrapper', { read: ElementRef })
+    wrapperDiv!: ElementRef<HTMLDivElement>
+
   @ViewChildren(HiddenButtonsComponent)
   hiddenButtons!: QueryList<HiddenButtonsComponent>;
 
-  
   @ResizeDecorator
   @HostListener('window:resize', ['$event'])
   onWinResize(e: Event) {
@@ -189,9 +191,6 @@ export class PostFeedComponent
     content: '',
   });
 
-  // @ViewChild('wrapper')
-  //  wrapper1!: ElementRef<HTMLDivElement>
-
   constructor(
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
@@ -199,10 +198,7 @@ export class PostFeedComponent
     private route: ActivatedRoute
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges POST-FEED', changes);
-  }
-
+ 
   ngOnInit(): void {
     this.store.select(selectMe).subscribe((v) => {
       this.myProfile = v;
@@ -224,10 +220,13 @@ export class PostFeedComponent
     this.getHeight();
   }
 
+  ngAfterViewChecked(): void {
+    this.getHeight();
+  }
+
   // @ResizeDecorator
   getHeight() {
-    console.log(' getHeight()');
-
+    
     const { top } =
       this.profile.id == this.myId
         ? (
@@ -236,22 +235,42 @@ export class PostFeedComponent
         : (this.el.nativeElement as HTMLDivElement)?.getBoundingClientRect();
 
     const height1 = document.documentElement.clientHeight - top - 24 - 1;
-    if (this.profile.id == this.myId) {
-      this.renderer.setStyle(
-        this.el.nativeElement.children[1] as HTMLDivElement,
-        'max-height',
-        `${height1}px`
-      );
-      return;
-    }
-    this.renderer.addClass(this.el.nativeElement, 'test');
-    this.renderer.setStyle(this.el.nativeElement, 'max-height', `${height1}px`);
+    
+    this.renderer.addClass(this.wrapperDiv.nativeElement, 'test');
+    this.renderer.setStyle(this.wrapperDiv.nativeElement, 'max-height', `${height1}px`);
 
-    console.log('---TOP---', top);
-
-    // console.log('window.innerHeight', window.innerHeight);
-    console.log('clientHeight', document.documentElement.clientHeight);
   }
+
+  //~~~~~ Это старый вариант функции, который дает сбой. Использовал ее только для того, чтобы
+  //  по условию находить нужный дочерний эллемент ~~~~~~
+
+  // getHeight() {
+  //   console.log(' getHeight()');
+
+  //   const { top } =
+  //     this.profile.id == this.myId
+  //       ? (
+  //           this.el.nativeElement.children[1] as HTMLDivElement
+  //         )?.getBoundingClientRect()
+  //       : (this.el.nativeElement as HTMLDivElement)?.getBoundingClientRect();
+
+  //   const height1 = document.documentElement.clientHeight - top - 24 - 1;
+  //   if (this.profile.id == this.myId) {
+  //     this.renderer.setStyle(
+  //       this.el.nativeElement.children[1] as HTMLDivElement,
+  //       'max-height',
+  //       `${height1}px`
+  //     );
+  //     return;
+  //   }
+  //   this.renderer.addClass(this.el.nativeElement, 'test');
+  //   this.renderer.setStyle(this.el.nativeElement, 'max-height', `${height1}px`);
+
+  //   console.log('---TOP---', top);
+
+  //   // console.log('window.innerHeight', window.innerHeight);
+  //   console.log('clientHeight', document.documentElement.clientHeight);
+  // }
 
   toLoadPost() {
     return (this.posts$ = this.store.select(selectPostsFromUsersState).pipe(

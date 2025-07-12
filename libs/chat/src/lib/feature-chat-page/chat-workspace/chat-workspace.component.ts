@@ -31,6 +31,7 @@ import { inject } from '@angular/core';
 
 
 
+
 let test = false
 let secondTest = false
 
@@ -146,6 +147,8 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   }
 
   onSendMessage() {
+    console.log('onSendMessage()', this.message.value);
+    
     if (this.message.valid) {
       // this.chatService
       //   .postMessage(this.chatId, this.message.value as string, this.userId)

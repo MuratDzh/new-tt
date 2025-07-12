@@ -31,7 +31,7 @@ export class ChatsService  {
 
   cookieService=inject(CookieService)
 
-  myId!: number;
+  myId!: number|string;
   me!:Profile|null
 
     store = inject(Store)
