@@ -227,12 +227,7 @@ export class PostFeedComponent
   // @ResizeDecorator
   getHeight() {
     
-    const { top } =
-      this.profile.id == this.myId
-        ? (
-            this.el.nativeElement.children[1] as HTMLDivElement
-          )?.getBoundingClientRect()
-        : (this.el.nativeElement as HTMLDivElement)?.getBoundingClientRect();
+    const { top } = (this.wrapperDiv.nativeElement as HTMLDivElement)?.getBoundingClientRect();
 
     const height1 = document.documentElement.clientHeight - top - 24 - 1;
     
