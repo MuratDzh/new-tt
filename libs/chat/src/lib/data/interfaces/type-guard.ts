@@ -15,6 +15,6 @@ export function isNewMessage(message: ChatWSMessageType): message is ChatWSNewMe
 }
 
 export function isErrorMessage(message: ChatWSMessageType): message is ChatWSErrorInterface {
-  return "message" in message
+  return 'status' in message&& message.status=='error'
 }
 

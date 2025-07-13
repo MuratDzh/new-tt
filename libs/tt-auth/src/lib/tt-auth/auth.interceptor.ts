@@ -16,6 +16,7 @@ export const AuthTokenInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) => {
+  
   const authService = inject(AuthService);
   const chatService=inject(ChatsService)
   const cookie = inject(CookieService);
@@ -28,6 +29,7 @@ export const AuthTokenInterceptor: HttpInterceptorFn = (
     console.log('2', req);
     return next(req);
   }
+
 
   return next(req).pipe(
     // tap(()=>console.log('2', req)),

@@ -18,7 +18,7 @@ export class WrapperComponent implements AfterContentInit {
     console.log('Wrapper EL{}', this.el.nativeElement.getBoundingClientRect());
     this.renderer.setStyle(
       this.el.nativeElement,
-      'height',
+      'max-height',
       `${this.windowInnerHeight - this.el.nativeElement.offsetTop - 26 }px`
     );
   }

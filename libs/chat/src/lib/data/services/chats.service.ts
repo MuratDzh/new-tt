@@ -3,7 +3,7 @@ import { environment } from './../../../../../shared/src/lib/data/environments/e
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, switchMap, tap, pipe, debounceTime } from 'rxjs';
 import { Chat, ChatRes, Message } from '../../../../../interfaces/src/lib/chat/chats.interface';
 
 
@@ -16,6 +16,8 @@ import {ChatWSMessageType} from './../interfaces/chat-ws-message.interface';
 import {isErrorMessage, isNewMessage, isUnreadMessage} from './../interfaces/type-guard';
 import {Profile} from "@tt/interfaces/profile";
 import {ChatWsRxjsService} from "./chat-ws-rxjs.service";
+import { AuthService } from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Injectable({
@@ -29,7 +31,8 @@ export class ChatsService  {
   _chats$ = new BehaviorSubject<Chat[] | null>(null);
   chats$: Observable<Chat[] | null> = this._chats$.asObservable();
 
-  cookieService=inject(CookieService)
+  cookieService = inject(CookieService)
+  authService=inject(AuthService)
 
   myId!: number|string;
   me!:Profile|null
@@ -59,16 +62,34 @@ export class ChatsService  {
   //   })
   // }
 
+ wsClose() {
+    return this.wsAdapter.disconnect()
+  }
 
 
-   handleMessage =  (message: ChatWSMessageType): void => {
+
+  handleMessage = (message: ChatWSMessageType): void => {
+    console.log('handleMessage', message);
+   
     if (!("action" in message)) return
+    
 
-     if(isErrorMessage(message)){
+     if(message.status==='error'){
        console.log("Error: " + message)
+
+       this.wsClose()
+       this.authService.refreshToken().pipe(
+         debounceTime(1000),
+         switchMap(() => this.wsConnect())
+       )
+
+      
      }
 
     if (isNewMessage(message)) {
+
+      console.log('isNewMessage(message)');
+      
 
       this._messages$.next(
         [
@@ -89,7 +110,6 @@ export class ChatsService  {
       )
 
 
-          console.log("Я тут")
           // this._chats$.next(
           //   [
           //     ...this._chats$.getValue()!.map(v=>v.id==message.data.chat_id?
@@ -105,12 +125,11 @@ export class ChatsService  {
 
       // this.getMyChats().subscribe()
 
-      console.log("MESSAGE",message)
     }
 
-    console.log('_chats$', this._chats$.getValue())
-    this.messages$.subscribe(v=>console.log("MESSAGE",v));
-    this.chats$.subscribe(v=>console.log("Chats", v));
+    // console.log('_chats$', this._chats$.getValue())
+    this.messages$.subscribe();
+    this.chats$.subscribe();
 
   }
 
@@ -156,12 +175,10 @@ export class ChatsService  {
   }
 
   getMyChats() {
-    console.log('getMyChats');
     return this.http
       .get<Chat[]>(`${environment.url}chat/get_my_chats/`)
-      .pipe(map((v) =>{
-        console.log("Чаты", v)
-
-          return this._chats$.next(v)}));
+      .pipe(map((v) => {
+        return this._chats$.next(v)
+      }));
   }
 }

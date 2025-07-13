@@ -5,8 +5,12 @@
   @if(!(isAccLoaded$|async)){
   <p>...loading</p>
   }
-  @if ((appProfileFilter.accounts$|async); as profiles) { @for (profile of
-  profiles; track profile; let last=$last) {
+  @if(!!appProfileFilter.form.value.firstName?.length||
+  !!appProfileFilter.form.value.lastName?.length||
+  !!appProfileFilter.form.value.city?.length||
+  !!appProfileFilter.form.value.stack?.length){
+  @if ((appProfileFilter.accounts$|async); as profiles) {
+     @for (profile of profiles; track profile; let last=$last) {
   
   <app-profile-card (toSubscribe)="onSubscribe(profile)" (toSendMessage)="onSendMessage(profile)"
     (toUnsubscribe)="onUnsubscribe(profile)" [profile]="profile"></app-profile-card>
@@ -14,10 +18,11 @@
   @defer (on viewport ){
   <lib-infinite-scroll-trigger (trigger)="onSetFilteredAccounts()"></lib-infinite-scroll-trigger>
   } @placeholder () {
-  <div></div>
-  }}
+  <div>.</div>
+  }
+}
   
-  } } @else { @for (profile of acc$|async; track profile; let last=$last) {
+  } }} @else { @for (profile of acc$|async; track profile; let last=$last) {
   
   <app-profile-card (toSubscribe)="onSubscribe(profile)" (toSendMessage)="onSendMessage(profile)"
     (toUnsubscribe)="onUnsubscribe(profile)" [profile]="profile"></app-profile-card>
@@ -26,8 +31,9 @@
   @defer (on viewport ){
   <lib-infinite-scroll-trigger (trigger)="onSetAllAccounts()"></lib-infinite-scroll-trigger>
   } @placeholder () {
-  <div></div>
-  }}
+  <div>.</div>
+  }
+}
   } }
 
 </app-wrapper>

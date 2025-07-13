@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit, signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../../../../sidebar/src/lib/feature-sidebar/sidebar/sidebar.component';
 import { ChatsService } from '../../../../../chat/src/lib/data/services/chats.service';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {filter, tap, pipe} from "rxjs";
-import {isUnreadMessage} from "../../../../../chat/src/lib/data";
+import { filter, tap } from "rxjs";
+import {isUnreadMessage} from "@tt/chat";
 
 
 

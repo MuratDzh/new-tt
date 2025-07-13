@@ -22,6 +22,7 @@ export interface ChatWSNewMessageInterface extends ChatWSMessageBaseInterface {
 }
 
 export interface ChatWSErrorInterface extends ChatWSMessageBaseInterface {
+  status: "error";
   message: string;
 }
 
