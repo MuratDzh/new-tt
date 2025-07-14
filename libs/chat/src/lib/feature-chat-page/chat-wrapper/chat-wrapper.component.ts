@@ -1,7 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ChatsService, isErrorMessage } from '../../data';
-import { Subscription, tap, timer, firstValueFrom } from 'rxjs';
-import { AuthService } from '@tt/tt-auth';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 
 
@@ -14,51 +11,14 @@ import { AuthService } from '@tt/tt-auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatWrapperComponent {
-  chatService = inject(ChatsService);
-  authService = inject(AuthService);
-  connect!: Subscription;
+  
   constructor() {
-    // this.connectWS();
-
-    // setTimeout(() => console.log('setTimeout(()'));
-
-    // setTimeout(() => {
-    //   console.log('Закрыто');
-    //   this.chatService.wsClose();
-    // }, 100000);
-    // setTimeout(() => {
-    //   this.connectWS();
-    // }, 5300 * 60);
+  
   }
-  connectWS() {
-    this.connect = this.chatService
-      .wsConnect()
-      .pipe(
-        tap((v) => console.log('wsConnect', v)),
-        // takeUntilDestroyed()
-      )
-      .subscribe((message) => {
-        if (isErrorMessage(message)) {
-          console.log('isErrorMessage(message)');
-          
-          this.reconnect()
-        }
-      });
-  }
+ 
         
 
-
-  async reconnect() {
-    this.chatService.wsClose();
-    this.connect.unsubscribe();
-    await firstValueFrom(this.authService.refreshToken())
-    await  firstValueFrom(timer(2000))
-          
     
-    await this.chatService.wsConnect().subscribe()
-   
-  }
-        
       
   }
 

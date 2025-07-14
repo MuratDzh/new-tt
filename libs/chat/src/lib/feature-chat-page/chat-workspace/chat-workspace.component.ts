@@ -34,7 +34,7 @@ import {
   AvatarCircleComponent,
   SubscriberCardComponent,
 } from '@tt/common-ui';
-import {Profile} from "@tt/profile";
+import {Profile} from "@tt/interfaces/profile";
 import { inject } from '@angular/core';
 
 

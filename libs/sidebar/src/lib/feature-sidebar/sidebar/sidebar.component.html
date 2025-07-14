@@ -19,8 +19,8 @@
           <use></use>
         </svg>
         <span>{{ item.lebel }}</span>
-        @if(item.lebel=='Чаты'&&unreadMessagesCount){
-          <span class="unreadMessagesCount">{{unreadMessagesCount}}</span>
+        @if(item.lebel=='Чаты'&&unreadMessagesCount()){
+          <span class="unreadMessagesCount">{{unreadMessagesCount()}}</span>
         }
 
       </a>

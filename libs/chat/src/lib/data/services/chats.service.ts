@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
 import {
   BehaviorSubject,
@@ -43,11 +43,13 @@ export class ChatsService {
   _chats$ = new BehaviorSubject<Chat[] | null>(null);
   chats$: Observable<Chat[] | null> = this._chats$.asObservable();
 
-  cookieService = inject(CookieService);
-  authService = inject(AuthService);
-
   myId!: number | string;
   me!: Profile | null;
+
+  unredMessagesCount=signal<number>(0)
+
+  cookieService = inject(CookieService);
+  authService = inject(AuthService);
 
   store = inject(Store)
     .select(selectMe)
@@ -89,6 +91,12 @@ export class ChatsService {
         debounceTime(1000),
         switchMap(() => this.wsConnect())
       );
+    }
+
+    if (isUnreadMessage(message)) {
+      console.log('isUnreadMessage(message)', message.data.count);
+      
+      this.unredMessagesCount.set(message.data.count);
     }
 
     if (isNewMessage(message)) {

@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   inject, Input, input, OnChanges,
   OnDestroy,
@@ -14,10 +15,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { Profile } from '@tt/interfaces/profile';
-import { map, Observable, Subscription } from 'rxjs';
+import { filter, map, Observable, Subscription } from 'rxjs';
 import { ImgPipe, SubscriberCardComponent, SvgDirective } from '@tt/common-ui';
 import {  Store } from '@ngrx/store';
 import { selectMe, selectSubscriptionsState } from '@tt/shared';
+import { ChatsService } from '@tt/chat';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { signal } from '@angular/core';
 
 
 
@@ -38,7 +42,9 @@ import { selectMe, selectSubscriptionsState } from '@tt/shared';
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+export class SidebarComponent
+  implements OnInit, AfterViewInit, OnDestroy, OnChanges
+{
   me: Profile | null = null;
 
   meSubscription?: Subscription;
@@ -64,27 +70,15 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
   subscriptions$!: Observable<Profile[] | null>;
   subscriptionsTotal$!: Observable<number>;
 
-  amount=6
+  amount = 6;
 
   el = inject(ElementRef);
   renderer = inject(Renderer2);
-  cdr=inject(ChangeDetectorRef)
+  cdr = inject(ChangeDetectorRef);
+  chatService = inject(ChatsService);
+  destroyRef=inject(DestroyRef)
 
- //  _unreadMessagesCount=0
- //
- //  get unreadMessagesCount() {
- //    return this._unreadMessagesCount;
- //  }
- //  @Input()
- // set unreadMessagesCount(v:number){
- //    this._unreadMessagesCount=v
- //    // this.cdr.detectChanges()
- //  }
-  @Input()
-  unreadMessagesCount!: number;
-
-
-
+  unreadMessagesCount=this.chatService.unredMessagesCount
 
   constructor(private store: Store) {}
 
@@ -97,8 +91,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
     //     this.cdr.detectChanges()
     //
     // }
-
-
   }
 
   ngOnInit(): void {
@@ -113,10 +105,17 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
     this.meSubscription = this.store
       .select(selectMe)
       .subscribe((v) => (this.me = v));
+    
+    this.chatService
+      .wsConnect()
+      .pipe(
+        filter((v) => !!v),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   ngAfterViewInit(): void {
-
     const { top } = this.el.nativeElement.children[3].getBoundingClientRect();
 
     const height =
@@ -129,7 +128,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
   }
 
   viewAllSub() {
-    this.amount==6? this.amount=100 : this.amount=6
+    this.amount == 6 ? (this.amount = 100) : (this.amount = 6);
   }
 
   ngOnDestroy(): void {
