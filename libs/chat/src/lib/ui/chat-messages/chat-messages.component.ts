@@ -2,7 +2,6 @@ import {
   AfterContentInit, AfterViewChecked, AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   ElementRef,
   inject,
   Renderer2

@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ChatsService, isErrorMessage } from '../../data';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, first, map, Subscription, switchMap, take, tap, timer, throwError, of, firstValueFrom } from 'rxjs';
-import { AuthService } from 'libs/tt-auth/src/lib/tt-auth/auth.service';
+import { Subscription, tap, timer, firstValueFrom } from 'rxjs';
+import { AuthService } from '@tt/tt-auth';
 
 
 
@@ -63,32 +62,32 @@ export class ChatWrapperComponent {
       
   }
 
-  // connectWS() {
-  //   this.connect = this.chatService
-  //     .wsConnect()
-  //     .pipe(
-  //       tap((v) => console.log('wsConnect', v)),
-  //       map((message) => {
-  //         if (isErrorMessage(message)) {
-  //           console.log('isErrorMessage(message)');
-  //           this.chatService.wsClose();
-  //           this.connect.unsubscribe();
-  //           this.authService.refreshToken().pipe(
-  //             switchMap(() =>
-  //               timer(200).pipe(
-  //                 take(2),
-  //                 tap(() => console.log('TAP')),
-  //                 switchMap(() => {
-  //                   console.log('switchMap(()');
-  //                   return this.chatService.wsConnect();
-  //                 })
-  //               )
-  //             )
-  //           );
-  //         }
-  //       }),
+// connectWS() {
+//   this.connect = this.chatService
+//     .wsConnect()
+//     .pipe(
+//       tap((v) => console.log('wsConnect', v)),
+//       map((message) => {
+//         if (isErrorMessage(message)) {
+//           console.log('isErrorMessage(message)');
+//           this.chatService.wsClose();
+//           this.connect.unsubscribe();
+//           this.authService.refreshToken().pipe(
+//             switchMap(() =>
+//               timer(200).pipe(
+//                 take(2),
+//                 tap(() => console.log('TAP')),
+//                 switchMap(() => {
+//                   console.log('switchMap(()');
+//                   return this.chatService.wsConnect();
+//                 })
+//               )
+//             )
+//           );
+//         }
+//       }),
 
-  //       takeUntilDestroyed()
-  //     )
-  //     .subscribe();
-  // }
+//       takeUntilDestroyed()
+//     )
+//     .subscribe();
+// }

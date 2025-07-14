@@ -5,8 +5,6 @@ import {
   HostBinding,
   HostListener,
   Renderer2,
-  OnDestroy,
-  Optional,
   Input,
   AfterViewInit,
 } from '@angular/core';

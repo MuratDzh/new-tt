@@ -1,4 +1,4 @@
-import { Profile } from "libs/interfaces/src/lib/profile/profile.interface";
+import { Profile } from "@tt/interfaces/profile";
 
 
 export interface Post {

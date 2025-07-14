@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProfileService } from '../../../../shared/src/lib/data/services/profile-service/profile.service';
-import {debounceTime, tap} from 'rxjs';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../../shared/src/lib/data/environments/environment';
+import { tap } from 'rxjs';
 
 export interface Auth {
   access_token: 'string';

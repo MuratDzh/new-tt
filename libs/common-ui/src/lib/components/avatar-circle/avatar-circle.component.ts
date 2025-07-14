@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Profile } from '@tt/interfaces/profile';
 import { ImgPipe } from '../../pipes';
 
 @Component({

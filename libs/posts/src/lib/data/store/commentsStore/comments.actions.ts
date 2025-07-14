@@ -3,7 +3,7 @@ import {
   CommentInt,
   CommentsRes,
   CommentsResFull,
-} from '../../interfaces/post.interface.ts.js';
+} from '../../interfaces/post.interface.js';
 import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface.js';
 import { Update } from '@ngrx/entity';
 

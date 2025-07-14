@@ -1,16 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
-import { Profile } from '../../data/interfaces/profile.interface';
-import { ImgPipe } from '../../../../../common-ui/src/lib/pipes/img.pipe';
+import { Profile } from '@tt/interfaces/profile';
+import { ImgPipe } from '@tt/common-ui';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';

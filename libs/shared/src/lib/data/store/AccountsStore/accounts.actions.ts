@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
-import { Profile } from '../../../../../../profile/src/lib/data/interfaces/profile.interface';
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
+import { Subscribers } from '@tt/interfaces/subscribers';
+import { Profile } from '@tt/interfaces/profile';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
 export const AccountsActions = createActionGroup({
   source: 'Search Page Resolver',

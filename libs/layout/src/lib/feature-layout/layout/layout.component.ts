@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidebarComponent } from '../../../../../sidebar/src/lib/feature-sidebar/sidebar/sidebar.component';
-import { ChatsService } from '../../../../../chat/src/lib/data/services/chats.service';
+import { SidebarComponent } from '@tt/sidebar';
+import { ChatsService, isUnreadMessage } from '@tt/chat';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import { filter, tap } from "rxjs";
-import {isUnreadMessage} from "@tt/chat";
 
 
 

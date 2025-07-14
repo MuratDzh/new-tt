@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostBinding,
   HostListener,
   Input,
   OnChanges,
@@ -15,11 +14,10 @@ import {
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { Observable, tap, filter } from 'rxjs';
 import { PostRes } from '../../data';
 import { PostFormValue } from '../../feature-posts-wall/post-feed/post-feed.component';
-import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
-import { TextareaDirective } from '../../../../../common-ui/src/lib/directives/textarea.directive';
+import { SvgDirective, TextareaDirective } from '@tt/common-ui';
+
 
 export function createValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -27,7 +25,7 @@ export function createValidator(): ValidatorFn {
    
     console.log('++++++', /[A-Za-z0-9_]/.test(control.value));
     
-    return /[A-Za-z0-9_]/.test(control.value) ? null: { err: true } ;
+    return /[A-Za-z0-9_]/.test(control.value) ? null: { err: true };
   };
 }
 

@@ -7,14 +7,7 @@ import {
 } from '@angular/core';
 import { SvgDirective } from '@tt/common-ui';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import {
-  debounceTime, firstValueFrom,
-  map,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { debounceTime, map, Observable, Subscription, switchMap } from 'rxjs';
 import { Subscribers } from '@tt/interfaces/subscribers';
 
 import { CommonModule } from '@angular/common';
@@ -24,7 +17,8 @@ import { Profile } from '@tt/interfaces/profile';
 import {
   selectFilteredAccounts,
   selectSearchFormValue,
-  FilterAccountsActions, AccountsActions, selectAccounts,
+  FilterAccountsActions,
+  selectAccounts,
 } from '@tt/shared';
 
 import { SearchForm } from '@tt/interfaces/search-form';

@@ -8,11 +8,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { map, Observable, filter, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { ChatsBtnComponent } from '../../ui/chats-btn/chats-btn.component';
-import { Chat } from 'libs/interfaces/src/lib/chat/chats.interface';
+import { Chat } from '@tt/interfaces/chat';
 import { ChatsService } from './../../data/services';
 import { ActivatedRoute } from '@angular/router';
 

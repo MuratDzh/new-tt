@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,8 +11,8 @@ import { Store } from '@ngrx/store';
 import { loginActions } from '../data/login-store/login.actions';
 import { selectLoginBackendErrors } from '../data/login-store/login.reducer';
 import { CommonModule } from '@angular/common';
-import { map, Observable } from 'rxjs';
-import { FormLoginValue } from '../../../../tt-auth/src/lib/tt-auth/auth.service';
+import {  Observable } from 'rxjs';
+import { FormLoginValue } from '@tt/tt-auth';
 
 @Component({
   selector: 'app-login',

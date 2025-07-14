@@ -5,49 +5,26 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostBinding,
   HostListener,
   inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   QueryList,
   Renderer2,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
-  viewChildren,
 } from '@angular/core';
 
 import { PostComponent } from '../post/post.component';
 
-import {
-  auditTime,
-  debounce,
-  debounceTime,
-  delay,
-  exhaustMap,
-  filter,
-  find,
-  firstValueFrom,
-  fromEvent,
-  map,
-  Observable,
-  of,
-  skip,
-  startWith,
-  Subscription,
-  switchMap,
-  tap,
-  throttleTime,
-} from 'rxjs';
+import { map, Observable, Subscription, tap } from 'rxjs';
 
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -63,11 +40,11 @@ import {
   selectPostsFromUsersState,
 } from '../../data/store';
 
-import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/current-user.reducer';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
-import { AvatarCircleComponent } from '../../../../../common-ui/src/lib/components/avatar-circle/avatar-circle.component';
+import { selectMe } from '@tt/shared';
+import { Profile } from '@tt/interfaces/profile';
+import { AvatarCircleComponent, SvgDirective } from '@tt/common-ui';
 import { CommentInputComponent } from '../../ui/comment-input/comment-input.component';
-import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
+
 
 import { HiddenButtonsComponent } from '../../ui/hidden-buttons/hidden-buttons.component';
 

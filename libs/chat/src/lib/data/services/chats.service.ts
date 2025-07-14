@@ -1,29 +1,41 @@
-import { environment } from './../../../../../shared/src/lib/data/environments/environment';
-
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { BehaviorSubject, filter, map, Observable, switchMap, tap, pipe, debounceTime } from 'rxjs';
-import { Chat, ChatRes, Message } from '../../../../../interfaces/src/lib/chat/chats.interface';
-
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  switchMap,
+  tap,
+  pipe,
+  debounceTime,
+} from 'rxjs';
+import {
+  Chat,
+  ChatRes,
+  Message,
+  ChatWSServiceInterface,
+} from '@tt/interfaces/chat';
 
 import { Store } from '@ngrx/store';
-import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/current-user.reducer';
+import { selectMe, environment } from '@tt/shared';
 import { ChatWsNativeService } from './chat-ws-native.service';
-import { ChatWSServiceInterface } from '@tt/interfaces/chat';
-import { CookieService } from 'ngx-cookie-service';
-import {ChatWSMessageType} from './../interfaces/chat-ws-message.interface';
-import {isErrorMessage, isNewMessage, isUnreadMessage} from './../interfaces/type-guard';
-import {Profile} from "@tt/interfaces/profile";
-import {ChatWsRxjsService} from "./chat-ws-rxjs.service";
-import { AuthService } from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { CookieService } from 'ngx-cookie-service';
+import { ChatWSMessageType } from './../interfaces/chat-ws-message.interface';
+import {
+  isErrorMessage,
+  isNewMessage,
+  isUnreadMessage,
+} from './../interfaces/type-guard';
+import { Profile } from '@tt/interfaces/profile';
+import { ChatWsRxjsService } from './chat-ws-rxjs.service';
+import { AuthService } from '@tt/tt-auth';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChatsService  {
+export class ChatsService {
   // url = 'https://icherniakov.ru/yt-course/';
   _messages$ = new BehaviorSubject<Message[] | null>(null);
   messages$: Observable<Message[] | null> = this._messages$.asObservable();
@@ -31,19 +43,17 @@ export class ChatsService  {
   _chats$ = new BehaviorSubject<Chat[] | null>(null);
   chats$: Observable<Chat[] | null> = this._chats$.asObservable();
 
-  cookieService = inject(CookieService)
-  authService=inject(AuthService)
+  cookieService = inject(CookieService);
+  authService = inject(AuthService);
 
-  myId!: number|string;
-  me!:Profile|null
+  myId!: number | string;
+  me!: Profile | null;
 
-    store = inject(Store)
-      .select(selectMe)
-      .subscribe((v) => (this.myId = v!.id, this.me=v));
+  store = inject(Store)
+    .select(selectMe)
+    .subscribe((v) => ((this.myId = v!.id), (this.me = v)));
 
-
-  wsAdapter: ChatWSServiceInterface = new ChatWsRxjsService()
-
+  wsAdapter: ChatWSServiceInterface = new ChatWsRxjsService();
 
   constructor(private http: HttpClient) {}
 
@@ -51,7 +61,7 @@ export class ChatsService  {
     return this.wsAdapter.connect({
       url: `${environment.url}chat/ws`,
       token: this.cookieService.get('token'),
-      handleMessage: this.handleMessage
+      handleMessage: this.handleMessage,
     }) as Observable<ChatWSMessageType>;
   }
   // wsConnect() {
@@ -62,76 +72,65 @@ export class ChatsService  {
   //   })
   // }
 
- wsClose() {
-    return this.wsAdapter.disconnect()
+  wsClose() {
+    return this.wsAdapter.disconnect();
   }
-
-
 
   handleMessage = (message: ChatWSMessageType): void => {
     console.log('handleMessage', message);
-   
-    if (!("action" in message)) return
-    
 
-     if(message.status==='error'){
-       console.log("Error: " + message)
+    if (!('action' in message)) return;
 
-       this.wsClose()
-       this.authService.refreshToken().pipe(
-         debounceTime(1000),
-         switchMap(() => this.wsConnect())
-       )
+    if (message.status === 'error') {
+      console.log('Error: ' + message);
 
-      
-     }
+      this.wsClose();
+      this.authService.refreshToken().pipe(
+        debounceTime(1000),
+        switchMap(() => this.wsConnect())
+      );
+    }
 
     if (isNewMessage(message)) {
-
       console.log('isNewMessage(message)');
-      
 
-      this._messages$.next(
-        [
+      this._messages$.next([
+        ...(this._messages$.getValue()
+          ? (this._messages$.getValue() as Message[])
+          : []),
 
-          ...this._messages$.getValue() ?this._messages$.getValue() as Message[]: [],
+        {
+          id: message.data.id as number,
+          userFromId: message.data.author as number,
+          personalChatId: message.data.chat_id as number,
+          text: message.data.message as string,
+          createdAt: message.data.created_at as string,
+          isRead: false,
 
-          {
-            id: message.data.id as number,
-            userFromId: message.data.author as number,
-            personalChatId: message.data.chat_id as number,
-            text: message.data.message as string,
-            createdAt: message.data.created_at as string,
-            isRead:false,
+          user: message.data.author === this.myId ? this.me : null,
+        },
+      ]);
 
-            user: message.data.author === this.myId? this.me:null
-          }
-        ]
-      )
-
-
-          // this._chats$.next(
-          //   [
-          //     ...this._chats$.getValue()!.map(v=>v.id==message.data.chat_id?
-          //         {
-          //       ...v,
-          //       unreadMessages:v.unreadMessages + 1
-          //     }
-          //     :v
-          //     ) as Chat[]
-          //
-          //   ]
-          // )
+      // this._chats$.next(
+      //   [
+      //     ...this._chats$.getValue()!.map(v=>v.id==message.data.chat_id?
+      //         {
+      //       ...v,
+      //       unreadMessages:v.unreadMessages + 1
+      //     }
+      //     :v
+      //     ) as Chat[]
+      //
+      //   ]
+      // )
 
       // this.getMyChats().subscribe()
-
     }
 
     // console.log('_chats$', this._chats$.getValue())
     this.messages$.subscribe();
     this.chats$.subscribe();
-
-  }
+  };
 
   postChat(userId: number) {
     return this.http
@@ -175,10 +174,10 @@ export class ChatsService  {
   }
 
   getMyChats() {
-    return this.http
-      .get<Chat[]>(`${environment.url}chat/get_my_chats/`)
-      .pipe(map((v) => {
-        return this._chats$.next(v)
-      }));
+    return this.http.get<Chat[]>(`${environment.url}chat/get_my_chats/`).pipe(
+      map((v) => {
+        return this._chats$.next(v);
+      })
+    );
   }
 }

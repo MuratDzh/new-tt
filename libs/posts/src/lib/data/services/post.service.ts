@@ -3,11 +3,9 @@ import { Injectable } from '@angular/core';
 import {
   CommentInt,
   CommentsRes,
-  CommentsResFull,
-  CommentUpdate,
   Post,
   PostRes,
-} from '../interfaces/post.interface.ts.js';
+} from '../interfaces/post.interface';
 import { BehaviorSubject, map, Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({

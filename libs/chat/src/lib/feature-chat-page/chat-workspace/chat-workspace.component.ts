@@ -14,18 +14,26 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ChatWorkspaceHeaderComponent } from '../../ui/chat-workspace-header/chat-workspace-header.component';
 import { ChatWrapperComponent } from '../chat-wrapper/chat-wrapper.component';
 import { ChatMessagesComponent } from '../../ui/chat-messages/chat-messages.component';
-import { MessageInputComponent } from '../../../../../common-ui/src/lib/components/message-input/message-input.component';
+
+
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ChatRes, Message } from 'libs/interfaces/src/lib/chat/chats.interface';
+import { ChatRes, Message } from '@tt/interfaces/chat';
 import { ChatsService } from './../../data/services';
 
-import {SvgDirective } from "@tt/common-ui";
 import { Store } from '@ngrx/store';
-import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/current-user.reducer';
 
-import {MessageGroupDateDirective, MessagrGroupDatePipe} from "@tt/shared";
-import {TextareaDirective, AvatarCircleComponent, SubscriberCardComponent} from "@tt/common-ui";
+import {
+  MessageGroupDateDirective,
+  MessagrGroupDatePipe,
+  selectMe,
+} from '@tt/shared';
+import {
+  MessageInputComponent,
+  SvgDirective, TextareaDirective,
+  AvatarCircleComponent,
+  SubscriberCardComponent,
+} from '@tt/common-ui';
 import {Profile} from "@tt/profile";
 import { inject } from '@angular/core';
 

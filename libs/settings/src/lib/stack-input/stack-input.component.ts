@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, HostListener, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, HostListener, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SvgDirective} from "@tt/common-ui";
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";

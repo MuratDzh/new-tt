@@ -3,7 +3,7 @@ import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { CommentState } from './comments.state.interface.js';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { CommentsActions } from './comments.actions.js';
-import { CommentsRes } from '../../interfaces/post.interface.ts.js';
+import { CommentsRes } from '../../interfaces/post.interface.js';
 
 export const adapter: EntityAdapter<CommentsRes | null> = createEntityAdapter();
 export const CommentsInitState: CommentState = adapter.getInitialState({});

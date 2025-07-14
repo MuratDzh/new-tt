@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { BackendErrorsInterface } from 'libs/interfaces/src/lib/backend-errors/backend.errors.interface';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
-import { Subscribers } from 'libs/interfaces/src/lib/subscribers/subscribers.interfase';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
+import { Profile } from '@tt/interfaces/profile';
+import { Subscribers } from '@tt/interfaces/subscribers';
 
 
 export const FilterAccountsActions = createActionGroup({

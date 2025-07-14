@@ -2,7 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { FilterAccountsActions } from './filter-accounts.actions';
 
 import { FilterAccountsInterface } from './filter-accounts.state.interface';
-import {Profile} from "@tt/interfaces/profile";
+
 
 const AccountsInitialState: FilterAccountsInterface = {
   isAccountsLoaded: false,

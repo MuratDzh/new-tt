@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { Subscribers } from '@tt/interfaces/subscribers';
+import { Profile } from '@tt/interfaces/profile';
 
 
 @Injectable({

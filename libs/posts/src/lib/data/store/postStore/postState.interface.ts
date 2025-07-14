@@ -1,5 +1,5 @@
 import { EntityState } from '@ngrx/entity';
-import { PostRes } from '../../interfaces/post.interface.ts.js';
+import { PostRes } from '../../interfaces/post.interface.js';
 import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface.js';
 
 export interface PostsStateInterface {

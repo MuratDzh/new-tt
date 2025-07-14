@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
   inject,
   OnInit,
   Renderer2,
@@ -11,11 +10,9 @@ import {
 } from '@angular/core';
 
 import {
-  concatMap,
   map,
   Observable,
   of,
-  startWith,
   switchMap,
   take,
   tap,
@@ -25,7 +22,6 @@ import { ProfileService, selectMe } from '@tt/shared';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,

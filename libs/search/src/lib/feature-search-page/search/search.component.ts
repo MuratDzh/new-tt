@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import {debounceTime, map, Observable, tap} from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Profile } from '@tt/interfaces/profile';
 import { ProfileFilterComponent } from '../profile-filter/profile-filter.component';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,7 @@ import {
 } from '../../../../../shared/src/lib/data/store/subscriptionsStore/subscriptions.actions';
 import {InfiniteScrollTriggerComponent, WrapperComponent} from "@tt/common-ui";
 import {ChatsService} from "@tt/chat";
-import {Chat, ChatRes} from "@tt/interfaces/chat";
+import { ChatRes } from "@tt/interfaces/chat";
 import {Router} from "@angular/router";
 
 @Component({

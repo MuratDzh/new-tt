@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Profile } from '../interfaces';
+import { Profile } from '@tt/interfaces/profile';
 
 
 

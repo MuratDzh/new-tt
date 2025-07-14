@@ -1,8 +1,8 @@
-import { Post } from '../../interfaces/post.interface.ts.js';
+import { Post } from '../../interfaces/post.interface.js';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface.js';
 
-import { PostRes } from '../../interfaces/post.interface.ts.js';
+import { PostRes } from '../../interfaces/post.interface.js';
 import { Update } from '@ngrx/entity';
 import { PostsStateInterface } from '../postStore/postState.interface.js';
 

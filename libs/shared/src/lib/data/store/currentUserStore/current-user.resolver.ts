@@ -6,11 +6,10 @@ import {
 
 import { inject } from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
-import { selectIsMeLoaded, selectMe } from './current-user.reducer';
+import { Store } from '@ngrx/store';
 import { CurrentUserActions } from './current-user.actions';
-import { filter, finalize, first, tap, switchMap, of, Observable } from 'rxjs';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { tap, Observable } from 'rxjs';
+import { Profile } from '@tt/interfaces/profile';
 import { ProfileService } from '../../services';
 
 let loading = false;
