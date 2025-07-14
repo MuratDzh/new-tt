@@ -3,8 +3,8 @@ import { createActionGroup, props } from '@ngrx/store';
 import {
   Auth,
   FormLoginValue,
-} from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
-import { BackendErrorsInterface } from 'libs/interfaces/src/lib/backend-errors/backend.errors.interface';
+} from '@tt/tt-auth';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
 export const loginActions = createActionGroup({
   source: 'Login',

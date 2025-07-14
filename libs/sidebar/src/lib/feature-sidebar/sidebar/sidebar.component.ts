@@ -1,4 +1,4 @@
-import { SlicePipe } from './../../../../../profile/src/lib/data/pipes/slice.pipe';
+import { SlicePipe } from '@tt/profile';
 import {
   AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -9,18 +9,16 @@ import {
   OnInit,
   Renderer2, SimpleChanges,
 } from '@angular/core';
-import { SvgDirective } from '../../../../../../libs/common-ui/src/lib/directives/svg.directive';
+
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { Profile } from '../../../../../../libs/profile/src/lib/data/interfaces/profile.interface';
+import { Profile } from '@tt/interfaces/profile';
 import { map, Observable, Subscription } from 'rxjs';
-import { ImgPipe } from '../../../../../../libs/common-ui/src/lib/pipes/img.pipe';
+import { ImgPipe, SubscriberCardComponent, SvgDirective } from '@tt/common-ui';
 import {  Store } from '@ngrx/store';
-import { selectMe } from '../../../../../../libs/shared/src/lib/data/store/currentUserStore/current-user.reducer';
+import { selectMe, selectSubscriptionsState } from '@tt/shared';
 
-import { SubscriberCardComponent } from '../../../../../common-ui/src/lib/components/subscriber-card/subscriber-card.component';
-import { selectSubscriptionsState } from '@tt/shared';
 
 
 

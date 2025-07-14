@@ -1,10 +1,10 @@
-import { Post } from '../../interfaces/post.interface.js';
+
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
-import { PostRes } from '../../interfaces/post.interface.js';
-import { CurrentPostInterface } from './currentUserPosts.interface.js';
+import { PostRes } from '../../interfaces/post.interface';
+import { CurrentPostInterface } from './currentUserPosts.interface';
 import { createFeature, createReducer, on, props } from '@ngrx/store';
-import { currentPostActions } from './currentUserPost.actions.js';
-import { UpdateMyPostsEffect } from './currentUserPosts.effects.js';
+import { currentPostActions } from './currentUserPost.actions';
+
 
 const adapter: EntityAdapter<PostRes | null> =
   createEntityAdapter<PostRes | null>();

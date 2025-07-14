@@ -4,8 +4,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { filter, finalize, first, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { getSubscribersActions } from './subscribers.actions';
 
 

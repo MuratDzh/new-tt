@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
-import { PostRes } from '../../interfaces/post.interface.js';
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface.js';
+import { PostRes } from '../../interfaces/post.interface';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
 export interface PostsStateInterface {
   id: number | string | null;

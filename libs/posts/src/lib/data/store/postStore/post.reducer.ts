@@ -2,14 +2,14 @@ import { createEntityAdapter, EntityAdapter} from '@ngrx/entity';
 import {
   PostsFromUsersInterface,
   PostsStateInterface,
-} from './postState.interface.js';
+} from './postState.interface';
 import {
   createFeature,
   createReducer,
   
   on,
 } from '@ngrx/store';
-import { PostActions } from './post.actions.js';
+import { PostActions } from './post.actions';
 
 
 const adapter: EntityAdapter<PostsStateInterface | null> =

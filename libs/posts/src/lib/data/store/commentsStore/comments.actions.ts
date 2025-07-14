@@ -4,7 +4,7 @@ import {
   CommentsRes,
   CommentsResFull,
 } from '../../interfaces/post.interface.js';
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface.js';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 import { Update } from '@ngrx/entity';
 
 export const CommentsActions = createActionGroup({

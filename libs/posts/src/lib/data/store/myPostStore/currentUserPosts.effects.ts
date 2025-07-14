@@ -2,18 +2,17 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { currentPostActions } from './currentUserPost.actions';
 import { map, switchMap, of, tap, catchError } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { PostService } from '../../services/post.service';
 import { Update } from '@ngrx/entity';
-import { PostRes } from '../../interfaces/post.interface.ts';
+import { PostRes } from '../../interfaces/post.interface';
 import {
   selectCurrentPostEntities,
-  selectCurrentPostState,
 } from './currentUserPosts.reducer';
 import { PostActions } from '../postStore/post.actions';
 import { PostsStateInterface } from '../postStore/postState.interface';
-import { selectMe } from '../../../../../../shared/src/lib/data/store/currentUserStore/current-user.reducer';
+import { selectMe } from '@tt/shared';
 
 let myId: number;
 let postToDel: PostRes | null;

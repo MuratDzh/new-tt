@@ -5,7 +5,6 @@ import { PostActions } from './post.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { PostsStateInterface } from './postState.interface';
 import { Store } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
 
 let currentUserId: string | number;
 

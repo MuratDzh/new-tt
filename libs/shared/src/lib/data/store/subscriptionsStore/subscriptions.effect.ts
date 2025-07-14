@@ -7,7 +7,7 @@ import {
 } from './subscriptions.actions';
 import { catchError, filter, first, map, of, switchMap, take } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
+import { Subscribers } from '@tt/interfaces/subscribers';
 
 
 import { Update } from '@ngrx/entity';
@@ -16,7 +16,7 @@ import { selectAccounts } from '../AccountsStore/accounts.reducer';
 
 import { ProfileActions } from '../profileStore';
 import { FilterAccountsActions } from '../FilterAccountsStore/filter-accounts.actions';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { Profile } from '@tt/interfaces/profile';
 import { selectFilteredAccounts } from '../FilterAccountsStore';
 
 export const SubscriptionsEffect = createEffect(

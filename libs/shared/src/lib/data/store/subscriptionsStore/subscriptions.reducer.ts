@@ -1,9 +1,9 @@
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
+import { Subscribers } from '@tt/interfaces/subscribers';
 
 
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SubscriptionsActions } from './subscriptions.actions';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { Profile } from '@tt/interfaces/profile';
 
 export const SubscriptionsInitialState: Subscribers<Profile> = {
   total: 0,

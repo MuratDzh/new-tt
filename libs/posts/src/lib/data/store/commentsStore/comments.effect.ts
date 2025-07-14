@@ -1,19 +1,16 @@
-import { inject, signal } from '@angular/core';
+import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PostService } from '../../../data/services/post.service';
 import { Store } from '@ngrx/store';
 import { CommentsActions } from './comments.actions';
-import { filter, first, firstValueFrom, map, of, switchMap, tap } from 'rxjs';
+import { firstValueFrom, map, switchMap, tap } from 'rxjs';
 
-import { selectCurrentPostEntities } from '../myPostStore/currentUserPosts.reducer';
 import { selectPostsEntities } from '../postStore/post.reducer';
 import { PostsStateInterface } from '../postStore/postState.interface';
 import { Update } from '@ngrx/entity';
 import { PostActions } from '../postStore/post.actions';
-import { currentPostActions } from '../myPostStore/currentUserPost.actions';
-import { selectCommentsEntities } from './comments.reducer';
 
-import { CommentInt, CommentsRes, CommentsResFull, PostRes } from '../../interfaces/post.interface.ts';
+import { CommentInt, CommentsRes, CommentsResFull, PostRes } from '../../interfaces/post.interface';
 
 let authorId: string | number;
 let myComment: CommentsRes;

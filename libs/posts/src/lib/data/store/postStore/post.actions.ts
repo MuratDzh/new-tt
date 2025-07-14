@@ -1,8 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 import { PostsStateInterface } from './postState.interface';
 import { Update } from '@ngrx/entity';
-import { CommentsRes, PostRes } from '../../interfaces/post.interface.ts';
+import { CommentsRes, PostRes } from '../../interfaces/post.interface';
 
 export const PostActions = createActionGroup({
   source: 'Profile Page Resolver',
