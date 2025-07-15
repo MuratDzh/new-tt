@@ -20,7 +20,7 @@ import {
 import { PostFeedComponent } from '@tt/posts';
 import { SlicePipe } from '../data/pipes';
 import { Profile } from '@tt/interfaces/profile';
-import { ChatsService } from '@tt/chat';
+import { ChatsService } from '@tt/data-access';
 
 @Component({
   selector: 'app-profile-page',

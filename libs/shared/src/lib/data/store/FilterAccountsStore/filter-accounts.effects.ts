@@ -44,7 +44,6 @@ export const FilterAccountsEffects = createEffect(
             ],
           };
         }
-        console.log("ОШИБКА?")
         return FilterAccountsActions.filterAccountsSuccess({ accounts });
       }),
       catchError((err) => {

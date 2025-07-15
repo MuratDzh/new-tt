@@ -9,12 +9,13 @@ import {
   tap,
   pipe,
   debounceTime,
+  filter,
 } from 'rxjs';
 import {
   Chat,
   ChatRes,
   Message,
-  ChatWSServiceInterface,
+  
 } from '@tt/interfaces/chat';
 
 import { Store } from '@ngrx/store';
@@ -22,15 +23,17 @@ import { selectMe, environment } from '@tt/shared';
 import { ChatWsNativeService } from './chat-ws-native.service';
 
 import { CookieService } from 'ngx-cookie-service';
-import { ChatWSMessageType } from './../interfaces/chat-ws-message.interface';
+import { ChatWSMessageType, ChatWSServiceInterface } from './../interfaces';
 import {
-  isErrorMessage,
+  
+  
   isNewMessage,
   isUnreadMessage,
 } from './../interfaces/type-guard';
 import { Profile } from '@tt/interfaces/profile';
 import { ChatWsRxjsService } from './chat-ws-rxjs.service';
-import { AuthService } from '@tt/tt-auth';
+import { isErrorMessageFunc } from '../interfaces/type-guard';
+
 
 @Injectable({
   providedIn: 'root',
@@ -46,13 +49,13 @@ export class ChatsService {
   myId!: number | string;
   me!: Profile | null;
 
-  unredMessagesCount=signal<number>(0)
+  unredMessagesCount = signal<number>(0);
 
   cookieService = inject(CookieService);
-  authService = inject(AuthService);
+  
 
   store = inject(Store)
-    .select(selectMe)
+    .select(selectMe).pipe(filter(v=>!!v))
     .subscribe((v) => ((this.myId = v!.id), (this.me = v)));
 
   wsAdapter: ChatWSServiceInterface = new ChatWsRxjsService();
@@ -83,19 +86,20 @@ export class ChatsService {
 
     if (!('action' in message)) return;
 
-    if (message.status === 'error') {
+    if (isErrorMessageFunc(message)) {
       console.log('Error: ' + message);
 
-      this.wsClose();
-      this.authService.refreshToken().pipe(
-        debounceTime(1000),
-        switchMap(() => this.wsConnect())
+    }
+
+    if (!isNewMessage(message)&&!isUnreadMessage(message)) {
+      console.log(
+        '!isNewMessage(message)&&!isUnreadMessage(message), Error: ' + message
       );
     }
 
     if (isUnreadMessage(message)) {
       console.log('isUnreadMessage(message)', message.data.count);
-      
+
       this.unredMessagesCount.set(message.data.count);
     }
 

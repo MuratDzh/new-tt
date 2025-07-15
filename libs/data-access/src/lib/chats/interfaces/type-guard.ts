@@ -14,7 +14,7 @@ export function isNewMessage(message: ChatWSMessageType): message is ChatWSNewMe
   return 'action' in message && message.action === 'message';
 }
 
-export function isErrorMessage(message: ChatWSMessageType): message is ChatWSErrorInterface {
+export function isErrorMessageFunc(message: ChatWSMessageType): message is ChatWSErrorInterface {
   return 'status' in message&& message.status=='error'
 }
 

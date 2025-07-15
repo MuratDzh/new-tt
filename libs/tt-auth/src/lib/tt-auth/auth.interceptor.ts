@@ -8,7 +8,7 @@ import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, catchError, filter, switchMap, tap, throwError } from 'rxjs';
-import {ChatsService} from "@tt/chat";
+import {ChatsService} from "@tt/data-access";
 
 let isRefreshing$ = new BehaviorSubject(false);
 

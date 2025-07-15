@@ -1,27 +1,29 @@
 import { SlicePipe } from '@tt/profile';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
-  inject, Input, input, OnChanges,
+  inject,
   OnDestroy,
   OnInit,
-  Renderer2, SimpleChanges,
+  Renderer2,
 } from '@angular/core';
 
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { Profile } from '@tt/interfaces/profile';
-import { filter, map, Observable, Subscription } from 'rxjs';
+import { debounceTime, filter, firstValueFrom, map, Observable, Subscription, tap, timer, catchError } from 'rxjs';
 import { ImgPipe, SubscriberCardComponent, SvgDirective } from '@tt/common-ui';
 import {  Store } from '@ngrx/store';
 import { selectMe, selectSubscriptionsState } from '@tt/shared';
-import { ChatsService } from '@tt/chat';
+import { ChatsService, isErrorMessageFunc, isNewMessage, isUnreadMessage } from '@tt/data-access';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { signal } from '@angular/core';
+import { AuthService } from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
+import { ProfileService } from '../../../../../shared/src/lib/data/services/profile-service/profile.service';
 
 
 
@@ -42,9 +44,7 @@ import { signal } from '@angular/core';
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent
-  implements OnInit, AfterViewInit, OnDestroy, OnChanges
-{
+export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   me: Profile | null = null;
 
   meSubscription?: Subscription;
@@ -76,22 +76,14 @@ export class SidebarComponent
   renderer = inject(Renderer2);
   cdr = inject(ChangeDetectorRef);
   chatService = inject(ChatsService);
-  destroyRef=inject(DestroyRef)
+  destroyRef = inject(DestroyRef);
+  authService = inject(AuthService)
+  profileService=inject(ProfileService)
 
-  unreadMessagesCount=this.chatService.unredMessagesCount
+  unreadMessagesCount = this.chatService.unredMessagesCount;
+  wsConnection!: Subscription
 
-  constructor(private store: Store) {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    // console.log('Changes',changes['unreadMessagesCount'].currentValue);
-    // if(changes['unreadMessagesCount'].currentValue!=changes['unreadMessagesCount'].previousValue){
-    //
-    //     this.unreadMessagesCount=changes['unreadMessagesCount'].currentValue;
-    //     console.log("Проверка СетТаймаута, каунт",this.unreadMessagesCount);
-    //     this.cdr.detectChanges()
-    //
-    // }
-  }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.subscriptions$ = this.store
@@ -105,15 +97,72 @@ export class SidebarComponent
     this.meSubscription = this.store
       .select(selectMe)
       .subscribe((v) => (this.me = v));
+
+    this.connect()
+   
+    // setTimeout(() => {
+    //   console.log('disconnect, this', this);
+    //   this.wsConnection?.unsubscribe();
+    //   this.chatService.wsAdapter.disconnect();
+    // }, 60000)
     
-    this.chatService
-      .wsConnect()
-      .pipe(
-        filter((v) => !!v),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+  
+    // setTimeout(() => {
+    //   console.log('connect');
+      
+    //       this.connect()
+        
+    // }, 300000)
+
+    // setTimeout(() => {
+    //   console.log('connect 40');
+    //   this.connect()
+    // }, 400000)
+
+    // setTimeout(() => {
+    //   console.log('connect 50');
+    //   this.connect()
+    // }, 500000)
   }
+
+  connect() {
+   return this.wsConnection= this.chatService
+      .wsConnect()
+     .pipe(
+       
+       takeUntilDestroyed(this.destroyRef))
+      .subscribe((mes) => {
+        console.log('message', mes);
+
+        if (isErrorMessageFunc(mes)) {
+          console.log('isErrorMessageFunc(mes)');
+
+          this.reconnect();
+        }
+        else if (!isUnreadMessage(mes) && !isNewMessage(mes)) {
+          console.log('!isUnreadMessage(mes) && !isNewMessage(mes)');
+
+          this.reconnect();
+        }
+      },
+        err => console.log('ERRR',err),
+      ()=>console.log("COMPLETE")
+      );
+  }
+
+  async reconnect() {
+    console.log('reconnect()');
+    
+    this.wsConnection?.unsubscribe()
+    this.chatService.wsAdapter.disconnect()
+    await (firstValueFrom(this.profileService.getMe()))
+    console.log('После рефреш');
+    
+    await firstValueFrom(timer(2000))
+    console.log('После таймера');
+    this.connect()
+};
+  
 
   ngAfterViewInit(): void {
     const { top } = this.el.nativeElement.children[3].getBoundingClientRect();

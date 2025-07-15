@@ -24,12 +24,6 @@ const getAccountsFeature = createFeature({
 
         items: (state.accounts?.items as Profile[])?(state.accounts?.items  as Profile[]).concat(action.accounts?.items as Profile[]):action.accounts?.items  as Profile[],
       };
-      console.log('222')
-      console.log('action.accounts!.page', action.accounts!.page);
-      console.log('state.page', state.page);
-      console.log("state.accounts!.items![0]",state.accounts?.items?.[0])
-      console.log("actions.accounts!.items![0]",action.accounts?.items?.[0]);
-      
       
         return {
           ...state,

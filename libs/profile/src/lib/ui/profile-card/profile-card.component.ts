@@ -26,7 +26,7 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './profile-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileCardComponent implements OnChanges {
+export class ProfileCardComponent {
   @Input()
   profile!: Profile;
 
@@ -42,11 +42,6 @@ export class ProfileCardComponent implements OnChanges {
   router = inject(Router)
   cdr=inject(ChangeDetectorRef)
   
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes){}
-      console.log('OnChanges', changes);
-      
-  }
 
   onSubscribe(e: Event) {
     

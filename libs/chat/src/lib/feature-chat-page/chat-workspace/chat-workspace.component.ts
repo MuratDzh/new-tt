@@ -2,24 +2,26 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   HostListener,
-  OnInit, QueryList, ViewChildren,
+  OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap, tap,} from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChatWorkspaceHeaderComponent } from '../../ui/chat-workspace-header/chat-workspace-header.component';
 import { ChatWrapperComponent } from '../chat-wrapper/chat-wrapper.component';
 import { ChatMessagesComponent } from '../../ui/chat-messages/chat-messages.component';
 
-
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ChatRes, Message } from '@tt/interfaces/chat';
-import { ChatsService } from './../../data/services';
+import { ChatsService } from '../../../../../data-access/src/lib/chats/services';
 
 import { Store } from '@ngrx/store';
 
@@ -30,34 +32,28 @@ import {
 } from '@tt/shared';
 import {
   MessageInputComponent,
-  SvgDirective, TextareaDirective,
+  SvgDirective,
+  TextareaDirective,
   AvatarCircleComponent,
   SubscriberCardComponent,
 } from '@tt/common-ui';
-import {Profile} from "@tt/interfaces/profile";
+import { Profile } from '@tt/interfaces/profile';
 import { inject } from '@angular/core';
 
-
-
-
-let test = false
-let secondTest = false
+let test = false;
+let secondTest = false;
 
 function ResizeDecorator(
   target: Object,
   propertyKey: string,
   descriptor: PropertyDescriptor
 ) {
-
   let originalMethod = descriptor.value;
   descriptor.value = function (e: Event) {
-
     if (!test) {
-
-        originalMethod.call(this, e);
-
+      originalMethod.call(this, e);
     }
-  }
+  };
 }
 
 @Component({
@@ -72,7 +68,7 @@ function ResizeDecorator(
     ReactiveFormsModule,
     AvatarCircleComponent,
     SvgDirective,
-   SubscriberCardComponent,
+    SubscriberCardComponent,
     TextareaDirective,
     MessageGroupDateDirective,
     MessagrGroupDatePipe,
@@ -83,7 +79,7 @@ function ResizeDecorator(
   templateUrl: './chat-workspace.component.html',
   styleUrl: './chat-workspace.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers:[DatePipe]
+  providers: [DatePipe],
 })
 export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   messages$!: Observable<Message[] | null>;
@@ -92,14 +88,12 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   userId!: number;
   myAvatar!: string | null;
   companion!: Profile;
-  myId!:number
+  myId!: number;
 
-
-  @ViewChildren("messageText")
+  @ViewChildren('messageText')
   messageText!: QueryList<ElementRef<HTMLDivElement>>;
 
-   store=inject(Store)
-
+  store = inject(Store);
 
   constructor(
     private chatService: ChatsService,
@@ -107,22 +101,22 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
     private cdr: ChangeDetectorRef
   ) {}
 
-  message = new FormControl('', {validators: Validators.required , nonNullable: true })
+  message = new FormControl('', {
+    validators: Validators.required,
+    nonNullable: true,
+  });
 
   @ResizeDecorator
   @HostListener('window:click', ['$event'])
   onWinClick(e: Event) {
-
     if (!(e.target as HTMLBaseElement).classList.contains('textarea')) {
-
-        this.message.setValue(this.message.value.replace(/\n/g, '').trim());
-       test=true
+      this.message.setValue(this.message.value.replace(/\n/g, '').trim());
+      test = true;
     }
   }
 
   ngAfterViewChecked() {
-
-    this.messageText?.last?.nativeElement.scrollIntoView()
+    this.messageText?.last?.nativeElement.scrollIntoView();
   }
 
   ngOnInit(): void {
@@ -150,36 +144,29 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
 
     this.store
       .select(selectMe)
-      .subscribe((v) => (this.myAvatar = v!.avatarUrl, this.myId = v!.id));
-
+      .subscribe((v) => ((this.myAvatar = v!.avatarUrl), (this.myId = v!.id)));
   }
 
   onSendMessage() {
     console.log('onSendMessage()', this.message.value);
-    
+
     if (this.message.valid) {
       // this.chatService
       //   .postMessage(this.chatId, this.message.value as string, this.userId)
       //   .subscribe();
-      this.chatService.wsAdapter.sendMessage(this.message.value, this.chatId)
+      this.chatService.wsAdapter.sendMessage(this.message.value, this.chatId);
       this.message.reset();
-     // this.cdr.detectChanges()
+      // this.cdr.detectChanges()
     }
   }
-
-
 
   onInput() {
     console.log('1');
     if (!secondTest) {
-      secondTest = true,
-      (test = false)
+      (secondTest = true), (test = false);
       setTimeout(() => {
-
-        console.log('2'),
-        secondTest=false
+        console.log('2'), (secondTest = false);
       }, 1000);
     }
-
   }
 }

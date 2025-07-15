@@ -20,7 +20,7 @@ import {
   UpdateStorsAfterSubscrube,
 } from '../../../../../shared/src/lib/data/store/subscriptionsStore/subscriptions.actions';
 import {InfiniteScrollTriggerComponent, WrapperComponent} from "@tt/common-ui";
-import {ChatsService} from "@tt/chat";
+import {ChatsService} from "@tt/data-access";
 import { ChatRes } from "@tt/interfaces/chat";
 import {Router} from "@angular/router";
 

@@ -31,7 +31,8 @@
       "@tt/settings": ["libs/settings/src/index.ts"],
       "@tt/shared": ["libs/shared/src/index.ts"],
       "@tt/sidebar": ["libs/sidebar/src/index.ts"],
-      "@tt/tt-auth": ["libs/tt-auth/src/index.ts"]
+      "@tt/tt-auth": ["libs/tt-auth/src/index.ts"],
+      "@tt/data-access": ["libs/data-access/src/index.ts"]
     },
     "baseUrl": ".",
     "rootDir": "."
