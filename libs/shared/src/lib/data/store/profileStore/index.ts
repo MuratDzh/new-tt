@@ -1,5 +1,6 @@
 import { ProfileActions } from './profile.actions';
 import * as ProfileEffects from './profile.effects'
+import { getProfileResolver } from './profile.resolver';
 import {
   ProfileReducer,
   ProfileReducerKey,
@@ -7,8 +8,10 @@ import {
   selectIsProfileLoaded,
   selectProfileEntities,
   selectProfileIds,
+  
 } from './profile.reducer';
 export {
+  getProfileResolver,
     ProfileActions,
     ProfileEffects,
     ProfileReducerKey,

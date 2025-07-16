@@ -45,47 +45,40 @@ import { Profile } from '@tt/interfaces/profile';
 import { AvatarCircleComponent, SvgDirective } from '@tt/common-ui';
 import { CommentInputComponent } from '../../ui/comment-input/comment-input.component';
 
-
 import { HiddenButtonsComponent } from '../../ui/hidden-buttons/hidden-buttons.component';
-
 
 export interface PostFormValue {
   title: string;
   content: string;
 }
 
-  let test = false
+let test = false;
 
-  function ResizeDecorator(
-    target: Object,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
-  
-    let originalMethod = descriptor.value;
-    descriptor.value = function (e:Event) {
-      
-      // return fromEvent(window, 'resize')
-      //   .pipe(debounceTime(300),
-      //     startWith(e))
-      //   .subscribe((v) => {
-      //     console.log('ResizeDecorator')
-      //     return originalMethod.call(this, v)
-      //   });
-      if (!test) {
-        test=true
-        setTimeout(() => {
-          console.log(test);
-          
-          originalMethod.call(this)
-          test=false
-        }, 1000);
-      }
-      
-      
-   
-    };
-  }
+function ResizeDecorator(
+  target: object,
+  propertyKey: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  descriptor.value = function (e: Event) {
+    // return fromEvent(window, 'resize')
+    //   .pipe(debounceTime(300),
+    //     startWith(e))
+    //   .subscribe((v) => {
+    //     console.log('ResizeDecorator')
+    //     return originalMethod.call(this, v)
+    //   });
+    if (!test) {
+      test = true;
+      setTimeout(() => {
+        console.log(test);
+
+        originalMethod.call(this);
+        test = false;
+      }, 1000);
+    }
+  };
+}
 
 @Component({
   selector: 'app-post-feed',
@@ -108,7 +101,7 @@ export interface PostFormValue {
   providers: [DatePipe],
 })
 export class PostFeedComponent
-  implements OnDestroy,  OnInit, AfterViewInit, AfterViewChecked
+  implements OnDestroy, OnInit, AfterViewInit, AfterViewChecked
 {
   posts$!: Observable<PostRes[] | null | undefined>;
 
@@ -150,7 +143,7 @@ export class PostFeedComponent
   }
 
   @ViewChild('wrapper', { read: ElementRef })
-    wrapperDiv!: ElementRef<HTMLDivElement>
+  wrapperDiv!: ElementRef<HTMLDivElement>;
 
   @ViewChildren(HiddenButtonsComponent)
   hiddenButtons!: QueryList<HiddenButtonsComponent>;
@@ -175,7 +168,6 @@ export class PostFeedComponent
     private route: ActivatedRoute
   ) {}
 
- 
   ngOnInit(): void {
     this.store.select(selectMe).subscribe((v) => {
       this.myProfile = v;
@@ -203,14 +195,18 @@ export class PostFeedComponent
 
   // @ResizeDecorator
   getHeight() {
-    
-    const { top } = ((this.wrapperDiv.nativeElement as HTMLDivElement)?.getBoundingClientRect() as DOMRect) ;
+    const { top } = (
+      this.wrapperDiv.nativeElement as HTMLDivElement
+    )?.getBoundingClientRect() as DOMRect;
 
     const height1 = document.documentElement.clientHeight - top - 24 - 1;
-    
-    this.renderer.addClass(this.wrapperDiv.nativeElement, 'test');
-    this.renderer.setStyle(this.wrapperDiv.nativeElement, 'max-height', `${height1}px`);
 
+    this.renderer.addClass(this.wrapperDiv.nativeElement, 'test');
+    this.renderer.setStyle(
+      this.wrapperDiv.nativeElement,
+      'max-height',
+      `${height1}px`
+    );
   }
 
   //~~~~~ Это старый вариант функции, который дает сбой. Использовал ее только для того, чтобы
@@ -247,7 +243,7 @@ export class PostFeedComponent
   toLoadPost() {
     return (this.posts$ = this.store.select(selectPostsFromUsersState).pipe(
       map((v) => {
-        let currentId: number | string = this.route.snapshot.params['id'];
+        const currentId: number | string = this.route.snapshot.params['id'];
         if (currentId === 'me') {
           return v.entities[this.profile.id]?.posts;
         }
@@ -258,9 +254,9 @@ export class PostFeedComponent
   }
 
   toCreatePost(formValue: PostFormValue) {
-    let authorId = this.profile.id;
+    const authorId = this.profile.id;
 
-    let post: Post = {
+    const post: Post = {
       ...formValue,
       authorId,
     };
@@ -285,7 +281,7 @@ export class PostFeedComponent
   }
 
   toUpdate(post: PostRes) {
-    let update: Update<PostRes | null> = {
+    const update: Update<PostRes | null> = {
       id: post.id,
       changes: {
         ...post,
@@ -305,7 +301,7 @@ export class PostFeedComponent
     this.store.select(selectCurrentPostEntities).subscribe((v) => {
       console.log('POST to UPDATE', v);
       if (v[post.id]?.isUpdate !== undefined) {
-        console.log('Ура!'), (isUpdated = v[post.id]!.isUpdate);
+        isUpdated = v[post.id]!.isUpdate;
         return isUpdated;
       }
       console.log('--isUpdated--', isUpdated);
@@ -323,8 +319,6 @@ export class PostFeedComponent
   }
 
   toDel(post: PostRes) {
-    // this.postServ.getPostById(post.id);
-    // this.postServ.delPost(post).subscribe();
     console.log('УДАЛЕНИЕ, post.id', post.id);
 
     this.store.dispatch(currentPostActions.delPost({ post }));
@@ -340,12 +334,7 @@ export class PostFeedComponent
     this.isButtonsHidded = true;
   }
 
-  // onDelCom(i: number, postId: number) {
-  //   this.postServ.delComment(i, postId, this.profile.id).subscribe();
-  // }
-
   onUpdateCom(comment: CommentsRes, postId: number, e: Event) {
-    console.log('111', comment);
     (this.updatedComText = comment.text),
       (this.updatedComId = comment.id),
       (this.updatedComment = comment);
@@ -353,22 +342,9 @@ export class PostFeedComponent
     // this.cdr.markForCheck();
   }
 
-  //   onUpdateCom(i: number, postId: number) {
-  //   this.postServ.getComment(i, postId).subscribe((v) =>
-  //     setTimeout(() => {
-  //       console.log('111', v);
-  //       (this.updatedComText = v.text),
-  //         (this.updatedComId = v.id),
-  //         (this.updatedComment = v);
-  //       this.isUpCom = true;
-  //       this.cdr.markForCheck();
-  //     }, 0)
-  //   );
-  // }
-
   createCom(text: string, post: PostRes) {
     if (this.isUpCom) {
-      let v = {
+      const v = {
         text,
         commentId: this.updatedComId,
         authorId: post.author.id,
@@ -386,7 +362,7 @@ export class PostFeedComponent
       this.isUpCom = false;
       this.updatedComment = undefined;
     } else {
-      let comment: CommentInt = {
+      const comment: CommentInt = {
         text,
         commentId: this.updatedComId,
         authorId: post.author.id,

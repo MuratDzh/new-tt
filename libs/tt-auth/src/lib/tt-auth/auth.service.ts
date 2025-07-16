@@ -41,12 +41,9 @@ export class AuthService {
   ) {}
 
   login(payload: FormLoginValue) {
-    const url = 'https://icherniakov.ru/yt-course/' + 'auth/token';
-    // const url = environment.url + 'auth/token';
-    // const url = 'auth/token';
-    // const url1 = '/yt-course/';
-    // const url = url1 + 'auth/token';
-    // const url ='auth/token';
+    
+    const url = environment.url + 'auth/token';
+   
     const fd = new FormData();
     fd.append('username', payload.username);
     fd.append('password', payload.password);
@@ -56,26 +53,22 @@ export class AuthService {
 
 
   refreshToken() {
-    console.log('refresh 1');
     console.log(this.token);
-    // const url = environment.url + 'auth/refresh';
-    const url = 'https://icherniakov.ru/yt-course/' + 'auth/refresh';
-    // const url = 'auth/refresh';
+    const url = environment.url + 'auth/refresh';
+  
     console.log(url);
     return this.http
       .post<Auth>(url, { refresh_token: this.cookie.get('refresh_token') })
       .pipe(
 
         tap((res: Auth) => {
-          console.log('refresh 2', res);
-
-          console.log("Token В Рефреш", this.cookie.get('token'));
+          
           if(!isFirst) {
             isFirst = true;
             this.saveTokens(res);
             isFirst = false;
           }
-          console.log("COOKIES",this.cookie);
+         
         })
       );
   }

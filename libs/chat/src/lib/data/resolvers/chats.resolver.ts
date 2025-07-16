@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
 import { Chat } from "@tt/interfaces/chat";
 import { Observable } from "rxjs";
-import { ChatsService } from "../services";
+import { ChatsService } from "@tt/data-access";
 import { inject } from '@angular/core';
 
 export const ChatsResolver: ResolveFn<Observable<Chat[]|void>> = (

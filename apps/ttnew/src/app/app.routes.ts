@@ -1,17 +1,23 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from '../../../../libs/layout/src/lib/feature-layout/layout/layout.component';
-import { ProfilePageComponent } from '../../../../libs/profile/src/lib/feature-profile-page/profile-page.component';
-import { getProfileResolver } from '../../../../libs/shared/src/lib/data/store/profileStore/profile.resolver';
-import { getPostResolver } from '../../../../libs/posts/src/lib/data/store/postStore/post.resolver';
-import { getSubscribersResolver } from '../../../../libs/shared/src/lib/data/store/subscribersStore/subscribers.resolver';
-import { SubscriptionsResolver } from '../../../../libs/shared/src/lib/data/store/subscriptionsStore/subscriptions.resolver';
-import { SettingsComponent } from '../../../../libs/settings/src/lib/feature-settings-page/settings.component';
-import { SearchComponent } from '../../../../libs/search/src/lib/feature-search-page/search/search.component';
-import { getAllAccountsResolver } from '../../../../libs/shared/src/lib/data/store/AccountsStore/accounts.resolver';
-import { ChatsRoutes } from '../../../../libs/chat/src/lib/feature-chat-page/chats.routes';
-import { CurrentUserResolver } from '../../../../libs/shared/src/lib/data/store/currentUserStore/current-user.resolver';
-import { CanActivateAuth } from '../../../../libs/tt-auth/src/lib/tt-auth/access.guard';
-import { LoginComponent } from './../../../../libs/login/src';
+import { LayoutComponent } from '@tt/layout';
+import { ProfilePageComponent } from '@tt/profile';
+import { getPostResolver } from '@tt/posts';
+import { SettingsComponent } from '@tt/settings';
+import { SearchComponent } from '@tt/search';
+import { ChatsRoutes } from '@tt/chat';
+import {
+  CurrentUserResolver,
+  getProfileResolver,
+  getSubscribersResolver,
+  SubscriptionsResolver,
+  getAllAccountsResolver,
+} from '@tt/shared';
+import { CanActivateAuth } from '@tt/tt-auth';
+import { LoginComponent } from '@tt/login';
+
+
+
+
 
 
 export const routes: Routes = [

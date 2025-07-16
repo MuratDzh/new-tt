@@ -7,55 +7,55 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
-import * as loginEffects from './../../../../libs/login/src/lib/data/login-store/login.effects';
-import { loginFeatureKey, loginReducer } from './../../../../libs/login/src/lib/data/login-store';
+import * as loginEffects from '@tt/login/effects';
+import { loginFeatureKey, loginReducer } from '@tt/login';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
-import * as CurrentUserEffects from './../../../../libs/shared/src/lib/data/store/currentUserStore/current-user.effects';
+import * as CurrentUserEffects from '@tt/shared/currentuser';
 import {
   CurrentUserFeatureKey,
   CurrentUserReducer,
-} from './../../../../libs/shared/src';
-import * as getSubscribersEffects from './../../../../libs/shared/src/lib/data/store/subscribersStore/subscribers.effects';
+} from '@tt/shared';
+import * as getSubscribersEffects from '@tt/shared/subscribers';
 import {
   getSubscribersFeatureKey,
   getSubscribersReducer,
-} from './../../../../libs/shared/src';
+} from '@tt/shared';
 import {
   GetAllAccountsFeatureKey,
   GetAllAccountsReducer,
-} from './../../../../libs/shared/src';
-import * as GetAllAccuntsEffects from './../../../../libs/shared/src/lib/data/store/AccountsStore/accounts.effects';
-import * as FilterAccountsEffects from './../../../../libs/shared/src/lib/data/store/FilterAccountsStore/filter-accounts.effects';
+} from '@tt/shared';
+import * as GetAllAccuntsEffects from '@tt/shared/allaccaunts';
+import * as FilterAccountsEffects from '@tt/shared/filteredaccaunts';
 import {
   FilterAccountsFeatureKey,
   FilterAccountsReducer,
-} from './../../../../libs/shared/src';
-import * as ProfileEffects from './../../../../libs/shared/src/lib/data/store/profileStore/profile.effects';
+} from '@tt/shared';
+import * as ProfileEffects from '@tt/shared/profile';
 import {
   ProfileReducer,
   ProfileReducerKey,
-} from './../../../../libs/shared/src';
-import * as PostEffects from './../../../../libs/posts/src/lib/data/store/postStore/post.effects';
+} from '@tt/shared';
+import * as PostEffects from '@tt/posts/posteffects';
 import {
   PostsFromUsersKey,
   PostsFromUsersReducer,
-} from './../../../../libs/posts/src/lib/data/store';
-import * as CurrentUserPostsEffect from './../../../../libs/posts/src/lib/data/store/myPostStore/currentUserPosts.effects';
+} from '@tt/posts/posts';
+import * as CurrentUserPostsEffect from '@tt/posts/myposteffects';
 import {
   CurrentUserPostsKey,
   CurrentUserPostsReducer,
-} from './../../../../libs/posts/src/lib/data/store';
-import * as GetCommentsEffect from './../../../../libs/posts/src/lib/data/store/commentsStore/comments.effect';
+} from '@tt/posts/myposts';
+import * as GetCommentsEffect from '@tt/posts/commentseffects';
 import {
   CommentsFeatureReducer,
   CommentsReducerKey,
-} from './../../../../libs/posts/src/lib/data/store';
-import * as SubscriptionsEffect from './../../../../libs/shared/src/lib/data/store/subscriptionsStore/subscriptions.effect';
+} from '@tt/posts/comments';
+import * as SubscriptionsEffect from '@tt/shared/sudscriptions';
 import {
   SubscriptionsFeatureReducerKey,
   SubscriptionsReducer,
-} from './../../../../libs/shared/src/lib/data/store/subscriptionsStore';
-import { AuthTokenInterceptor } from '../../../../libs/tt-auth/src';
+} from '@tt/shared';
+import { AuthTokenInterceptor } from '@tt/tt-auth';
 
 // import { PostFeatureReducerKey, PostReducer } from './pages/profile-page/postStore/post.reducer';
 
@@ -78,15 +78,15 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideEffects(
       loginEffects,
-      CurrentUserEffects,
       getSubscribersEffects,
+      SubscriptionsEffect,
       GetAllAccuntsEffects,
       FilterAccountsEffects,
       ProfileEffects,
       PostEffects,
       CurrentUserPostsEffect,
       GetCommentsEffect,
-      SubscriptionsEffect
+      CurrentUserEffects,
     ),
     provideRouterStore(),
   ],
