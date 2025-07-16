@@ -4,7 +4,7 @@ import { FilterAccountsActions } from './filter-accounts.actions';
 import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import {ProfileService, selectSearchFormValue, selectSubscriptionsState} from '@tt/shared';
+import {ProfileService, selectSearchFormValue, selectSubscriptionsState} from './../../index';
 import { Profile } from '@tt/interfaces/profile';
 import { Subscribers } from '@tt/interfaces/subscribers';
 import {selectFilteredPage, selectFilteredSize} from "./filter-accounts.reducer";
@@ -34,7 +34,7 @@ export const FilterAccountsEffects = createEffect(
         return profileService.getAccounts({...searchFormValue, page, size});
       }),
       map((accounts) => {
-        for (let sub of subscriptions.items as Profile[]) {
+        for (const sub of subscriptions.items as Profile[]) {
           accounts = {
             ...(accounts as Subscribers<Profile>),
             items: [

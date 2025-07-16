@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
 import { Chat, ChatRes } from "@tt/interfaces/chat";
-import { Observable, filter } from 'rxjs';
-import { ChatsService } from "../services";
+import { Observable} from 'rxjs';
+import { ChatsService } from "@tt/data-access";
 import { inject } from '@angular/core';
 
 export const ChatResolver: ResolveFn<Observable<ChatRes>|void> = (
@@ -11,7 +11,7 @@ export const ChatResolver: ResolveFn<Observable<ChatRes>|void> = (
     const chatService = inject(ChatsService)
     console.log('SOS');
 
-    let chatList:Chat[] = route.parent?.data['chatList'];
+    const chatList:Chat[] = route.parent?.data['chatList'];
     
     console.log('chatList', chatList);
     

@@ -7,8 +7,6 @@ import {
   Observable,
   switchMap,
   tap,
-  pipe,
-  debounceTime,
   filter,
 } from 'rxjs';
 import {
@@ -123,23 +121,9 @@ export class ChatsService {
         },
       ]);
 
-      // this._chats$.next(
-      //   [
-      //     ...this._chats$.getValue()!.map(v=>v.id==message.data.chat_id?
-      //         {
-      //       ...v,
-      //       unreadMessages:v.unreadMessages + 1
-      //     }
-      //     :v
-      //     ) as Chat[]
-      //
-      //   ]
-      // )
-
-      // this.getMyChats().subscribe()
     }
 
-    // console.log('_chats$', this._chats$.getValue())
+   
     this.messages$.subscribe();
     this.chats$.subscribe();
   };

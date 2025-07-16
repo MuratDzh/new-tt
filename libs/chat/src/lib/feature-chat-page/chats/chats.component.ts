@@ -12,12 +12,5 @@ import { ChatFilterComponent } from '../../ui/chat-filter/chat-filter.component'
   styleUrl: './chats.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatsComponent {
-  // valueFromFiltreComp = '';
-
-  // takeValueFromFiltreComp(v: string) {
-    
-  //   this.valueFromFiltreComp = v;
-  //   console.log('valueFromFiltreComp', this.valueFromFiltreComp);
-  // }
-}
+export class ChatsComponent { }
+ 

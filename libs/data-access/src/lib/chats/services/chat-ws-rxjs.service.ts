@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 
-import { finalize, map, Observable, switchMap, tap, firstValueFrom, catchError } from 'rxjs';
-import { ChatConnectionWSParams, ChatWSMessageType, ChatWSServiceInterface, isErrorMessageFunc } from '..';
+import { finalize, Observable, tap, catchError } from 'rxjs';
+import { ChatConnectionWSParams, ChatWSMessageType, ChatWSServiceInterface } from '..';
 import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
-import { AuthService } from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
+import { AuthService } from '@tt/tt-auth';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -15,7 +15,6 @@ export class ChatWsRxjsService implements ChatWSServiceInterface {
   authService = inject(AuthService)
   cookieService=inject(CookieService)
 
-  constructor() {}
 
   connect(
     params: ChatConnectionWSParams

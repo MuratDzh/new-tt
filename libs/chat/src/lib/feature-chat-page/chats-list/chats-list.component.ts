@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnChanges,
@@ -13,8 +14,9 @@ import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ChatsBtnComponent } from '../../ui/chats-btn/chats-btn.component';
 import { Chat } from '@tt/interfaces/chat';
-import { ChatsService } from '../../../../../data-access/src/lib/chats/services';
+import { ChatsService } from '@tt/data-access';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats-list',
@@ -29,20 +31,15 @@ export class ChatsListComponent implements OnInit, OnChanges {
   chats!: Chat[];
   filteredChats!: Chat[] | null;
 
-  // @Input()
-  // valueFromFiltreComp: string = '';
-
   @Input()
   value!: string;
 
   route = inject(ActivatedRoute);
-
-  constructor(private chatsService: ChatsService) {}
+  chatsService = inject(ChatsService);
+  destroyRef=inject(DestroyRef)
+  
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes['valueFromFiltreComp'].currentValue) {
-    //   this.toFilter();
-    // }
     if (changes['value'].currentValue == '')
       this.chats$ = this.chatsService.chats$;
     if (changes['value'].currentValue) {
@@ -51,17 +48,12 @@ export class ChatsListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.chatsService
-      .getMyChats()
-      .pipe
-      // tap(chats => )
-      ()
-      .subscribe();
+    this.chatsService.getMyChats().subscribe();
     this.chats$ = this.chatsService.chats$;
 
-    // this.chats$ = this.route.data.pipe(map((v) => v['chatList']));
-
-    this.chats$.subscribe((v) => (this.chats = v as Chat[]));
+    this.chats$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((v) => (this.chats = v as Chat[]));
   }
   toFilter() {
     this.chats$ = of(
@@ -73,14 +65,7 @@ export class ChatsListComponent implements OnInit, OnChanges {
             ? v
             : null;
         }
-        // this.filteredChats = this.chats.filter((v) => {
-
-        //   return `${v.userFrom.firstName} ${v.userFrom.lastName}`.toLowerCase().includes(
-        //     this.valueFromFiltreComp.toLowerCase()
-        //   )
-        //     ? v
-        //     : null;
-        // }
+        
       )
     );
   }

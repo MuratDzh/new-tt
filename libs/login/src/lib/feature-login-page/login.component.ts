@@ -47,18 +47,11 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      //@ts-ignore
-      // this.auth.login(this.form.value).subscribe();
+  
       this.store.dispatch(
         loginActions.login({ request: this.form.value as FormLoginValue })
       );
     }
   }
 
-  // onVisible() {
-  //   console.log(this.type());
-
-  //   this.passwordVisible?this.type.set('password'):this.type.set('text')
-  //   this.passwordVisible=!this.passwordVisible
-  // }
 }

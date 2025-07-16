@@ -29,7 +29,6 @@ export const AuthTokenInterceptor: HttpInterceptorFn = (
     return next(req);
   }
 
-  console.log('AuthTokenInterceptor', req);
 
   return next(req).pipe(
     // tap(()=>console.log('2', req)),

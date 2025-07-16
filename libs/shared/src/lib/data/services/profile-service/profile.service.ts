@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { Subscribers } from '@tt/interfaces/subscribers';
 import { Profile } from '@tt/interfaces/profile';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { Profile } from '@tt/interfaces/profile';
 export class ProfileService {
   
   // url = 'https://icherniakov.ru/yt-course/';
-  url = '/yt-course/';
+  url = environment.url;
   
   http=inject( HttpClient) 
   

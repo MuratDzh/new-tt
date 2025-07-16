@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   OnInit,
@@ -21,7 +22,7 @@ import { ChatMessagesComponent } from '../../ui/chat-messages/chat-messages.comp
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ChatRes, Message } from '@tt/interfaces/chat';
-import { ChatsService } from '../../../../../data-access/src/lib/chats/services';
+import { ChatsService } from '@tt/data-access';
 
 import { Store } from '@ngrx/store';
 
@@ -39,16 +40,17 @@ import {
 } from '@tt/common-ui';
 import { Profile } from '@tt/interfaces/profile';
 import { inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 let test = false;
 let secondTest = false;
 
 function ResizeDecorator(
-  target: Object,
+  target: object,
   propertyKey: string,
   descriptor: PropertyDescriptor
 ) {
-  let originalMethod = descriptor.value;
+  const originalMethod = descriptor.value;
   descriptor.value = function (e: Event) {
     if (!test) {
       originalMethod.call(this, e);
@@ -94,6 +96,7 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   messageText!: QueryList<ElementRef<HTMLDivElement>>;
 
   store = inject(Store);
+  destroyRef=inject(DestroyRef)
 
   constructor(
     private chatService: ChatsService,
@@ -126,7 +129,7 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
         switchMap(({ id }) => {
           return this.chatService.getChatById(id).pipe(
             tap((v) => {
-              console.log(v),
+              
                 (this.chat = v),
                 (this.companion = v.companion as Profile),
                 (this.chatId = v.id);
@@ -138,17 +141,19 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
         tap(() => {
           (this.messages$ = this.chatService.messages$),
             this.cdr.markForCheck();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
 
     this.store
-      .select(selectMe)
+      .select(selectMe).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((v) => ((this.myAvatar = v!.avatarUrl), (this.myId = v!.id)));
   }
 
   onSendMessage() {
-    console.log('onSendMessage()', this.message.value);
 
     if (this.message.valid) {
       // this.chatService

@@ -1,7 +1,7 @@
 import { ChatWSMessageType } from './chat-ws-message.interface';
 import {
   ChatWSErrorInterface, ChatWSNewMessageInterface,
-  ChatWSSendMessage,
+  
   ChatWSUnreadMessageInterface
 } from './chat-ws-message.interface';
 

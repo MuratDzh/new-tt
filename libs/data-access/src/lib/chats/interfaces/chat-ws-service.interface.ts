@@ -1,5 +1,5 @@
 import {Observable} from "rxjs";
-import {ChatWSMessageType} from "@tt/data-access";
+import {ChatWSMessageType} from "./chat-ws-message.interface";
 
 export interface ChatConnectionWSParams{
     url: string

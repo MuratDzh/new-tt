@@ -1,5 +1,5 @@
 import {
-  AfterContentInit, AfterViewChecked, AfterViewInit,
+   AfterViewChecked, 
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -15,20 +15,17 @@ import {
   styleUrl: './chat-messages.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatMessagesComponent implements  AfterContentInit, AfterViewInit, AfterViewChecked{
+export class ChatMessagesComponent implements   AfterViewChecked{
   el=inject(ElementRef)
   renderer=inject(Renderer2)
-  // @ContentChild()
-  ngAfterContentInit() {
-    
-  }
+  
 
   ngAfterViewInit() {
-    let height = document.documentElement.clientHeight;
-    let heightEl = this.el.nativeElement.clientHeight;
-    let heightElScroll = this.el.nativeElement.scrollHeight;
-    let heightCurrentScroll = this.el.nativeElement.scrollY;
-    let heightElObj = this.el.nativeElement.getBoundingClientRect().height;
+    const height = document.documentElement.clientHeight;
+    const heightEl = this.el.nativeElement.clientHeight;
+    const heightElScroll = this.el.nativeElement.scrollHeight;
+    const heightCurrentScroll = this.el.nativeElement.scrollY;
+    const heightElObj = this.el.nativeElement.getBoundingClientRect().height;
     // console.log("heightDocument", height,"heightEl: ", heightEl,"heightElObj:", heightElObj, 'scrollHeight: ', heightElScroll)
     // console.log("scroll: ", heightCurrentScroll)
 
@@ -36,11 +33,11 @@ export class ChatMessagesComponent implements  AfterContentInit, AfterViewInit, 
   }
 
   ngAfterViewChecked() {
-    let height = document.documentElement.clientHeight;
-    let heightEl = this.el.nativeElement.clientHeight;
-    let heightElScroll = this.el.nativeElement.scrollHeight;
-    let heightCurrentScroll = this.el.nativeElement.getBoundingClientRect();
-    let heightElObj = this.el.nativeElement.getBoundingClientRect().height;
+    const height = document.documentElement.clientHeight;
+    const heightEl = this.el.nativeElement.clientHeight;
+    const heightElScroll = this.el.nativeElement.scrollHeight;
+    const heightCurrentScroll = this.el.nativeElement.getBoundingClientRect();
+    const heightElObj = this.el.nativeElement.getBoundingClientRect().height;
     // console.log("heightDocument", height,"heightEl: ", heightEl,"heightElObj:", heightElObj, 'scrollHeight: ', heightElScroll)
     // console.log("scroll: ", heightCurrentScroll)
     setTimeout(()=>document.documentElement.scrollTo(0, 400), 500)
