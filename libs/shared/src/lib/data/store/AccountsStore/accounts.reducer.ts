@@ -19,7 +19,7 @@ const getAccountsFeature = createFeature({
   reducer: createReducer(
     AccountsInitialState,
     on(AccountsActions.loadAllAccountsSuccess, (state, action) => {
-      let accounts :Subscribers<Profile> = {
+      const accounts :Subscribers<Profile> = {
         ...state.accounts as Subscribers<Profile>,
 
         items: (state.accounts?.items as Profile[])?(state.accounts?.items  as Profile[]).concat(action.accounts?.items as Profile[]):action.accounts?.items  as Profile[],

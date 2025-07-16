@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { environment } from '../../../../shared/src/lib/data/environments/environment';
+import { environment } from '@tt/shared';
 import { tap } from 'rxjs';
 
 export interface Auth {
@@ -41,47 +41,26 @@ export class AuthService {
   ) {}
 
   login(payload: FormLoginValue) {
-    const url = environment.url + 'auth/token';
+    const url = 'https://icherniakov.ru/yt-course/' + 'auth/token';
+    // const url = environment.url + 'auth/token';
+    // const url = 'auth/token';
+    // const url1 = '/yt-course/';
+    // const url = url1 + 'auth/token';
+    // const url ='auth/token';
     const fd = new FormData();
     fd.append('username', payload.username);
     fd.append('password', payload.password);
 
-    return this.http.post<Auth>(url, fd).pipe(
-      tap((v) => {
-        // this.saveTokens(v);
-        // this.router.navigateByUrl('');
-        // this.cookie.set('token', v.access_token)
-        // this.cookie.set('refresh_token', v.refresh_token)
-      })
-    );
+    return this.http.post<Auth>(url, fd)
   }
-  // login(payload: { username: string; password: string }) {
-  //   const url = environment.url + 'auth/token';
-  //   const fd = new FormData();
-  //   fd.append('username', payload.username);
-  //   fd.append('password', payload.password);
 
-  //   return this.http.post<Auth>(url, fd).pipe(
-  //     tap((v) => {
-  //       this.saveTokens(v);
-  //       this.router.navigateByUrl('');
-  //       // this.cookie.set('token', v.access_token)
-  //       // this.cookie.set('refresh_token', v.refresh_token)
-  //     })
-  //   );
-  // }
-
-  // refreshToken() {
-  //   const url = this.servise.url + 'auth/refresh';
-  //   return this.http
-  //     .post<Auth>(url, { refresh_token: this.refresh_token })
-  //     .pipe(tap((res: Auth) => this.saveTokens(res)));
-  // }
 
   refreshToken() {
     console.log('refresh 1');
     console.log(this.token);
-    const url = environment.url + 'auth/refresh';
+    // const url = environment.url + 'auth/refresh';
+    const url = 'https://icherniakov.ru/yt-course/' + 'auth/refresh';
+    // const url = 'auth/refresh';
     console.log(url);
     return this.http
       .post<Auth>(url, { refresh_token: this.cookie.get('refresh_token') })

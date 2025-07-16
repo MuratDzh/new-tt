@@ -8,9 +8,9 @@ import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, catchError, filter, switchMap, tap, throwError } from 'rxjs';
-import {ChatsService} from "@tt/data-access";
 
-let isRefreshing$ = new BehaviorSubject(false);
+
+const isRefreshing$ = new BehaviorSubject(false);
 
 export const AuthTokenInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -18,7 +18,6 @@ export const AuthTokenInterceptor: HttpInterceptorFn = (
 ) => {
   
   const authService = inject(AuthService);
-  const chatService=inject(ChatsService)
   const cookie = inject(CookieService);
   const token = cookie.get('token');
 
@@ -30,6 +29,7 @@ export const AuthTokenInterceptor: HttpInterceptorFn = (
     return next(req);
   }
 
+  console.log('AuthTokenInterceptor', req);
 
   return next(req).pipe(
     // tap(()=>console.log('2', req)),

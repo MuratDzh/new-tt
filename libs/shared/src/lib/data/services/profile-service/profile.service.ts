@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { Subscribers } from '@tt/interfaces/subscribers';
 import { Profile } from '@tt/interfaces/profile';
@@ -9,32 +9,40 @@ import { Profile } from '@tt/interfaces/profile';
   providedIn: 'root',
 })
 export class ProfileService {
-  url = 'https://icherniakov.ru/yt-course/';
-
-  constructor(private http: HttpClient) {}
-
-  getTestAccounts(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.url}account/test_accounts`);
-  }
-
+  
+  // url = 'https://icherniakov.ru/yt-course/';
+  url = '/yt-course/';
+  
+  http=inject( HttpClient) 
+  
   getMe(): Observable<Profile> {
     console.log('getMe()');
     
     return this.http.get<Profile>(`${this.url}account/me`);
   }
+  
+  getSubscription(): Observable<Subscribers<Profile>> {
+    return this.http.get<Subscribers<Profile>>(
+      `${this.url}account/subscriptions/`
+    );
+  }
+
+
+
+
 
   getProfile(id: Observable<string | number>): Observable<Profile> {
     // if (id === "me") return this.getMe();
     return this.http.get<Profile>(`${this.url}account/${id}`);
   }
-
+  
+  getTestAccounts(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.url}account/test_accounts`);
+  }
   getProfileResolver(id: string | number): Observable<Profile> {
     if (id === 'me') {
-      console.log('МЕНЯ ВЫЗВАЛИ С -ME-');
-
       return this.getMe();
     } else {
-      console.log('МЕНЯ ВЫЗВАЛИ С -ID-', id);
       return this.http.get<Profile>(`${this.url}account/${id}`);
     }
   }
@@ -46,7 +54,7 @@ export class ProfileService {
   }
 
   getSubscribersById(id: number): Observable<Subscribers<Profile>> {
-    console.log('РАБОТАЕТ PROFILE SERVICE');
+    
     return this.http.get<Subscribers<Profile>>(
       `${this.url}account/subscribers/${id}`
     );
@@ -72,7 +80,7 @@ export class ProfileService {
   }
 
   uploadImg(file: File) {
-    let img = new FormData();
+    const img = new FormData();
     img.append('image', file);
     return this.http.post<string>(`${this.url}account/upload_image`, img);
   }
@@ -93,11 +101,6 @@ export class ProfileService {
     // return this.http.post<Profile>(`${this.url}subscribe/${500}`, {});
   }
 
-  getSubscription(): Observable<Subscribers<Profile>> {
-    return this.http.get<Subscribers<Profile>>(
-      `${this.url}account/subscriptions/`
-    );
-  }
 
   getSubscriptionsById(id: number): Observable<Subscribers<Profile>> {
     return this.http.get<Subscribers<Profile>>(
