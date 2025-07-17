@@ -5,7 +5,6 @@ import { PostActions } from './post.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { PostsStateInterface } from './postState.interface';
 import { Store } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
 
 let currentUserId: string | number;
 
@@ -23,7 +22,7 @@ export const PostEffects = createEffect(
       }),
 
       map((posts) => {
-        let postsLoaded: PostsStateInterface = {
+        const postsLoaded: PostsStateInterface = {
           id: posts[0] ? posts[0].author.id : currentUserId,
           isPostLoaded: true,
           posts: posts,

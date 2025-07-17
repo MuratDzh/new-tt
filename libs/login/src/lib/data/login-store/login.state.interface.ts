@@ -1,6 +1,6 @@
-import { BackendErrorsInterface } from './../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
-import { Auth } from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
+import { Auth } from '@tt/tt-auth';
 
 
 export interface LoginStateInterface {

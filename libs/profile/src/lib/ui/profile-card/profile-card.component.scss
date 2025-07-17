@@ -1,13 +1,14 @@
 .profile-card {
+  
   border: var(--border-light);
   border-radius: var(--border-radius);
   padding: 32px 24px;
-  max-width: 1092px;
+  // max-width: 1092px;
   display: grid;
   grid-template-columns: 232px 1fr 200px min-content;
   column-gap: 32px;
   align-items: center;
-  margin-bottom: 8px;
+  // margin-bottom: 8px;
   background-color: var(--dark-color);
 
   &__avatar {
@@ -78,6 +79,8 @@
   }
 
 }
- .to-profile{
+
+.to-profile{
+  color: var(--dark-color);
    padding: 14px;
  }

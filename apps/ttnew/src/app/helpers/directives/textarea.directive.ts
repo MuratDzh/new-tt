@@ -17,7 +17,7 @@ export class TextareaDirective {
     console.log('T', this.host.nativeElement.scrollHeight);
 
     if (this.host.nativeElement.scrollHeight < 61) {
-      console.log('D');
+     
 
       return '44px';
       // this.render.setStyle(this.host.nativeElement, 'height', '44px');
@@ -27,7 +27,6 @@ export class TextareaDirective {
 
   @HostListener('input', ['$event'])
   onInput(e: InputEvent) {
-    console.log('E', e, this.host.nativeElement.scrollHeight);
     // if (this.host.nativeElement.scrollHeight < 65) {
     //   console.log('true');
 
@@ -44,6 +43,6 @@ export class TextareaDirective {
   }
 
   constructor(public host: ElementRef, private render: Renderer2) {
-    console.log('constructor');
+   
   }
 }

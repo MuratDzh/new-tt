@@ -5,7 +5,7 @@ import { loginActions } from './login.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../tt-auth/src';
+import { AuthService } from '@tt/tt-auth';
 
 export const loginEffects = createEffect(
   (

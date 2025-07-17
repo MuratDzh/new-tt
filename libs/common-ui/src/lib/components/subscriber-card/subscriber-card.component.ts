@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ImgPipe } from '../../pipes/img.pipe';
 import { CommonModule } from '@angular/common';
-import { Profile } from '../../../../../interfaces/src';
+import { Profile } from '@tt/interfaces/profile';
 
 @Component({
   selector: 'app-subscriber-card',

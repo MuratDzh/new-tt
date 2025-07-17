@@ -5,8 +5,9 @@ import {
   CommentInt,
   CommentsRes,
   CommentsResFull,
-} from './interfaces/post.interface.ts';
+} from './interfaces/post.interface';
 import { PostService } from './services/post.service';
+import { getPostResolver } from './store/postStore/post.resolver';
 export {
   Post,
   PostRes,
@@ -15,4 +16,5 @@ export {
   CommentsRes,
   CommentsResFull,
   PostService,
+  getPostResolver
 };

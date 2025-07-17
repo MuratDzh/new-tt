@@ -1,22 +1,13 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FilterAccountsActions } from './filter-accounts.actions';
-import {
-  catchError,
-  filter,
-  first,
-  map,
-  of,
-  Subscription,
-  switchMap, tap, withLatestFrom,
-} from 'rxjs';
+import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import {ProfileService, selectSearchFormValue, selectSubscriptionsState} from '@tt/shared';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
-import { Subscribers } from 'libs/interfaces/src/lib/subscribers/subscribers.interfase';
+import {ProfileService, selectSearchFormValue, selectSubscriptionsState} from './../../index';
+import { Profile } from '@tt/interfaces/profile';
+import { Subscribers } from '@tt/interfaces/subscribers';
 import {selectFilteredPage, selectFilteredSize} from "./filter-accounts.reducer";
-import {selectSize} from "../AccountsStore/accounts.reducer";
 
 export const FilterAccountsEffects = createEffect(
   (
@@ -43,7 +34,7 @@ export const FilterAccountsEffects = createEffect(
         return profileService.getAccounts({...searchFormValue, page, size});
       }),
       map((accounts) => {
-        for (let sub of subscriptions.items as Profile[]) {
+        for (const sub of subscriptions.items as Profile[]) {
           accounts = {
             ...(accounts as Subscribers<Profile>),
             items: [
@@ -53,7 +44,6 @@ export const FilterAccountsEffects = createEffect(
             ],
           };
         }
-        console.log("ОШИБКА?")
         return FilterAccountsActions.filterAccountsSuccess({ accounts });
       }),
       catchError((err) => {

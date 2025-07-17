@@ -9,16 +9,16 @@ import { select, Store } from '@ngrx/store';
 import { first, map, tap } from 'rxjs';
 import { PostActions } from './post.actions';
 
-import { selectMe } from '../../../../../../shared/src/lib/data/store/currentUserStore/current-user.reducer';
+import { selectMe } from '@tt/shared';
 import { selectPostsIds } from './post.reducer';
 import { selectCurrentPostEntities } from '../myPostStore/currentUserPosts.reducer';
-import { PostRes } from '../../interfaces/post.interface.ts';
+import { PostRes } from '../../interfaces/post.interface';
 
 export const getPostResolver: ResolveFn<
   PostRes[] | string[] | number[] | boolean
 > = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const store = inject(Store);
-  let currentId = route.params['id'];
+  const currentId = route.params['id'];
   let ids: number[] | string[] = [];
   store.pipe(select(selectPostsIds)).subscribe((v) => (ids = v));
   let myId: string | number = '';

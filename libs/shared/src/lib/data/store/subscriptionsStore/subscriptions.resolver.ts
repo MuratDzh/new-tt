@@ -8,7 +8,6 @@ import {
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SubscriptionsActions } from './subscriptions.actions';
-import { of } from 'rxjs';
 
 export const SubscriptionsResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,

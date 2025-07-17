@@ -2,7 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { ProfileStateInterface } from './profileState.interface';
 import { ProfileActions } from './profile.actions';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { Profile } from '@tt/interfaces/profile';
 
 
 

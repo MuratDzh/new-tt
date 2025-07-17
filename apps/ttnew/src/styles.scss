@@ -9,6 +9,20 @@
   margin: 0;
   padding: 0;
 }
+*::-webkit-scrollbar {
+  height: 24px;
+  width: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  border: none;
+}
 
 :root {
   --dark-color: #000;
@@ -16,6 +30,7 @@
   --light-color: #fff;
   --light-grey-transparent: rgba(255, 255, 255, 0.75);
   --primary-color: rgb(174, 122, 255);
+  --primary-color-transparent:rgb(174, 122, 255, 0.2);
   --primary-color-hover: rgb(127, 78, 199);
   --grey-color: rgb(95, 100, 109);
   --red-primary: rgb(233, 152, 152);

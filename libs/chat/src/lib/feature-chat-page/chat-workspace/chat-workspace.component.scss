@@ -116,6 +116,13 @@ app-chat-workspace-header {
       }
       
     }
+
+    .text-wrapper{
+      mask: linear-gradient(#000 0 0), linear-gradient(-135deg, #000 50%, #0000 0) border-box 100% 100% / 200% 200% no-repeat;
+        mask-composite: exclude;
+        mask-position: 0; 
+      }
+    
 }
 
 .message-wrapper{
@@ -142,6 +149,10 @@ app-chat-messages{
   padding: 8px 16px;
   font-size: 14px;
   background-color: var(--grey-color);
+ 
+  mask: linear-gradient(#000 0 0), linear-gradient(135deg, #000 43%, #0000 0) border-box 100% 100% / 200% 200% no-repeat;
+    mask-composite: exclude;
+    mask-position: 94% 10%;
 }
 
 .date-wrapper{

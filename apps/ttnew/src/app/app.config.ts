@@ -3,61 +3,59 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AuthTokenInterceptor } from './auth/auth.interceptor';
+
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
-import * as loginEffects from './pages/login/Store/login.effects';
-import {
-  loginFeatureKey,
-  loginReducer,
-} from './pages/login/Store/login.reducer';
+import * as loginEffects from '@tt/login/effects';
+import { loginFeatureKey, loginReducer } from '@tt/login';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
-import * as CurrentUserEffects from './data/currentUserStore/current-user.effects';
+import * as CurrentUserEffects from '@tt/shared/currentuser';
 import {
   CurrentUserFeatureKey,
   CurrentUserReducer,
-} from './data/currentUserStore/current-user.reducer';
-import * as getSubscribersEffects from './data/subscribersStore/subscribers.effects';
+} from '@tt/shared';
+import * as getSubscribersEffects from '@tt/shared/subscribers';
 import {
   getSubscribersFeatureKey,
   getSubscribersReducer,
-} from './data/subscribersStore/subscribers.reducer';
+} from '@tt/shared';
 import {
   GetAllAccountsFeatureKey,
   GetAllAccountsReducer,
-} from './pages/search/AccountsStore/accounts.reducer';
-import * as GetAllAccuntsEffects from './pages/search/AccountsStore/accounts.effects';
-import * as FilterAccountsEffects from './pages/search/profile-filter/FilterAccountsStore/filter-accounts.effects';
+} from '@tt/shared';
+import * as GetAllAccuntsEffects from '@tt/shared/allaccaunts';
+import * as FilterAccountsEffects from '@tt/shared/filteredaccaunts';
 import {
   FilterAccountsFeatureKey,
   FilterAccountsReducer,
-} from './pages/search/profile-filter/FilterAccountsStore/filter-accounts.reducer';
-import * as ProfileEffects from './pages/profile-page/profileStore/profile.effects';
+} from '@tt/shared';
+import * as ProfileEffects from '@tt/shared/profile';
 import {
   ProfileReducer,
   ProfileReducerKey,
-} from './pages/profile-page/profileStore/profile.reducer';
-import * as PostEffects from './pages/profile-page/postStore/post.effects';
+} from '@tt/shared';
+import * as PostEffects from '@tt/posts/posteffects';
 import {
   PostsFromUsersKey,
   PostsFromUsersReducer,
-} from './pages/profile-page/postStore/post.reducer';
-import * as CurrentUserPostsEffect from './pages/profile-page/myPostStore/currentUserPosts.effects';
+} from '@tt/posts/posts';
+import * as CurrentUserPostsEffect from '@tt/posts/myposteffects';
 import {
   CurrentUserPostsKey,
   CurrentUserPostsReducer,
-} from './pages/profile-page/myPostStore/currentUserPosts.reducer';
-import * as GetCommentsEffect from './pages/profile-page/commentsStore/comments.effect';
+} from '@tt/posts/myposts';
+import * as GetCommentsEffect from '@tt/posts/commentseffects';
 import {
   CommentsFeatureReducer,
   CommentsReducerKey,
-} from './pages/profile-page/commentsStore/comments.reducer';
-import * as SubscriptionsEffect from './data/subscriptionsStore/subscriptions.effect';
+} from '@tt/posts/comments';
+import * as SubscriptionsEffect from '@tt/shared/sudscriptions';
 import {
   SubscriptionsFeatureReducerKey,
   SubscriptionsReducer,
-} from './data/subscriptionsStore/subscriptions.reducer';
+} from '@tt/shared';
+import { AuthTokenInterceptor } from '@tt/tt-auth';
 
 // import { PostFeatureReducerKey, PostReducer } from './pages/profile-page/postStore/post.reducer';
 
@@ -80,15 +78,15 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideEffects(
       loginEffects,
-      CurrentUserEffects,
       getSubscribersEffects,
+      SubscriptionsEffect,
       GetAllAccuntsEffects,
       FilterAccountsEffects,
       ProfileEffects,
       PostEffects,
       CurrentUserPostsEffect,
       GetCommentsEffect,
-      SubscriptionsEffect
+      CurrentUserEffects,
     ),
     provideRouterStore(),
   ],

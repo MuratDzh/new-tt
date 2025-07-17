@@ -1,5 +1,8 @@
 import { SubscriptionsResolver } from "./subscriptions.resolver";
-import { SubscriptionsActions } from "./subscriptions.actions";
+import {
+  SubscriptionsActions,
+  UpdateStorsAfterSubscrube,
+} from './subscriptions.actions';
 import * as SubscriptionsEffect  from "./subscriptions.effect";
 import { selectSubscriptionsState, SubscriptionsFeatureReducerKey, SubscriptionsReducer } from "./subscriptions.reducer";
 
@@ -9,5 +12,6 @@ export {
   SubscriptionsFeatureReducerKey,
   SubscriptionsReducer,
   selectSubscriptionsState,
-  SubscriptionsResolver
-}
+  SubscriptionsResolver,
+  UpdateStorsAfterSubscrube
+};

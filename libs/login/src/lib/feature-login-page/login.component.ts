@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+<<<<<<<< HEAD:apps/ttnew/src/app/pages/login/login.component.ts
+import { ChangeDetectionStrategy, Component, signal, inject } from '@angular/core';
+========
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+>>>>>>>> 1.1-branch:libs/login/src/lib/feature-login-page/login.component.ts
 import {
   FormControl,
   FormGroup,
@@ -11,8 +15,8 @@ import { Store } from '@ngrx/store';
 import { loginActions } from '../data/login-store/login.actions';
 import { selectLoginBackendErrors } from '../data/login-store/login.reducer';
 import { CommonModule } from '@angular/common';
-import { map, Observable } from 'rxjs';
-import { FormLoginValue } from '../../../../tt-auth/src/lib/tt-auth/auth.service';
+import {  Observable } from 'rxjs';
+import { FormLoginValue } from '@tt/tt-auth';
 
 @Component({
   selector: 'app-login',
@@ -31,11 +35,17 @@ export class LoginComponent {
       validators: Validators.required,
       nonNullable: true,
     }),
-    password: new FormControl<string>('FwrT6EWI6o', {
+    password: new FormControl<string>('fl6BGnq2av', {
       validators: Validators.required,
       nonNullable: true,
     }),
   });
+<<<<<<<< HEAD:apps/ttnew/src/app/pages/login/login.component.ts
+  private store=inject(Store);
+  backendErr$ = this.store.select(selectBackendErrors);
+
+  
+========
 
   backendErr$: Observable<any>;
   constructor(
@@ -44,21 +54,15 @@ export class LoginComponent {
   ) {
     this.backendErr$ = this.store.select(selectLoginBackendErrors);
   }
+>>>>>>>> 1.1-branch:libs/login/src/lib/feature-login-page/login.component.ts
 
   onSubmit() {
     if (this.form.valid) {
-      //@ts-ignore
-      // this.auth.login(this.form.value).subscribe();
+  
       this.store.dispatch(
         loginActions.login({ request: this.form.value as FormLoginValue })
       );
     }
   }
 
-  // onVisible() {
-  //   console.log(this.type());
-
-  //   this.passwordVisible?this.type.set('password'):this.type.set('text')
-  //   this.passwordVisible=!this.passwordVisible
-  // }
 }

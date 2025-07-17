@@ -10,23 +10,23 @@ export class MessagrGroupDatePipe implements PipeTransform {
   datePipe=inject(DatePipe)
   transform(value: string, ...args: unknown[]): unknown {
     let currentDay: Date|number = new Date()
-    let offset = currentDay.getTimezoneOffset()
+    const offset = currentDay.getTimezoneOffset()
     currentDay = currentDay.getTime() + offset * 60 * 1000;
 
     // let messageDate = (new Date(value)).getTime()
 
-    let transformCurrentDayToYear = this.datePipe.transform(currentDay, 'YYYY');
-    let transformDateDayToYear = this.datePipe.transform(value, 'YYYY');
-    let transformCurrentDayToMonth = this.datePipe.transform(currentDay, 'MM');
-    let transformDateDayToMonth = this.datePipe.transform(value, 'MM');
-    let transformCurrentDayToDays = this.datePipe.transform(currentDay, 'dd');
-    let transformDateDayToDays = this.datePipe.transform(value, 'dd');
+    const transformCurrentDayToYear = this.datePipe.transform(currentDay, 'YYYY');
+    const transformDateDayToYear = this.datePipe.transform(value, 'YYYY');
+    const transformCurrentDayToMonth = this.datePipe.transform(currentDay, 'MM');
+    const transformDateDayToMonth = this.datePipe.transform(value, 'MM');
+    const transformCurrentDayToDays = this.datePipe.transform(currentDay, 'dd');
+    const transformDateDayToDays = this.datePipe.transform(value, 'dd');
     
-    let amountYear =
+    const amountYear =
       Number(transformCurrentDayToYear) - Number(transformDateDayToYear);
-    let amountMonth =
+    const amountMonth =
       Number(transformCurrentDayToMonth) - Number(transformDateDayToMonth);
-    let amountDays =
+    const amountDays =
     Number(transformCurrentDayToDays) == Number(transformDateDayToDays)
       ? 0
       : Number(transformCurrentDayToDays) > Number(transformDateDayToDays)

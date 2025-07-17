@@ -62,7 +62,7 @@
                             </button>
                     </app-hidden-buttons>
 
-                    @if (comment.author.id==myId) {
+                    @if (comment.author.id===myId) {
                         <button class="btn-hidden" (click)="showButtons(comment.id, $event)">...</button>}
 
 

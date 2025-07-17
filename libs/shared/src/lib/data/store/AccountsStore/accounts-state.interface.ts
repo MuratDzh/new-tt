@@ -1,6 +1,6 @@
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
-import { Profile } from '../../../../../../profile/src/lib/data/interfaces/profile.interface';
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
+import { Profile } from '@tt/interfaces/profile';
+import { Subscribers } from '@tt/interfaces/subscribers';
 
 export interface AccountsStateInterface {
   isAccountsLoaded: boolean;

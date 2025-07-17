@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { environment } from '../../../../shared/src/lib/data/environments/environment';
+import { environment } from '@tt/shared';
 
 @Pipe({
   name: 'img',

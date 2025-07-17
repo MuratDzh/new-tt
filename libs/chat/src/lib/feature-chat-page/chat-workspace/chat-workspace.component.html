@@ -17,8 +17,8 @@
             <span>{{mes.createdAt|messagrGroupDate}}</span>
           </div>
         </div>
-        <div [ngClass]="mes.userFromId==myId?'is-me-massage-and-avatar-wrapper':'massage-and-avatar-wrapper'" >
-          <app-avatar-circle [profileAvatar]="mes.isMyMessage || mes.userFromId == myId? myAvatar :  companion.avatarUrl"></app-avatar-circle>
+        <div [ngClass]="mes.userFromId===myId?'is-me-massage-and-avatar-wrapper':'massage-and-avatar-wrapper'" >
+          <app-avatar-circle [profileAvatar]="mes.isMyMessage || mes.userFromId === myId? myAvatar :  companion.avatarUrl"></app-avatar-circle>
           <div class="message-wrapper">
             <div class="username">
               <strong>{{mes.user?.firstName}} {{mes.user?.lastName}}</strong>
@@ -26,7 +26,7 @@
             </div>
 
             <div class="test" #messageText>
-              <div [ngClass]="mes.userFromId==myId? 'is-me': ''" class="text-wrapper">
+              <div [ngClass]="mes.userFromId===myId? 'is-me': ''" class="text-wrapper">
                 <p>{{ mes.text }}</p>
               </div>
             </div>

@@ -4,50 +4,28 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
-  HostBinding,
   HostListener,
   inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   QueryList,
   Renderer2,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
-  viewChildren,
 } from '@angular/core';
 
 import { PostComponent } from '../post/post.component';
 
-import {
-  auditTime,
-  debounce,
-  debounceTime,
-  delay,
-  exhaustMap,
-  filter,
-  find,
-  firstValueFrom,
-  fromEvent,
-  map,
-  Observable,
-  of,
-  skip,
-  startWith,
-  Subscription,
-  switchMap,
-  tap,
-  throttleTime,
-} from 'rxjs';
+import { map, Observable, Subscription, tap } from 'rxjs';
 
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -63,52 +41,46 @@ import {
   selectPostsFromUsersState,
 } from '../../data/store';
 
-import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/current-user.reducer';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
-import { AvatarCircleComponent } from '../../../../../common-ui/src/lib/components/avatar-circle/avatar-circle.component';
+import { selectMe } from '@tt/shared';
+import { Profile } from '@tt/interfaces/profile';
+import { AvatarCircleComponent, SvgDirective } from '@tt/common-ui';
 import { CommentInputComponent } from '../../ui/comment-input/comment-input.component';
-import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
 
 import { HiddenButtonsComponent } from '../../ui/hidden-buttons/hidden-buttons.component';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface PostFormValue {
   title: string;
   content: string;
 }
 
-  let test = false
+let test = false;
 
-  function ResizeDecorator(
-    target: Object,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
-  
-    let originalMethod = descriptor.value;
-    descriptor.value = function (e:Event) {
-      
-      // return fromEvent(window, 'resize')
-      //   .pipe(debounceTime(300),
-      //     startWith(e))
-      //   .subscribe((v) => {
-      //     console.log('ResizeDecorator')
-      //     return originalMethod.call(this, v)
-      //   });
-      if (!test) {
-        test=true
-        setTimeout(() => {
-          console.log(test);
-          
-          originalMethod.call(this)
-          test=false
-        }, 1000);
-      }
-      
-      
-   
-    };
-  }
+function ResizeDecorator(
+  target: object,
+  propertyKey: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  descriptor.value = function (e: Event) {
+    // return fromEvent(window, 'resize')
+    //   .pipe(debounceTime(300),
+    //     startWith(e))
+    //   .subscribe((v) => {
+    //     console.log('ResizeDecorator')
+    //     return originalMethod.call(this, v)
+    //   });
+    if (!test) {
+      test = true;
+      setTimeout(() => {
+        console.log(test);
+
+        originalMethod.call(this);
+        test = false;
+      }, 1000);
+    }
+  };
+}
 
 @Component({
   selector: 'app-post-feed',
@@ -131,15 +103,13 @@ export interface PostFormValue {
   providers: [DatePipe],
 })
 export class PostFeedComponent
-  implements OnDestroy, OnChanges, OnInit, AfterViewInit
+  implements OnInit, AfterViewInit, AfterViewChecked
 {
   posts$!: Observable<PostRes[] | null | undefined>;
 
   posts!: PostRes[] | null;
 
-  subsription$!: Subscription;
 
-  test$!: Observable<any>;
 
   updatedPost: PostRes | null = null;
 
@@ -158,6 +128,7 @@ export class PostFeedComponent
 
   el = inject(ElementRef);
   renderer = inject(Renderer2);
+  destroyRef=inject(DestroyRef)
 
   get profile(): Profile {
     return this._profile;
@@ -165,21 +136,21 @@ export class PostFeedComponent
 
   @Input()
   set profile(v: Profile) {
-    this._profile = v;
-    console.log('SET PROFILE', v);
+    this._profile = v;;
 
     this.toLoadPost();
     this.cdr.markForCheck();
   }
 
+  @ViewChild('wrapper', { read: ElementRef })
+  wrapperDiv!: ElementRef<HTMLDivElement>;
+
   @ViewChildren(HiddenButtonsComponent)
   hiddenButtons!: QueryList<HiddenButtonsComponent>;
 
-  
   @ResizeDecorator
   @HostListener('window:resize', ['$event'])
   onWinResize(e: Event) {
-    console.log('@HostListener');
 
     this.getHeight();
   }
@@ -189,9 +160,6 @@ export class PostFeedComponent
     content: '',
   });
 
-  // @ViewChild('wrapper')
-  //  wrapper1!: ElementRef<HTMLDivElement>
-
   constructor(
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
@@ -199,19 +167,18 @@ export class PostFeedComponent
     private route: ActivatedRoute
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges POST-FEED', changes);
-  }
-
   ngOnInit(): void {
-    this.store.select(selectMe).subscribe((v) => {
+    this.store.select(selectMe).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((v) => {
       this.myProfile = v;
       return (this.myId = v ? v.id : null);
     });
 
     this.store
       .select(selectPostsFromUsersState)
-      .pipe(map((v) => v.entities[this.myId!]?.posts as PostRes[]))
+      .pipe(map((v) => v.entities[this.myId!]?.posts as PostRes[]),
+      takeUntilDestroyed(this.destroyRef))
       .subscribe((v) => {
         this.getHeight();
         return (this.posts = v);
@@ -224,39 +191,61 @@ export class PostFeedComponent
     this.getHeight();
   }
 
+  ngAfterViewChecked(): void {
+    this.getHeight();
+  }
+
   // @ResizeDecorator
   getHeight() {
-    console.log(' getHeight()');
-
-    const { top } =
-      this.profile.id == this.myId
-        ? (
-            this.el.nativeElement.children[1] as HTMLDivElement
-          )?.getBoundingClientRect()
-        : (this.el.nativeElement as HTMLDivElement)?.getBoundingClientRect();
+    const { top } = (
+      this.wrapperDiv.nativeElement as HTMLDivElement
+    )?.getBoundingClientRect() as DOMRect;
 
     const height1 = document.documentElement.clientHeight - top - 24 - 1;
-    if (this.profile.id == this.myId) {
-      this.renderer.setStyle(
-        this.el.nativeElement.children[1] as HTMLDivElement,
-        'max-height',
-        `${height1}px`
-      );
-      return;
-    }
-    this.renderer.addClass(this.el.nativeElement, 'test');
-    this.renderer.setStyle(this.el.nativeElement, 'max-height', `${height1}px`);
 
-    console.log('---TOP---', top);
-
-    // console.log('window.innerHeight', window.innerHeight);
-    console.log('clientHeight', document.documentElement.clientHeight);
+    this.renderer.addClass(this.wrapperDiv.nativeElement, 'test');
+    this.renderer.setStyle(
+      this.wrapperDiv.nativeElement,
+      'max-height',
+      `${height1}px`
+    );
   }
+
+  //~~~~~ Это старый вариант функции, который дает сбой. Использовал ее только для того, чтобы
+  //  по условию находить нужный дочерний эллемент ~~~~~~
+
+  // getHeight() {
+  //   console.log(' getHeight()');
+
+  //   const { top } =
+  //     this.profile.id == this.myId
+  //       ? (
+  //           this.el.nativeElement.children[1] as HTMLDivElement
+  //         )?.getBoundingClientRect()
+  //       : (this.el.nativeElement as HTMLDivElement)?.getBoundingClientRect();
+
+  //   const height1 = document.documentElement.clientHeight - top - 24 - 1;
+  //   if (this.profile.id == this.myId) {
+  //     this.renderer.setStyle(
+  //       this.el.nativeElement.children[1] as HTMLDivElement,
+  //       'max-height',
+  //       `${height1}px`
+  //     );
+  //     return;
+  //   }
+  //   this.renderer.addClass(this.el.nativeElement, 'test');
+  //   this.renderer.setStyle(this.el.nativeElement, 'max-height', `${height1}px`);
+
+  //   console.log('---TOP---', top);
+
+  //   // console.log('window.innerHeight', window.innerHeight);
+  //   console.log('clientHeight', document.documentElement.clientHeight);
+  // }
 
   toLoadPost() {
     return (this.posts$ = this.store.select(selectPostsFromUsersState).pipe(
       map((v) => {
-        let currentId: number | string = this.route.snapshot.params['id'];
+        const currentId: number | string = this.route.snapshot.params['id'];
         if (currentId === 'me') {
           return v.entities[this.profile.id]?.posts;
         }
@@ -267,9 +256,9 @@ export class PostFeedComponent
   }
 
   toCreatePost(formValue: PostFormValue) {
-    let authorId = this.profile.id;
+    const authorId = this.profile.id;
 
-    let post: Post = {
+    const post: Post = {
       ...formValue,
       authorId,
     };
@@ -294,7 +283,7 @@ export class PostFeedComponent
   }
 
   toUpdate(post: PostRes) {
-    let update: Update<PostRes | null> = {
+    const update: Update<PostRes | null> = {
       id: post.id,
       changes: {
         ...post,
@@ -311,30 +300,32 @@ export class PostFeedComponent
 
     let isUpdated: boolean | null | undefined;
 
-    this.store.select(selectCurrentPostEntities).subscribe((v) => {
-      console.log('POST to UPDATE', v);
-      if (v[post.id]?.isUpdate !== undefined) {
-        console.log('Ура!'), (isUpdated = v[post.id]!.isUpdate);
-        return isUpdated;
-      }
-      console.log('--isUpdated--', isUpdated);
-      return (isUpdated = null);
-    });
+    this.store
+      .select(selectCurrentPostEntities)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((v) => {
+        console.log('POST to UPDATE', v);
+        if (v[post.id]?.isUpdate !== undefined) {
+          isUpdated = v[post.id]!.isUpdate;
+          return isUpdated;
+        }
+        console.log('--isUpdated--', isUpdated);
+        return (isUpdated = null);
+      });
 
-    this.store.select(selectCurrentPostEntities).subscribe((v) => {
-      this.updateSelectCount++;
-      console.log('SELECT ВЫЗВАЛИ ', this.updateSelectCount, 'РАЗ');
-      console.log('IS I=UPDATED?', isUpdated);
-      this.updatedPost = isUpdated ? null : (v[post.id] as PostRes);
-      console.log('<<<<>>>>', this.updatedPost);
-      this.cdr.detectChanges();
-    });
+    this.store
+      .select(selectCurrentPostEntities)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((v) => {
+        this.updateSelectCount++;
+        this.updatedPost = isUpdated ? null : (v[post.id] as PostRes);
+        
+        this.cdr.detectChanges();
+      });
   }
 
   toDel(post: PostRes) {
-    // this.postServ.getPostById(post.id);
-    // this.postServ.delPost(post).subscribe();
-    console.log('УДАЛЕНИЕ, post.id', post.id);
+   
 
     this.store.dispatch(currentPostActions.delPost({ post }));
   }
@@ -349,12 +340,7 @@ export class PostFeedComponent
     this.isButtonsHidded = true;
   }
 
-  // onDelCom(i: number, postId: number) {
-  //   this.postServ.delComment(i, postId, this.profile.id).subscribe();
-  // }
-
   onUpdateCom(comment: CommentsRes, postId: number, e: Event) {
-    console.log('111', comment);
     (this.updatedComText = comment.text),
       (this.updatedComId = comment.id),
       (this.updatedComment = comment);
@@ -362,30 +348,16 @@ export class PostFeedComponent
     // this.cdr.markForCheck();
   }
 
-  //   onUpdateCom(i: number, postId: number) {
-  //   this.postServ.getComment(i, postId).subscribe((v) =>
-  //     setTimeout(() => {
-  //       console.log('111', v);
-  //       (this.updatedComText = v.text),
-  //         (this.updatedComId = v.id),
-  //         (this.updatedComment = v);
-  //       this.isUpCom = true;
-  //       this.cdr.markForCheck();
-  //     }, 0)
-  //   );
-  // }
-
   createCom(text: string, post: PostRes) {
     if (this.isUpCom) {
-      let v = {
+      const v = {
         text,
         commentId: this.updatedComId,
         authorId: post.author.id,
         postId: post.id,
       };
       // firstValueFrom(this.postServ.updateComment(v));
-      console.log('UPDATE COMMENT', v);
-      console.log('postAuthorId', post.author.id);
+     
       this.store.dispatch(
         CommentsActions.updateComment({
           comment: v,
@@ -395,14 +367,13 @@ export class PostFeedComponent
       this.isUpCom = false;
       this.updatedComment = undefined;
     } else {
-      let comment: CommentInt = {
+      const comment: CommentInt = {
         text,
         commentId: this.updatedComId,
         authorId: post.author.id,
         postId: post.id,
       };
       // firstValueFrom(this.postServ.createComment(v));
-      console.log('МЕТОД КРИЕЙТ, post', post.author.id);
       this.store.dispatch(
         CommentsActions.createComment({ comment, postAuthorId: post.author.id })
       );
@@ -410,7 +381,6 @@ export class PostFeedComponent
   }
 
   onGetCom(comment: CommentsRes) {
-    console.log('COMMENT', comment);
     // this.postServ.getCommentById(comment.id).subscribe(
     //   v=>console.log("getCommentById",v)
     // )
@@ -418,7 +388,6 @@ export class PostFeedComponent
   }
 
   showButtons(commentId: number, e: Event) {
-    console.log('Event', e);
 
     e.stopPropagation();
     this.hiddenButtons
@@ -436,7 +405,4 @@ export class PostFeedComponent
       false;
   }
 
-  ngOnDestroy(): void {
-    this.subsription$?.unsubscribe();
-  }
 }

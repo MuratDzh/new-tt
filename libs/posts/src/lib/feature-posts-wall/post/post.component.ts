@@ -6,26 +6,25 @@ import {
   Input,
   Output,
   OnChanges,
-  SimpleChanges, AfterContentInit, contentChild,
+  SimpleChanges,
+  AfterContentInit,
+  contentChild,
 } from '@angular/core';
-import {
-  CommentsRes,
-  PostRes,
-} from '../../data/interfaces/post.interface.ts.js';
+import { CommentsRes, PostRes } from '../../data/interfaces/post.interface.js';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {CommentComponent} from "@tt/posts";
-import {AvatarCircleComponent} from "../../../../../common-ui/src/lib/components";
+
+import { AvatarCircleComponent } from '@tt/common-ui';
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CommonModule, FormsModule, AvatarCircleComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostComponent implements OnChanges, AfterContentInit {
+export class PostComponent implements OnChanges {
   text = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -51,10 +50,9 @@ export class PostComponent implements OnChanges, AfterContentInit {
   @Output()
   createCom = new EventEmitter();
 
-  // @ContentChild('comment', {read:CommentComponent})
-  // comment!: CommentComponent;
-
-  comment = contentChild(AvatarCircleComponent, {read: AvatarCircleComponent});
+  comment = contentChild(AvatarCircleComponent, {
+    read: AvatarCircleComponent,
+  });
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.post.id == this.upComRes?.postId && this.upComRes.text) {
@@ -65,17 +63,10 @@ export class PostComponent implements OnChanges, AfterContentInit {
       changes['post']?.currentValue?.comments.length !==
       changes['post']?.previousValue?.comments.length
     ) {
-      this.text=''
-
+      this.text = '';
     }
 
-    console.log('changes', changes['post']);
-
     this.cdr.markForCheck();
-  }
-
-  ngAfterContentInit() {
-    console.log('ngAfterContentInit', this.comment()?.profileAvatar);
   }
 
   onDelCom() {
@@ -91,5 +82,4 @@ export class PostComponent implements OnChanges, AfterContentInit {
     this.createCom.emit(this.text);
     this.text = '';
   }
-
 }

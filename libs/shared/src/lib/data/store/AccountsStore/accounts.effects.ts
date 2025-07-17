@@ -2,12 +2,12 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ProfileService } from '../../services/profile-service/profile.service';
 import { AccountsActions } from './accounts.actions';
-import {catchError, first, map, of, switchMap, take, withLatestFrom} from 'rxjs';
+import {catchError, map, of, switchMap, withLatestFrom} from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
-import { selectSubscriptionsState } from '@tt/shared';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { Subscribers } from '@tt/interfaces/subscribers';
+import { selectSubscriptionsState } from './../subscriptionsStore';
+import { Profile } from '@tt/interfaces/profile';
 import {selectPage, selectSize} from "./accounts.reducer";
 
 export const GetAllAccountsEffects = createEffect(
@@ -37,7 +37,7 @@ export const GetAllAccountsEffects = createEffect(
         let updatedAccounts: Subscribers<Profile>;
 
         if(subscriptions) {
-          for (let sub of subscriptions) {
+          for (const sub of subscriptions) {
             acc.items
               ? acc.items?.map((v) =>
                 v.id === sub.id ? (v.isSubscribed = true) : v

@@ -1,25 +1,36 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { SearchComponent } from './pages/search/search.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
-import { LayoutComponent } from './common-ui/layout/layout.component';
-import { CanActivateAuth } from './auth/access.guard';
-import { SettingsComponent } from './pages/settings/settings.component';
+import { LayoutComponent } from '@tt/layout';
+import { ProfilePageComponent } from '@tt/profile';
+import { getPostResolver } from '@tt/posts';
+import { SettingsComponent } from '@tt/settings';
+import { SearchComponent } from '@tt/search';
+import { ChatsRoutes } from '@tt/chat';
+import {
+  CurrentUserResolver,
+  getProfileResolver,
+  getSubscribersResolver,
+  SubscriptionsResolver,
+  getAllAccountsResolver,
+} from '@tt/shared';
+import { CanActivateAuth } from '@tt/tt-auth';
+import { LoginComponent } from '@tt/login';
 
-import { ChatsRoutes } from './pages/chats/chats.routes';
-import { CurrentUserResolver } from './data/currentUserStore/current-user.resolver';
-import { getSubscribersResolver } from './data/subscribersStore/subscribers.resolver';
-import { getAllAccountsResolver } from './pages/search/AccountsStore/accounts.resolver';
-import { getProfileResolver } from './pages/profile-page/profileStore/profile.resolver';
-import { getPostResolver } from './pages/profile-page/postStore/post.resolver';
-import { SubscriptionsResolver } from './data/subscriptionsStore/subscriptions.resolver';
+
+
+
+
 
 export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: '/profile/me', pathMatch: 'full' },
+      {
+        path: '',
+        redirectTo: '/profile/me',
+        pathMatch: 'full',
+        resolve: {},
+      },
       {
         path: 'profile/:id',
         component: ProfilePageComponent,
@@ -45,6 +56,7 @@ export const routes: Routes = [
     ],
     resolve: {
       me: CurrentUserResolver,
+      subscriptions: SubscriptionsResolver,
     },
     canActivate: [CanActivateAuth],
   },

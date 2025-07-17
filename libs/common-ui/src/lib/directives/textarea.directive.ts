@@ -5,8 +5,6 @@ import {
   HostBinding,
   HostListener,
   Renderer2,
-  OnDestroy,
-  Optional,
   Input,
   AfterViewInit,
 } from '@angular/core';
@@ -21,11 +19,10 @@ export class TextareaDirective implements AfterViewInit {
 
   @HostBinding('style.height')
   get height(): string | undefined {
-    console.log('T', this.host.nativeElement.scrollHeight);
+   
 
     if (this.host.nativeElement.scrollHeight < 61) {
-      console.log('D');
-
+      
       return '44px';
     }
 
@@ -35,7 +32,7 @@ export class TextareaDirective implements AfterViewInit {
 
   @HostListener('input', ['$event'])
   onInput(e: InputEvent) {
-    console.log('E', e, this.host.nativeElement.scrollHeight);
+    
     // if (this.host.nativeElement.scrollHeight < 65) {
     //   console.log('true');
 
@@ -70,7 +67,7 @@ export class TextareaDirective implements AfterViewInit {
   // }
 
   constructor(public host: ElementRef, private render: Renderer2) {
-    console.log('constructor');
+  
   }
 
   ngAfterViewInit(): void {

@@ -1,36 +1,46 @@
 <app-profile-filter #appProfileFilter class="mb20"></app-profile-filter>
 
-@if(!(isAccLoaded$|async)){
-<p>...loading</p>
-} @if ((appProfileFilter.accounts$|async); as profiles) { @for (profile of
-profiles; track profile; let last=$last) {
-
-<app-profile-card
-  (toSubscribe)="onSubscribe(profile)"
-  (toSendMessage)="onSendMessage(profile)"
-  (toUnsubscribe)="onUnsubscribe(profile)"
-  [profile]="profile"
-></app-profile-card>
+<app-wrapper
+infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        [infiniteScrollContainer]="'app-wrapper'"
+        [fromRoot]="true"
+        (scrolled)="onScroll()"
+>
+  
+  @if((isAccLoaded$|async)===false){
+  <p>...loading</p>
+  }
+  @if(!!appProfileFilter.form.value.firstName?.length||
+  !!appProfileFilter.form.value.lastName?.length||
+  !!appProfileFilter.form.value.city?.length||
+  !!appProfileFilter.form.value.stack?.length){
+  @if ((appProfileFilter.accounts$|async); as profiles) {
+     @for (profile of profiles; track profile; let last=$last) {
+  
+  <app-profile-card (toSubscribe)="onSubscribe(profile)" (toSendMessage)="onSendMessage(profile)"
+    (toUnsubscribe)="onUnsubscribe(profile)" [profile]="profile"></app-profile-card>
   @if (last){
   @defer (on viewport ){
-    <lib-infinite-scroll-trigger (trigger)="onSetFilteredAccounts()"></lib-infinite-scroll-trigger>
+  <lib-infinite-scroll-trigger (trigger)="onSetFilteredAccounts()"></lib-infinite-scroll-trigger>
   } @placeholder () {
-    <div></div>
-  }}
+  <div>.</div>
+  }
+}
+  
+  } }} @else { @for (profile of acc$|async; track profile; let last=$last) {
+  
+  <app-profile-card (toSubscribe)="onSubscribe(profile)" (toSendMessage)="onSendMessage(profile)"
+    (toUnsubscribe)="onUnsubscribe(profile)" [profile]="profile"></app-profile-card>
+  
+  <!-- @if (last){
+  @defer (on viewport ){
+  <lib-infinite-scroll-trigger (trigger)="onSetAllAccounts()"></lib-infinite-scroll-trigger>
+  } @placeholder () {
+  <div>.</div>
+  }
+} -->
+  } }
 
-} } @else { @for (profile of acc$|async; track profile; let last=$last) {
-
-<app-profile-card
-  (toSubscribe)="onSubscribe(profile)"
-  (toSendMessage)="onSendMessage(profile)"
-  (toUnsubscribe)="onUnsubscribe(profile)"
-  [profile]="profile"
-></app-profile-card>
-
-  @if (last){
-    @defer (on viewport ){
-      <lib-infinite-scroll-trigger (trigger)="onSetAllAccounts()"></lib-infinite-scroll-trigger>
-    } @placeholder () {
-      <div></div>
-    }}
-} }
+</app-wrapper>

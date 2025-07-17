@@ -1,6 +1,0 @@
-<a [routerLink]="[chat.id]" [routerLinkActive]="'active'">
-  <img [src]="chat.userFrom.avatarUrl | img" [alt]="chat.userFrom.username" />
-  <span>{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</span>
-  <span>{{ chat.createdAt | date : 'HH:mm' }}</span>
-  <p>{{ chat.message }}</p>
-</a>

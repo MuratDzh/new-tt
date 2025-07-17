@@ -1,5 +1,6 @@
 :host {
+  display: block;
   border-right: var(--border-light);
-  height: calc(100dvh - 24px - 26px);
+  height: calc(100dvh - 24px - 26px - 76px);
   overflow-y: auto;
 }

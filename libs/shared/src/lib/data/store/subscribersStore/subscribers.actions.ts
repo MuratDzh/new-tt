@@ -1,6 +1,6 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup,  props } from '@ngrx/store';
 
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
 import { SubEntities } from './subscribers.interface';
 

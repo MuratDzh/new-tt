@@ -1,5 +1,5 @@
 import { Directive, Input, OnChanges, SimpleChanges, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import {  Message } from '../../../../interfaces/src/lib/chat/chats.interface';
+import { Message } from '@tt/interfaces/chat';
 
 @Directive({
   selector: '[messageGroupDate]',

@@ -1,8 +1,7 @@
 import {
-  AfterContentInit, AfterViewChecked, AfterViewInit,
+   AfterViewChecked, 
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   ElementRef,
   inject,
   Renderer2
@@ -16,38 +15,31 @@ import {
   styleUrl: './chat-messages.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatMessagesComponent implements  AfterContentInit, AfterViewInit, AfterViewChecked{
+export class ChatMessagesComponent implements   AfterViewChecked{
   el=inject(ElementRef)
   renderer=inject(Renderer2)
-  // @ContentChild()
-  ngAfterContentInit() {
-    console.log("EL", this.el.nativeElement)
-    let height = document.documentElement.clientHeight;
-    // let height = this.el.nativeElement.clientHeight;
-    // let height = this.el.nativeElement.getBoundingClientRect().height;
-    console.log("height", height)
-    // setInterval(()=>console.log("height", height), 2000)
-  }
+  
 
   ngAfterViewInit() {
-    let height = document.documentElement.clientHeight;
-    let heightEl = this.el.nativeElement.clientHeight;
-    let heightElScroll = this.el.nativeElement.scrollHeight;
-    let heightCurrentScroll = this.el.nativeElement.scrollY;
-    let heightElObj = this.el.nativeElement.getBoundingClientRect().height;
-    console.log("heightDocument", height,"heightEl: ", heightEl,"heightElObj:", heightElObj, 'scrollHeight: ', heightElScroll)
-    console.log("scroll: ", heightCurrentScroll)
+    const height = document.documentElement.clientHeight;
+    const heightEl = this.el.nativeElement.clientHeight;
+    const heightElScroll = this.el.nativeElement.scrollHeight;
+    const heightCurrentScroll = this.el.nativeElement.scrollY;
+    const heightElObj = this.el.nativeElement.getBoundingClientRect().height;
+    // console.log("heightDocument", height,"heightEl: ", heightEl,"heightElObj:", heightElObj, 'scrollHeight: ', heightElScroll)
+    // console.log("scroll: ", heightCurrentScroll)
+
     // setInterval(()=>console.log("heightView", height, heightEl, heightElObj), 2000)
   }
 
   ngAfterViewChecked() {
-    let height = document.documentElement.clientHeight;
-    let heightEl = this.el.nativeElement.clientHeight;
-    let heightElScroll = this.el.nativeElement.scrollHeight;
-    let heightCurrentScroll = this.el.nativeElement.getBoundingClientRect();
-    let heightElObj = this.el.nativeElement.getBoundingClientRect().height;
-    console.log("heightDocument", height,"heightEl: ", heightEl,"heightElObj:", heightElObj, 'scrollHeight: ', heightElScroll)
-    console.log("scroll: ", heightCurrentScroll)
+    const height = document.documentElement.clientHeight;
+    const heightEl = this.el.nativeElement.clientHeight;
+    const heightElScroll = this.el.nativeElement.scrollHeight;
+    const heightCurrentScroll = this.el.nativeElement.getBoundingClientRect();
+    const heightElObj = this.el.nativeElement.getBoundingClientRect().height;
+    // console.log("heightDocument", height,"heightEl: ", heightEl,"heightElObj:", heightElObj, 'scrollHeight: ', heightElScroll)
+    // console.log("scroll: ", heightCurrentScroll)
     setTimeout(()=>document.documentElement.scrollTo(0, 400), 500)
     this.renderer.setProperty(this.el, 'scroll', 'top:100')
     document.documentElement.scrollTo(0, 400)

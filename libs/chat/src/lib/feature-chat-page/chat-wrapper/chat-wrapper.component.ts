@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+
+
 @Component({
   selector: 'app-chat-wrapper',
   standalone: true,
@@ -8,4 +10,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './chat-wrapper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatWrapperComponent {}
+export class ChatWrapperComponent { }

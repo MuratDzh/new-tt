@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ProfileHeaderComponent } from './../ui/profile-header';
 
-import { map, Observable, switchMap, of, tap, pluck, filter } from 'rxjs';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { map, Observable, switchMap, tap, filter } from 'rxjs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ImgPipe } from '@tt/common-ui';
 
@@ -15,13 +15,12 @@ import {
   selectProfileEntities,
   SubscriptionsActions,
   SubEntities,
-  CurrentUserActions,
 } from '@tt/shared';
 
 import { PostFeedComponent } from '@tt/posts';
 import { SlicePipe } from '../data/pipes';
 import { Profile } from '@tt/interfaces/profile';
-import { ChatsService } from '../../../../chat/src/lib/data/services/chats.service';
+import { ChatsService } from '@tt/data-access';
 
 @Component({
   selector: 'app-profile-page',
@@ -44,6 +43,7 @@ export class ProfilePageComponent implements OnInit {
 
   subscribersEntity$!: Observable<SubEntities>;
   currentUserId!: number | string;
+
 
   constructor(
     private route: ActivatedRoute,

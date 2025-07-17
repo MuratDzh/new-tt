@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let i of rating">
+    <div [ngClass]="{'active': i==value}" class="li-content">{{i}}</div>
+  </li>
+</ul>

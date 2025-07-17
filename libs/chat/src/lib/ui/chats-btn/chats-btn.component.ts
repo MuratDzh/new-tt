@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ImgPipe } from 'libs/common-ui/src/lib/pipes/img.pipe';
-import { Chat } from 'libs/interfaces/src/lib/chat/chats.interface';
+import { ImgPipe } from '@tt/common-ui';
+import { Chat } from '@tt/interfaces/chat';
 
 @Component({
   selector: 'app-chats-btn',

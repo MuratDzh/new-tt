@@ -6,7 +6,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { SubEntities } from './subscribers.interface';
 import { Store } from '@ngrx/store';
 import { selectMe } from '../currentUserStore/current-user.reducer';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { Profile } from '@tt/interfaces/profile';
 
 
 export const getSubscribersEffects = createEffect(

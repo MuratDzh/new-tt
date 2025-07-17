@@ -2,52 +2,60 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  DestroyRef,
+  ElementRef,
   HostListener,
-  OnInit, QueryList, ViewChildren,
+  OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap, tap,} from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChatWorkspaceHeaderComponent } from '../../ui/chat-workspace-header/chat-workspace-header.component';
 import { ChatWrapperComponent } from '../chat-wrapper/chat-wrapper.component';
 import { ChatMessagesComponent } from '../../ui/chat-messages/chat-messages.component';
-import { MessageInputComponent } from '../../../../../common-ui/src/lib/components/message-input/message-input.component';
+
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ChatRes, Message } from 'libs/interfaces/src/lib/chat/chats.interface';
-import { ChatsService } from '../../data/services';
+import { ChatRes, Message } from '@tt/interfaces/chat';
+import { ChatsService } from '@tt/data-access';
 
-import {SvgDirective } from "@tt/common-ui";
 import { Store } from '@ngrx/store';
-import { selectMe } from 'libs/shared/src/lib/data/store/currentUserStore/current-user.reducer';
 
-import {MessageGroupDateDirective, MessagrGroupDatePipe} from "@tt/shared";
-import {TextareaDirective, AvatarCircleComponent, SubscriberCardComponent} from "@tt/common-ui";
-import {Profile} from "@tt/profile";
+import {
+  MessageGroupDateDirective,
+  MessagrGroupDatePipe,
+  selectMe,
+} from '@tt/shared';
+import {
+  MessageInputComponent,
+  SvgDirective,
+  TextareaDirective,
+  AvatarCircleComponent,
+  SubscriberCardComponent,
+} from '@tt/common-ui';
+import { Profile } from '@tt/interfaces/profile';
+import { inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-
-
-let test = false
-let secondTest = false
+let test = false;
+let secondTest = false;
 
 function ResizeDecorator(
-  target: Object,
+  target: object,
   propertyKey: string,
   descriptor: PropertyDescriptor
 ) {
-
-  let originalMethod = descriptor.value;
+  const originalMethod = descriptor.value;
   descriptor.value = function (e: Event) {
-
     if (!test) {
-
-        originalMethod.call(this, e);
-
+      originalMethod.call(this, e);
     }
-  }
+  };
 }
 
 @Component({
@@ -62,7 +70,7 @@ function ResizeDecorator(
     ReactiveFormsModule,
     AvatarCircleComponent,
     SvgDirective,
-   SubscriberCardComponent,
+    SubscriberCardComponent,
     TextareaDirective,
     MessageGroupDateDirective,
     MessagrGroupDatePipe,
@@ -73,7 +81,7 @@ function ResizeDecorator(
   templateUrl: './chat-workspace.component.html',
   styleUrl: './chat-workspace.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers:[DatePipe]
+  providers: [DatePipe],
 })
 export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   messages$!: Observable<Message[] | null>;
@@ -82,36 +90,36 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
   userId!: number;
   myAvatar!: string | null;
   companion!: Profile;
-  myId!:number
+  myId!: number;
 
-
-  @ViewChildren("messageText")
+  @ViewChildren('messageText')
   messageText!: QueryList<ElementRef<HTMLDivElement>>;
 
+  store = inject(Store);
+  destroyRef=inject(DestroyRef)
 
   constructor(
     private chatService: ChatsService,
     private router: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private store: Store
+    private cdr: ChangeDetectorRef
   ) {}
 
-  message = new FormControl('', {validators: Validators.required , nonNullable: true });
+  message = new FormControl('', {
+    validators: Validators.required,
+    nonNullable: true,
+  });
 
   @ResizeDecorator
   @HostListener('window:click', ['$event'])
   onWinClick(e: Event) {
-
     if (!(e.target as HTMLBaseElement).classList.contains('textarea')) {
-
-        this.message.setValue(this.message.value.replace(/\n/g, '').trim());
-       test=true
+      this.message.setValue(this.message.value.replace(/\n/g, '').trim());
+      test = true;
     }
   }
 
   ngAfterViewChecked() {
-
-    this.messageText?.last?.nativeElement.scrollIntoView()
+    this.messageText?.last?.nativeElement.scrollIntoView();
   }
 
   ngOnInit(): void {
@@ -121,7 +129,7 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
         switchMap(({ id }) => {
           return this.chatService.getChatById(id).pipe(
             tap((v) => {
-              console.log(v),
+              
                 (this.chat = v),
                 (this.companion = v.companion as Profile),
                 (this.chatId = v.id);
@@ -133,40 +141,37 @@ export class ChatWorkspaceComponent implements OnInit, AfterViewChecked {
         tap(() => {
           (this.messages$ = this.chatService.messages$),
             this.cdr.markForCheck();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
 
     this.store
-      .select(selectMe)
-      .subscribe((v) => (this.myAvatar = v!.avatarUrl, this.myId = v!.id));
-
+      .select(selectMe).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((v) => ((this.myAvatar = v!.avatarUrl), (this.myId = v!.id)));
   }
 
   onSendMessage() {
+
     if (this.message.valid) {
       // this.chatService
       //   .postMessage(this.chatId, this.message.value as string, this.userId)
       //   .subscribe();
-      this.chatService.wsAdapter.sendMessage(this.message.value, this.chatId)
+      this.chatService.wsAdapter.sendMessage(this.message.value, this.chatId);
       this.message.reset();
-     // this.cdr.detectChanges()
+      // this.cdr.detectChanges()
     }
   }
-
-
 
   onInput() {
     console.log('1');
     if (!secondTest) {
-      secondTest = true,
-      (test = false)
+      (secondTest = true), (test = false);
       setTimeout(() => {
-
-        console.log('2'),
-        secondTest=false
+        console.log('2'), (secondTest = false);
       }, 1000);
     }
-
   }
 }

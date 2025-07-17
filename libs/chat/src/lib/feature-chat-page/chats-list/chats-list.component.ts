@@ -1,17 +1,22 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
+  Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { ChatsBtnComponent } from '../../ui/chats-btn/chats-btn.component';
-import { Chat } from 'libs/interfaces/src/lib/chat/chats.interface';
-import { ChatsService } from '../../data/services';
+import { Chat } from '@tt/interfaces/chat';
+import { ChatsService } from '@tt/data-access';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats-list',
@@ -21,20 +26,47 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './chats-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatsListComponent implements OnInit {
+export class ChatsListComponent implements OnInit, OnChanges {
   chats$!: Observable<Chat[] | null>;
+  chats!: Chat[];
+  filteredChats!: Chat[] | null;
+
+  @Input()
+  value!: string;
 
   route = inject(ActivatedRoute);
+  chatsService = inject(ChatsService);
+  destroyRef=inject(DestroyRef)
+  
 
-  constructor(private chatsService: ChatsService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value'].currentValue == '')
+      this.chats$ = this.chatsService.chats$;
+    if (changes['value'].currentValue) {
+      this.toFilter();
+    }
+  }
 
   ngOnInit(): void {
-    this.chatsService.getMyChats().pipe(
-      // tap(chats => )
-    ).subscribe();
+    this.chatsService.getMyChats().subscribe();
     this.chats$ = this.chatsService.chats$;
 
-
-    // this.chats$ = this.route.data.pipe(map((v) => v['chatList']));
+    this.chats$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((v) => (this.chats = v as Chat[]));
+  }
+  toFilter() {
+    this.chats$ = of(
+      this.chats.filter(
+        (v) => {
+          return `${v.userFrom.firstName} ${v.userFrom.lastName}`
+            .toLowerCase()
+            .includes(this.value.toLowerCase())
+            ? v
+            : null;
+        }
+        
+      )
+    );
   }
 }

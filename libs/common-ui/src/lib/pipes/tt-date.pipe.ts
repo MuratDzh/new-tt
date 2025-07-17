@@ -15,7 +15,7 @@ export class TtDatePipe implements PipeTransform {
     let currentDay: Date | number = new Date();
     // console.log('currentDay', currentDay);
     // console.log('Value', new Date(value));
-    let offset = currentDay.getTimezoneOffset();
+    const offset = currentDay.getTimezoneOffset();
 
     currentDay = currentDay.getTime() + offset * 60 * 1000;
 
@@ -25,27 +25,27 @@ export class TtDatePipe implements PipeTransform {
 
     // console.log('value.getTime()', value);
 
-    let transformCurrentDayToYear = this.datePipe.transform(currentDay, 'YYYY');
-    let transformDateDayToYear = this.datePipe.transform(value, 'YYYY');
-    let transformCurrentDayToMonth = this.datePipe.transform(currentDay, 'MM');
-    let transformDateDayToMonth = this.datePipe.transform(value, 'MM');
-    let transformCurrentDayToDays = this.datePipe.transform(currentDay, 'dd');
-    let transformDateDayToDays = this.datePipe.transform(value, 'dd');
-    let transformCurrentDayToHours = this.datePipe.transform(currentDay, 'hh');
-    let transformDateDayToHours = this.datePipe.transform(value, 'hh', 'en');
+    const transformCurrentDayToYear = this.datePipe.transform(currentDay, 'YYYY');
+    const transformDateDayToYear = this.datePipe.transform(value, 'YYYY');
+    const transformCurrentDayToMonth = this.datePipe.transform(currentDay, 'MM');
+    const transformDateDayToMonth = this.datePipe.transform(value, 'MM');
+    const transformCurrentDayToDays = this.datePipe.transform(currentDay, 'dd');
+    const transformDateDayToDays = this.datePipe.transform(value, 'dd');
+    const transformCurrentDayToHours = this.datePipe.transform(currentDay, 'hh');
+    const transformDateDayToHours = this.datePipe.transform(value, 'hh', 'en');
 
     // console.log('transformCurrentDayToDay', transformCurrentDayToDays);
     // console.log('transformDateDayToDay', transformDateDayToDays);
     console.log('-|-|-', transformCurrentDayToHours, transformDateDayToHours);
 
-    let transformCurrentDayToMinuts = this.datePipe.transform(currentDay, 'mm');
-    let transformDateDayToMinuts = this.datePipe.transform(value, 'mm');
+    const transformCurrentDayToMinuts = this.datePipe.transform(currentDay, 'mm');
+    const transformDateDayToMinuts = this.datePipe.transform(value, 'mm');
 
-    let amountYear =
+    const amountYear =
       Number(transformCurrentDayToYear) - Number(transformDateDayToYear);
-    let amountMonth =
+    const amountMonth =
       Number(transformCurrentDayToMonth) - Number(transformDateDayToMonth);
-    let amountDays =
+    const amountDays =
       Number(transformCurrentDayToDays) == Number(transformDateDayToDays)
         ? 0
         : Number(transformCurrentDayToDays) > Number(transformDateDayToDays)
@@ -53,9 +53,9 @@ export class TtDatePipe implements PipeTransform {
         : 30 -
           Number(transformDateDayToDays) +
           Number(transformCurrentDayToDays);
-    let amountHours =
+    const amountHours =
       Number(transformCurrentDayToHours) - Number(transformDateDayToHours);
-    let amountMinuts =
+    const amountMinuts =
       Number(transformCurrentDayToMinuts) - Number(transformDateDayToMinuts);
     return amountYear > 0
       ? 'в прошлом году'

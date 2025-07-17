@@ -1,0 +1,12 @@
+:host{
+  display: grid;
+  margin-bottom: 8px;
+}
+
+input{
+  background-color: transparent;
+  border: none;
+  border-bottom: var(--border-light);
+  height: 44px;
+  color: var(--light-color);
+}

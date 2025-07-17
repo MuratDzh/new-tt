@@ -6,12 +6,15 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Profile } from '../../data/interfaces/profile.interface';
+import { Profile } from '@tt/interfaces/profile';
 import { CommonModule } from '@angular/common';
-import { ImgPipe } from '../../../../../common-ui/src/lib/pipes/img.pipe';
-import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
+import {
+  ImgPipe,
+  SvgDirective,
+} from '@tt/common-ui';
+
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-profile-card',
@@ -34,9 +37,12 @@ export class ProfileCardComponent {
   @Output()
   toUnsubscribe = new EventEmitter();
 
-  router=inject(Router)
+  router = inject(Router)
+  cdr=inject(ChangeDetectorRef)
+  
 
-  onSubscribe() {
+  onSubscribe(e: Event) {
+    
     this.toSubscribe.emit();
   }
 

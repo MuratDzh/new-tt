@@ -1,10 +1,8 @@
-import { Post } from '../../interfaces/post.interface.ts.js';
+import { Post, PostRes } from '../../interfaces/post.interface';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface.js';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
-import { PostRes } from '../../interfaces/post.interface.ts.js';
 import { Update } from '@ngrx/entity';
-import { PostsStateInterface } from '../postStore/postState.interface.js';
 
 export const currentPostActions = createActionGroup({
   source: 'Profile Page',

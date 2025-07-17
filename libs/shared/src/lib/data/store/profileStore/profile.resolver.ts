@@ -8,7 +8,7 @@ import {
 import { select, Store } from '@ngrx/store';
 import { ProfileActions } from './profile.actions';
 
-import { concatMap, filter, first, map, of, switchMap, tap } from 'rxjs';
+import { concatMap, filter, first, map, of, tap } from 'rxjs';
 import { selectMe } from '../currentUserStore/current-user.reducer';
 import {
   selectCurrentUser,
@@ -21,7 +21,7 @@ export const getProfileResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  let currentId = route.params['id'];
+  const currentId = route.params['id'];
   console.log('ID', currentId);
 
   let currentUserId: string | number | undefined = undefined;
@@ -41,9 +41,9 @@ export const getProfileResolver: ResolveFn<any> = (
     )
     .subscribe((v) => (currentUserId = v?.id));
   let myId: number | string = (JSON.parse(window.localStorage.getItem("me") as string) as Profile).id;
- 
+//  let myId:string|number
   
-  // store.select(selectMe).subscribe((v) => (myId = v!.id));
+  store.select(selectMe).subscribe((v) => (myId = v!.id));
 
   return store.pipe(
     select(selectProfileIds),

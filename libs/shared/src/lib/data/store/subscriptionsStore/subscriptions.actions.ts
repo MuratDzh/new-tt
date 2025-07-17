@@ -1,8 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
+import { Subscribers } from '@tt/interfaces/subscribers';
 
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
+import { Profile } from '@tt/interfaces/profile';
 
 export const SubscriptionsActions = createActionGroup({
   source: 'Resolver APP INIT',

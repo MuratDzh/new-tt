@@ -7,13 +7,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import {
-  CommentInt,
-  CommentsRes,
-} from '../../data/interfaces/post.interface.ts.js';
+import { CommentsRes } from '../../data/interfaces/post.interface.js';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TtDatePipe } from '../../../../../common-ui/src/lib/pipes/tt-date.pipe';
+import { TtDatePipe } from '@tt/common-ui';
 
 @Component({
   selector: 'app-comment',
@@ -49,12 +46,12 @@ export class CommentComponent implements OnChanges {
 
   onDelCom() {
     this.delCom.emit();
-    this.text=''
+    this.text = '';
   }
 
   onUpdateCom() {
     this.updateCom.emit();
-    this.text=''
+    this.text = '';
   }
 
   toCreateCom() {

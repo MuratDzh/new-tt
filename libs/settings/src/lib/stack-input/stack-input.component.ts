@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, HostListener, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, HostListener, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SvgDirective} from "@tt/common-ui";
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
@@ -24,7 +24,7 @@ export class StackInputComponent implements ControlValueAccessor {
   isFirst = true;
 
   @Input()
-  placeholder: string=''
+  placeholder=''
 
   _value=new BehaviorSubject<string[]>(['1', '2','3', '4', '5']);
   value=this._value.asObservable()
@@ -54,13 +54,12 @@ export class StackInputComponent implements ControlValueAccessor {
   registerOnTouched(fn: any){
     this.onTouche=fn
   }
-  setDisabledState?(isDisabled: boolean){
-  }
+  setDisabledState?(isDisabled: boolean){}
 
   onDel(i:number, e: Event){
     if(this.isFirst) {
       this.isFirst = false;
-      let value = [...this._value.value]
+      const value = [...this._value.value]
       value.splice(i, 1)
       this._value.next(value);
       setTimeout(()=>this.isFirst = true, 0);

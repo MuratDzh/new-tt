@@ -1,7 +1,7 @@
-import { Profile } from 'libs/interfaces/src/lib/profile/profile.interface';
-import { BackendErrorsInterface } from '../../../../../../interfaces/src/lib/backend-errors/backend.errors.interface';
+import { Profile } from '@tt/interfaces/profile';
+import { BackendErrorsInterface } from '@tt/interfaces/backend-errors';
 
-import { Subscribers } from '../../../../../../interfaces/src/lib/subscribers/subscribers.interfase';
+import { Subscribers } from '@tt/interfaces/subscribers';
 import { EntityState } from '@ngrx/entity';
 
 export interface SubscribersStateInterface
