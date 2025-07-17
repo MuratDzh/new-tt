@@ -24,6 +24,7 @@ import {ChatsService} from "@tt/data-access";
 import { ChatRes } from "@tt/interfaces/chat";
 import {Router} from "@angular/router";
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-search',
@@ -34,6 +35,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ProfileFilterComponent,
     InfiniteScrollTriggerComponent,
     WrapperComponent,
+    InfiniteScrollDirective,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -45,18 +47,16 @@ export class SearchComponent implements OnInit, AfterViewChecked {
   isAccLoaded$!: Observable<boolean>;
   chatsService = inject(ChatsService);
 
-  @ViewChildren(ProfileCardComponent, {read: ElementRef})
+  @ViewChildren(ProfileCardComponent, { read: ElementRef })
   profiles!: QueryList<ElementRef>;
-  
+
   // profiles=viewChildren(ProfileCardComponent, {read: ElementRef<HTMLElement>})
-  
 
   destroyRef = inject(DestroyRef);
 
   constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
-    
     this.acc$ = this.store.select(selectAccounts).pipe(
       map((v) => {
         return v ? v.items : null;
@@ -80,10 +80,9 @@ export class SearchComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     console.log('PROFILES', this.profiles.last);
-    if (this.profiles.last) {
-      this.observer.observe(this.profiles.last.nativeElement);
-    }
-    
+    // if (this.profiles.last) {
+    //   this.observer.observe(this.profiles.last.nativeElement);
+    // }
   }
 
   onSubscribe(profile: Profile) {
@@ -133,24 +132,26 @@ export class SearchComponent implements OnInit, AfterViewChecked {
     this.store.dispatch(AccountsActions.setPage({}));
   }
 
+  // callback = (entries:any, observer:any) => {
+  //   entries.forEach((entry:any) => {
+  //     if (entry.isIntersecting) {
+  //       console.log('Пользователь почти докрутил до картинки!')
+  //       this.onSetAllAccounts()
+  //     }
+  //   })
+  // }
 
+  // options = {
 
-callback = (entries:any, observer:any) => {
-  entries.forEach((entry:any) => {
-    if (entry.isIntersecting) {
-      console.log('Пользователь почти докрутил до картинки!')
-      this.onSetAllAccounts()
-    }
-  })
-}
+  //   rootMargin: '0px 0px 75px 0px',
+  //   threshold: 0,
+  // }
 
-options = {
+  // observer = new IntersectionObserver(this.callback, this.options)
 
-  rootMargin: '0px 0px 75px 0px',
-  threshold: 0,
-}
-
-observer = new IntersectionObserver(this.callback, this.options)
-
-
+  onScroll() {
+    console.log('onScroll()');
+    
+    this.onSetAllAccounts()
+  }
 }

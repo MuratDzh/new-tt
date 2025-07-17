@@ -1,6 +1,13 @@
 <app-profile-filter #appProfileFilter class="mb20"></app-profile-filter>
 
-<app-wrapper>
+<app-wrapper
+infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        [infiniteScrollContainer]="'app-wrapper'"
+        [fromRoot]="true"
+        (scrolled)="onScroll()"
+>
   
   @if((isAccLoaded$|async)===false){
   <p>...loading</p>

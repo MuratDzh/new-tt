@@ -14,8 +14,8 @@ export class WrapperComponent implements AfterContentInit {
   windowInnerHeight = document.documentElement.clientHeight;
 
   ngAfterContentInit(): void {
-    console.log('Wrapper EL', this.el);
-    console.log('Wrapper EL{}', this.el.nativeElement.getBoundingClientRect());
+    // console.log('Wrapper EL', this.el);
+    // console.log('Wrapper EL{}', this.el.nativeElement.getBoundingClientRect());
     this.renderer.setStyle(
       this.el.nativeElement,
       'max-height',
