@@ -27,13 +27,13 @@
   <app-profile-card (toSubscribe)="onSubscribe(profile)" (toSendMessage)="onSendMessage(profile)"
     (toUnsubscribe)="onUnsubscribe(profile)" [profile]="profile"></app-profile-card>
   
-  @if (last){
+  <!-- @if (last){
   @defer (on viewport ){
   <lib-infinite-scroll-trigger (trigger)="onSetAllAccounts()"></lib-infinite-scroll-trigger>
   } @placeholder () {
   <div>.</div>
   }
-}
+} -->
   } }
 
 </app-wrapper>

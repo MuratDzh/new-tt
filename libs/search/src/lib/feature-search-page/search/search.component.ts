@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, DestroyRef, viewChildren, ViewChildren, AfterViewChecked, ElementRef, QueryList } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { map, Observable, tap } from 'rxjs';
@@ -29,36 +29,44 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-search',
   standalone: true,
   imports: [
-    ProfileCardComponent, CommonModule, ProfileFilterComponent,
-    InfiniteScrollTriggerComponent, WrapperComponent
+    ProfileCardComponent,
+    CommonModule,
+    ProfileFilterComponent,
+    InfiniteScrollTriggerComponent,
+    WrapperComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewChecked {
   acc$!: Observable<Profile[] | null>;
 
   isAccLoaded$!: Observable<boolean>;
-  chatsService = inject(ChatsService)
+  chatsService = inject(ChatsService);
+
+  @ViewChildren(ProfileCardComponent, {read: ElementRef})
+  profiles!: QueryList<ElementRef>;
   
-  destroyRef=inject(DestroyRef)
+  // profiles=viewChildren(ProfileCardComponent, {read: ElementRef<HTMLElement>})
+  
+
+  destroyRef = inject(DestroyRef);
 
   constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
-    this.acc$ = this.store
-      .select(selectAccounts)
-      .pipe(map((v) => {
-        
-        return v ? v.items : null
-      }))
+    
+    this.acc$ = this.store.select(selectAccounts).pipe(
+      map((v) => {
+        return v ? v.items : null;
+      })
+    );
 
     let IsFilteredAccountsLoaded = false;
     this.store
-      .select(selectIsFilteredAccountsLoaded).pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .select(selectIsFilteredAccountsLoaded)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((v) => (IsFilteredAccountsLoaded = v));
 
     if (IsFilteredAccountsLoaded) {
@@ -70,9 +78,17 @@ export class SearchComponent implements OnInit {
     this.isAccLoaded$ = this.store.select(selectIsAccountsLoaded);
   }
 
+  ngAfterViewChecked(): void {
+    console.log('PROFILES', this.profiles.last);
+    if (this.profiles.last) {
+      this.observer.observe(this.profiles.last.nativeElement);
+    }
+    
+  }
+
   onSubscribe(profile: Profile) {
     // profile.isSubscribed=true
-    this.store.dispatch(SubscriptionsActions.subscribe({ profile })) ;
+    this.store.dispatch(SubscriptionsActions.subscribe({ profile }));
     this.store.dispatch(
       UpdateStorsAfterSubscrube.updateStorsAfterSubscribe({ profile })
     );
@@ -91,28 +107,50 @@ export class SearchComponent implements OnInit {
         UpdateStorsAfterSubscrube.updateStorsAfterUnsubscribe({ profile })
       );
     this.acc$ = this.store.select(selectAccounts).pipe(
-        // debounceTime(0),
-        map((v) => {
-          return v ? v.items : null;
-        })
-      );
+      // debounceTime(0),
+      map((v) => {
+        return v ? v.items : null;
+      })
+    );
   }
 
   onSendMessage(profile: Profile) {
-    this.chatsService.postChat(profile.id).pipe(
-      tap((chat: ChatRes) => this.router.navigate([`/chats/${chat.id}`])),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe()
-
-    ;
+    this.chatsService
+      .postChat(profile.id)
+      .pipe(
+        tap((chat: ChatRes) => this.router.navigate([`/chats/${chat.id}`])),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  onSetFilteredAccounts(){
-    console.log("Тригер загрузки Сортированных аккаунтов")
-    this.store.dispatch(FilterAccountsActions.setPage({}))
+  onSetFilteredAccounts() {
+    console.log('Тригер загрузки Сортированных аккаунтов');
+    this.store.dispatch(FilterAccountsActions.setPage({}));
   }
-  onSetAllAccounts(){
-    console.log("Тригер загрузки всех аккаунтов")
-    this.store.dispatch(AccountsActions.setPage({}))
+  onSetAllAccounts() {
+    console.log('Тригер загрузки всех аккаунтов');
+    this.store.dispatch(AccountsActions.setPage({}));
   }
+
+
+
+callback = (entries:any, observer:any) => {
+  entries.forEach((entry:any) => {
+    if (entry.isIntersecting) {
+      console.log('Пользователь почти докрутил до картинки!')
+      this.onSetAllAccounts()
+    }
+  })
+}
+
+options = {
+
+  rootMargin: '0px 0px 75px 0px',
+  threshold: 0,
+}
+
+observer = new IntersectionObserver(this.callback, this.options)
+
+
 }
