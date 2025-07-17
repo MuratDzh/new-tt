@@ -22,7 +22,7 @@ export const PostEffects = createEffect(
       }),
 
       map((posts) => {
-        let postsLoaded: PostsStateInterface = {
+        const postsLoaded: PostsStateInterface = {
           id: posts[0] ? posts[0].author.id : currentUserId,
           isPostLoaded: true,
           posts: posts,

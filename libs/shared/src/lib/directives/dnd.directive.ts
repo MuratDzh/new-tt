@@ -4,7 +4,6 @@ import {
   HostBinding,
   HostListener,
   Output,
-  signal,
 } from '@angular/core';
 
 @Directive({

@@ -85,8 +85,7 @@ export class ProfileFilterComponent implements OnInit, OnDestroy {
       })
     );
   }
-  toSearch() {}
-
+  
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

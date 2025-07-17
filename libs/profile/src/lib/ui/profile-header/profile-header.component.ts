@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { SvgDirective } from '../../../../../common-ui/src/lib/directives/svg.directive';
+import { SvgDirective } from '@tt/common-ui';
 import { Profile } from '@tt/interfaces/profile';
 import { ImgPipe } from '@tt/common-ui';
 import { Router } from '@angular/router';

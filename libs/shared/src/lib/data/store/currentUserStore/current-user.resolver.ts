@@ -12,7 +12,7 @@ import { tap, Observable } from 'rxjs';
 import { Profile } from '@tt/interfaces/profile';
 import { ProfileService } from '../../services';
 
-let loading = false;
+const loading = false;
 
 export const CurrentUserResolver: ResolveFn<Profile | boolean|Observable<Profile|null>> = (
   route: ActivatedRouteSnapshot,

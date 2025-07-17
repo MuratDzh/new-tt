@@ -66,16 +66,16 @@ export const UpdateMyPostsEffect = createEffect(
           .select(selectCurrentPostEntities)
           .pipe(map((v) => v[post.id]))
           .subscribe((v) => (isUpd = v?.isUpdate));
-        console.log('IsUpdated', post.isUpdate);
+        
 
-        let update: Update<PostRes | null> = {
+        const update: Update<PostRes | null> = {
           id: post.id,
           changes: {
             ...post,
             isUpdate: isUpd ? false : true,
           },
         };
-        console.log('IsUpdated2', post.isUpdate);
+        
 
         return currentPostActions.updateMyPostSuccess({ post: update });
       })
@@ -98,19 +98,18 @@ export const updateMyPostsEffects = createEffect(
       }),
 
       map((posts) => {
-        let postsLoaded: PostsStateInterface = {
+        const postsLoaded: PostsStateInterface = {
           id: posts[0].author.id,
           isPostLoaded: true,
           posts: posts,
           backendErrors: null,
         };
 
-        let update: Update<PostsStateInterface | null> = {
+        const update: Update<PostsStateInterface | null> = {
           id: posts[0].author.id as number,
           changes: postsLoaded,
         };
 
-        console.log('CURRENT USER EFFECT', update);
 
         return PostActions.myPostsUpdatedSuccess({ posts: update });
       })
@@ -148,19 +147,18 @@ export const updateMyPostsAfterNewPostEffects = createEffect(
       }),
 
       map((posts) => {
-        let postsLoaded: PostsStateInterface = {
+        const postsLoaded: PostsStateInterface = {
           id: posts[0].author.id,
           isPostLoaded: true,
           posts: posts,
           backendErrors: null,
         };
 
-        let update: Update<PostsStateInterface | null> = {
+        const update: Update<PostsStateInterface | null> = {
           id: posts[0].author.id as number,
           changes: postsLoaded,
         };
 
-        console.log('CURRENT USER EFFECT', update);
 
         return PostActions.myPostsUpdatedSuccess({ posts: update });
       })
@@ -212,14 +210,14 @@ export const UpdateMyPostsAfterDelEffect = createEffect(
         return posService.getPosts(myId);
       }),
       map((posts) => {
-        let postsLoaded: PostsStateInterface = {
+        const postsLoaded: PostsStateInterface = {
           id: posts[0].author.id,
           isPostLoaded: true,
           posts: posts,
           backendErrors: null,
         };
 
-        let updatedPostList: Update<PostsStateInterface | null> = {
+        const updatedPostList: Update<PostsStateInterface | null> = {
           id: myId,
           changes: postsLoaded,
         };

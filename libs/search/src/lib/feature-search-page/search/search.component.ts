@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, DestroyRef } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { map, Observable, tap } from 'rxjs';
@@ -18,11 +18,12 @@ import { ProfileCardComponent } from '@tt/profile';
 import {
 
   UpdateStorsAfterSubscrube,
-} from '../../../../../shared/src/lib/data/store/subscriptionsStore/subscriptions.actions';
+} from '@tt/shared';
 import {InfiniteScrollTriggerComponent, WrapperComponent} from "@tt/common-ui";
 import {ChatsService} from "@tt/data-access";
 import { ChatRes } from "@tt/interfaces/chat";
 import {Router} from "@angular/router";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-search',
@@ -39,21 +40,25 @@ export class SearchComponent implements OnInit {
   acc$!: Observable<Profile[] | null>;
 
   isAccLoaded$!: Observable<boolean>;
-  chatsService=inject(ChatsService)
+  chatsService = inject(ChatsService)
+  
+  destroyRef=inject(DestroyRef)
+
   constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.acc$ = this.store
       .select(selectAccounts)
       .pipe(map((v) => {
-        console.log('СМОТРИМ как МЕНЯЕТСЯ Список', v);
         
         return v ? v.items : null
       }))
 
     let IsFilteredAccountsLoaded = false;
     this.store
-      .select(selectIsFilteredAccountsLoaded)
+      .select(selectIsFilteredAccountsLoaded).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((v) => (IsFilteredAccountsLoaded = v));
 
     if (IsFilteredAccountsLoaded) {
@@ -74,8 +79,6 @@ export class SearchComponent implements OnInit {
     this.acc$ = this.store.select(selectAccounts).pipe(
       // debounceTime(0),
       map((v) => {
-        console.log('СМОТРИМ как МЕНЯЕТСЯ Список', v);
-
         return v ? v.items : null;
       })
     );
@@ -90,17 +93,15 @@ export class SearchComponent implements OnInit {
     this.acc$ = this.store.select(selectAccounts).pipe(
         // debounceTime(0),
         map((v) => {
-          console.log('СМОТРИМ как МЕНЯЕТСЯ Список', v);
-
           return v ? v.items : null;
         })
       );
   }
 
   onSendMessage(profile: Profile) {
-    console.log("SendMessage", profile.id);
     this.chatsService.postChat(profile.id).pipe(
-      tap((chat: ChatRes) => this.router.navigate([`/chats/${chat.id}`]))
+      tap((chat: ChatRes) => this.router.navigate([`/chats/${chat.id}`])),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe()
 
     ;

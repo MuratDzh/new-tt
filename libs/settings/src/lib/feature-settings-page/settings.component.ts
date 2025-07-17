@@ -29,7 +29,9 @@ import {
 import { AvatarUploadComponent } from '../feature-avatar-upload/avatar-upload.component';
 import { Store } from '@ngrx/store';
 import { ImgPipe, TextareaDirective } from '@tt/common-ui';
-import {StackInputComponent} from "@tt/settings";
+import {StackInputComponent} from "./../stack-input/stack-input.component";
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-settings',
@@ -64,6 +66,8 @@ export class SettingsComponent implements OnInit {
     stack: <string[]>[],
   });
 
+  destroyRef=inject(DestroyRef)
+
   constructor(
     private profService: ProfileService,
 
@@ -78,32 +82,34 @@ export class SettingsComponent implements OnInit {
     this.me$
       .pipe(
         switchMap((v) => {
-          //@ts-ignore
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-expect-error
           return of(this.form.patchValue(v)).pipe(
-            tap(() => console.log('TAP')),
             take(1)
           );
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
 
   onSave() {
-    let avatarFile = this.avatarUpload.avatarFile;
+    const avatarFile = this.avatarUpload.avatarFile;
 
-    let value = {
+    const value = {
       ...this.form.value,
       stack: this.splitStac(this.form.value.stack),
     };
 
     if (avatarFile) {
-      //@ts-ignore
+     
       this.profService
-        //@ts-ignore
+
         .uploadImg(avatarFile)
         .pipe(
           switchMap(() => {
-            //@ts-ignore
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-expect-error
             return this.profService.patchMe(value).pipe(
               tap((v) => {
                 (this.me$ = of(v)), this.cdr.detectChanges();
@@ -112,19 +118,22 @@ export class SettingsComponent implements OnInit {
                 // }, 0);
               })
             );
-          })
+          }),
+          takeUntilDestroyed(this.destroyRef)
         )
         .subscribe();
     } else {
       this.profService
-        //@ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
         .patchMe(value)
         .pipe(
           map((v) => {
             return setTimeout(() => {
               (this.me$ = of(v)), this.cdr.markForCheck();
             }, 0);
-          })
+          }),
+          takeUntilDestroyed(this.destroyRef)
         )
         .subscribe();
     }

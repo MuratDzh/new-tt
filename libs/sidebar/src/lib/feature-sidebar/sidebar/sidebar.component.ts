@@ -16,14 +16,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { Profile } from '@tt/interfaces/profile';
-import { debounceTime, filter, firstValueFrom, map, Observable, Subscription, tap, timer, catchError } from 'rxjs';
+import { firstValueFrom, map, Observable, Subscription, timer } from 'rxjs';
 import { ImgPipe, SubscriberCardComponent, SvgDirective } from '@tt/common-ui';
 import {  Store } from '@ngrx/store';
 import { selectMe, selectSubscriptionsState } from '@tt/shared';
 import { ChatsService, isErrorMessageFunc, isNewMessage, isUnreadMessage } from '@tt/data-access';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AuthService } from '../../../../../tt-auth/src/lib/tt-auth/auth.service';
-import { ProfileService } from '../../../../../shared/src/lib/data/services/profile-service/profile.service';
+import { AuthService } from '@tt/tt-auth';
+import { ProfileService } from '@tt/shared';
 
 
 
@@ -177,7 +177,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   viewAllSub() {
-    this.amount == 6 ? (this.amount = 100) : (this.amount = 6);
+    this.amount === 6 ? (this.amount = 100) : (this.amount = 6);
   }
 
   ngOnDestroy(): void {

@@ -19,7 +19,7 @@
           <use></use>
         </svg>
         <span>{{ item.lebel }}</span>
-        @if(item.lebel=='Чаты'&&unreadMessagesCount()){
+        @if(item.lebel==='Чаты'&&unreadMessagesCount()){
           <span class="unreadMessagesCount">{{unreadMessagesCount()}}</span>
         }
 
@@ -43,8 +43,8 @@
 
   }
 </div>
-<a (click)="viewAllSub()" class="to-subscribers medium-text p-i">
-  <p class="medium-text">{{amount==6?'Все подписки':'Свернуть подписки'}}</p>
+<a (click)="viewAllSub()"  class="to-subscribers medium-text p-i">
+  <p class="medium-text">{{amount===6?'Все подписки':'Свернуть подписки'}}</p>
   <svg [appSvgDir]="'arrow'" viewBox="0 0 6 9" width="6" height="9">
     <use></use>
   </svg>

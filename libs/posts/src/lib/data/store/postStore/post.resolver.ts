@@ -18,7 +18,7 @@ export const getPostResolver: ResolveFn<
   PostRes[] | string[] | number[] | boolean
 > = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const store = inject(Store);
-  let currentId = route.params['id'];
+  const currentId = route.params['id'];
   let ids: number[] | string[] = [];
   store.pipe(select(selectPostsIds)).subscribe((v) => (ids = v));
   let myId: string | number = '';

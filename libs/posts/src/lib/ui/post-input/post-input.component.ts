@@ -21,7 +21,7 @@ import { SvgDirective, TextareaDirective } from '@tt/common-ui';
 
 export function createValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let t = new RegExp(control.value)
+    const t = new RegExp(control.value)
    
     console.log('++++++', /[A-Za-z0-9_]/.test(control.value));
     

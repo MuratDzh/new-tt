@@ -4,9 +4,7 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { Profile } from '@tt/interfaces/profile';
 import { CommonModule } from '@angular/common';

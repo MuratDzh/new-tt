@@ -37,7 +37,7 @@ export const GetAllAccountsEffects = createEffect(
         let updatedAccounts: Subscribers<Profile>;
 
         if(subscriptions) {
-          for (let sub of subscriptions) {
+          for (const sub of subscriptions) {
             acc.items
               ? acc.items?.map((v) =>
                 v.id === sub.id ? (v.isSubscribed = true) : v

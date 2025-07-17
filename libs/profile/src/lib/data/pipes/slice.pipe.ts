@@ -9,9 +9,11 @@ import { Profile } from '@tt/interfaces/profile';
   standalone: true,
 })
 export class SlicePipe implements PipeTransform {
-  transform(value: Profile[] | null, args: number): any {
+  transform(value: Profile[] | null, args: number): Profile[]|undefined|null {
     if (value !== null) {
       return value.slice(0, args);
     }
+
+    return value
   }
 }

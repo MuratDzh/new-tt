@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { getSubscribersActions } from './subscribers.actions';
 
 
-let isLoaded = false;
+// let isLoaded = false;
 
 export const getSubscribersResolver: ResolveFn<any> = (
   // export const getSubscribersResolver: ResolveFn<SubEntities|boolean> = (
@@ -34,7 +34,7 @@ export const getSubscribersResolver: ResolveFn<any> = (
   //   first(),
   //   finalize(() => (isLoaded = false))
   // );
-  console.log('RESOLVER ID,', route.params['id']);
+  
 
   return store.dispatch(
     getSubscribersActions.getSubscribers({ id: route.params['id'] })

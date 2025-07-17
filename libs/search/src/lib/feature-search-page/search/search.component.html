@@ -2,7 +2,7 @@
 
 <app-wrapper>
   
-  @if(!(isAccLoaded$|async)){
+  @if((isAccLoaded$|async)===false){
   <p>...loading</p>
   }
   @if(!!appProfileFilter.form.value.firstName?.length||

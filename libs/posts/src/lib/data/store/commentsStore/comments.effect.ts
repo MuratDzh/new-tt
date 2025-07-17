@@ -44,7 +44,7 @@ export const GetCommentsEffect = createEffect(
         );
       }),
       map((comment) => {
-        let com: CommentsResFull | null = {
+        const com: CommentsResFull | null = {
           ...comment,
         };
         return CommentsActions.getCommentByIdSuccess({ comment: com });
@@ -101,7 +101,7 @@ export const UpdatePostsStoreAfterCreateComment = createEffect(
         );
       }),
       map((comments) => {
-        let post: PostRes = {
+        const post: PostRes = {
           ...myPosts!.filter((v) => v.id == myComment.postId)[0],
           comments: [...comments, myComment],
         };
@@ -110,14 +110,14 @@ export const UpdatePostsStoreAfterCreateComment = createEffect(
           v.id === myComment.postId ? (v = post) : v
         );
 
-        let updatedPosts: PostsStateInterface = {
+        const updatedPosts: PostsStateInterface = {
           id: myPosts![0].author.id,
           isPostLoaded: true,
           posts: [...myPosts!],
           backendErrors: null,
         };
 
-        let update: Update<PostsStateInterface | null> = {
+        const update: Update<PostsStateInterface | null> = {
           id: myPosts![0].author.id as number,
           changes: updatedPosts,
         };
@@ -170,7 +170,7 @@ export const UpdatePostsStoreAfterDeleteComment = createEffect(
         );
       }),
       map((comments) => {
-        let post: PostRes = {
+        const post: PostRes = {
           ...myPosts!.filter((v) => v.id == myComment.postId)[0],
           comments: [...comments.filter((v) => v.id !== myComment.id)],
         };
@@ -179,14 +179,14 @@ export const UpdatePostsStoreAfterDeleteComment = createEffect(
           v.id === myComment.postId ? (v = post) : v
         );
 
-        let updatedPosts: PostsStateInterface = {
+        const updatedPosts: PostsStateInterface = {
           id: myPosts![0].author.id,
           isPostLoaded: true,
           posts: [...myPosts!],
           backendErrors: null,
         };
 
-        let update: Update<PostsStateInterface | null> = {
+        const update: Update<PostsStateInterface | null> = {
           id: myPosts![0].author.id as number,
           changes: updatedPosts,
         };
@@ -216,7 +216,7 @@ export const UpdateCommentEffect = createEffect(
         myComment = comment as CommentsRes;
         console.log('СМОТРИМ, ЧТО ВОЗВРАЩАЕТ МЕТОД UPDATE', comment);
 
-        let updatedComment: Update<CommentsRes | null> = {
+        const updatedComment: Update<CommentsRes | null> = {
           id: postId,
 
           changes: comment,
@@ -256,19 +256,11 @@ export const UpdatePostListAfterUpdateCommentEffect = createEffect(
         );
       }),
       map((comments) => {
-        let comms: CommentsRes[] = [
+        const comms: CommentsRes[] = [
           ...comments.map((v) => (v.id === myComment.id ? (v = myComment) : v)),
         ];
 
-        console.log('ОБНОВЛЕННЫЙ СПИСОК КОММЕНТОВ', comms);
-        console.log('ВОЗМОЖНАЯ ОШИБКА', myPosts);
-        console.log('ВОЗМОЖНАЯ ОШИБКА, myComment', myComment.post_id);
-        console.log(
-          'ВОЗМОЖНАЯ ОШИБКА',
-          myPosts!.filter((v) => v.id == myComment.post_id)[0]
-        );
-
-        let post: PostRes = {
+        const post: PostRes = {
           ...myPosts!.filter((v) => v.id == myComment.post_id)[0],
           comments: [...comms],
         };
@@ -279,19 +271,18 @@ export const UpdatePostListAfterUpdateCommentEffect = createEffect(
           v.id === myComment.post_id ? (v = post) : v
         );
 
-        let updatedPosts: PostsStateInterface = {
+        const updatedPosts: PostsStateInterface = {
           id: myPosts![0].author.id,
           isPostLoaded: true,
           posts: [...myPosts!],
           backendErrors: null,
         };
 
-        let update: Update<PostsStateInterface | null> = {
+        const update: Update<PostsStateInterface | null> = {
           id: myPosts![0].author.id as number,
           changes: updatedPosts,
         };
 
-        console.log('COMMENT EFFECT, updatePost', update);
 
         return PostActions.myPostsUpdatedSuccess({ posts: update });
       })

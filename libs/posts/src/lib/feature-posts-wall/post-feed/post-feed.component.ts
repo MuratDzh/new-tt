@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   inject,
@@ -46,6 +47,7 @@ import { AvatarCircleComponent, SvgDirective } from '@tt/common-ui';
 import { CommentInputComponent } from '../../ui/comment-input/comment-input.component';
 
 import { HiddenButtonsComponent } from '../../ui/hidden-buttons/hidden-buttons.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface PostFormValue {
   title: string;
@@ -101,15 +103,13 @@ function ResizeDecorator(
   providers: [DatePipe],
 })
 export class PostFeedComponent
-  implements OnDestroy, OnInit, AfterViewInit, AfterViewChecked
+  implements OnInit, AfterViewInit, AfterViewChecked
 {
   posts$!: Observable<PostRes[] | null | undefined>;
 
   posts!: PostRes[] | null;
 
-  subsription$!: Subscription;
 
-  test$!: Observable<any>;
 
   updatedPost: PostRes | null = null;
 
@@ -128,6 +128,7 @@ export class PostFeedComponent
 
   el = inject(ElementRef);
   renderer = inject(Renderer2);
+  destroyRef=inject(DestroyRef)
 
   get profile(): Profile {
     return this._profile;
@@ -135,8 +136,7 @@ export class PostFeedComponent
 
   @Input()
   set profile(v: Profile) {
-    this._profile = v;
-    console.log('SET PROFILE', v);
+    this._profile = v;;
 
     this.toLoadPost();
     this.cdr.markForCheck();
@@ -151,7 +151,6 @@ export class PostFeedComponent
   @ResizeDecorator
   @HostListener('window:resize', ['$event'])
   onWinResize(e: Event) {
-    console.log('@HostListener');
 
     this.getHeight();
   }
@@ -169,14 +168,17 @@ export class PostFeedComponent
   ) {}
 
   ngOnInit(): void {
-    this.store.select(selectMe).subscribe((v) => {
+    this.store.select(selectMe).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((v) => {
       this.myProfile = v;
       return (this.myId = v ? v.id : null);
     });
 
     this.store
       .select(selectPostsFromUsersState)
-      .pipe(map((v) => v.entities[this.myId!]?.posts as PostRes[]))
+      .pipe(map((v) => v.entities[this.myId!]?.posts as PostRes[]),
+      takeUntilDestroyed(this.destroyRef))
       .subscribe((v) => {
         this.getHeight();
         return (this.posts = v);
@@ -298,28 +300,32 @@ export class PostFeedComponent
 
     let isUpdated: boolean | null | undefined;
 
-    this.store.select(selectCurrentPostEntities).subscribe((v) => {
-      console.log('POST to UPDATE', v);
-      if (v[post.id]?.isUpdate !== undefined) {
-        isUpdated = v[post.id]!.isUpdate;
-        return isUpdated;
-      }
-      console.log('--isUpdated--', isUpdated);
-      return (isUpdated = null);
-    });
+    this.store
+      .select(selectCurrentPostEntities)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((v) => {
+        console.log('POST to UPDATE', v);
+        if (v[post.id]?.isUpdate !== undefined) {
+          isUpdated = v[post.id]!.isUpdate;
+          return isUpdated;
+        }
+        console.log('--isUpdated--', isUpdated);
+        return (isUpdated = null);
+      });
 
-    this.store.select(selectCurrentPostEntities).subscribe((v) => {
-      this.updateSelectCount++;
-      console.log('SELECT ВЫЗВАЛИ ', this.updateSelectCount, 'РАЗ');
-      console.log('IS I=UPDATED?', isUpdated);
-      this.updatedPost = isUpdated ? null : (v[post.id] as PostRes);
-      console.log('<<<<>>>>', this.updatedPost);
-      this.cdr.detectChanges();
-    });
+    this.store
+      .select(selectCurrentPostEntities)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((v) => {
+        this.updateSelectCount++;
+        this.updatedPost = isUpdated ? null : (v[post.id] as PostRes);
+        
+        this.cdr.detectChanges();
+      });
   }
 
   toDel(post: PostRes) {
-    console.log('УДАЛЕНИЕ, post.id', post.id);
+   
 
     this.store.dispatch(currentPostActions.delPost({ post }));
   }
@@ -351,8 +357,7 @@ export class PostFeedComponent
         postId: post.id,
       };
       // firstValueFrom(this.postServ.updateComment(v));
-      console.log('UPDATE COMMENT', v);
-      console.log('postAuthorId', post.author.id);
+     
       this.store.dispatch(
         CommentsActions.updateComment({
           comment: v,
@@ -369,7 +374,6 @@ export class PostFeedComponent
         postId: post.id,
       };
       // firstValueFrom(this.postServ.createComment(v));
-      console.log('МЕТОД КРИЕЙТ, post', post.author.id);
       this.store.dispatch(
         CommentsActions.createComment({ comment, postAuthorId: post.author.id })
       );
@@ -377,7 +381,6 @@ export class PostFeedComponent
   }
 
   onGetCom(comment: CommentsRes) {
-    console.log('COMMENT', comment);
     // this.postServ.getCommentById(comment.id).subscribe(
     //   v=>console.log("getCommentById",v)
     // )
@@ -385,7 +388,6 @@ export class PostFeedComponent
   }
 
   showButtons(commentId: number, e: Event) {
-    console.log('Event', e);
 
     e.stopPropagation();
     this.hiddenButtons
@@ -403,7 +405,4 @@ export class PostFeedComponent
       false;
   }
 
-  ngOnDestroy(): void {
-    this.subsription$?.unsubscribe();
-  }
 }

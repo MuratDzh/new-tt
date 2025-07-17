@@ -41,7 +41,7 @@ export class AvatarUploadComponent {
   renderer = inject(Renderer2);
 
   avatar!: string;
-  avatarDefault: string = './../../../assets/images/Content.png';
+  avatarDefault = "./../../../assets/images/Content.png";
 
   avatarFile?: File;
 
@@ -55,13 +55,13 @@ export class AvatarUploadComponent {
   }
 
   uploadImg(e: Event) {
-    //@ts-ignore
-    let file: File = (e.target as HTMLInputElement).files[0];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    const file: File = (e.target as HTMLInputElement).files[0];
 
     if (!file || !file.type.match('image')) return;
 
     this.toReadFile(file);
-    console.log(this.div);
 
     this.renderer.setStyle(
       this.div.nativeElement,

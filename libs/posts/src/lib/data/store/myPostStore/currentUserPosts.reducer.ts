@@ -2,7 +2,7 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { PostRes } from '../../interfaces/post.interface';
 import { CurrentPostInterface } from './currentUserPosts.interface';
-import { createFeature, createReducer, on, props } from '@ngrx/store';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { currentPostActions } from './currentUserPost.actions';
 
 

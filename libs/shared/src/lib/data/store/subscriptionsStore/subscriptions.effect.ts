@@ -74,7 +74,7 @@ export const AfterSubscribeUpdateProfileStoreEffect = createEffect(
       map((v) => {
         newProfile = { ...newProfile, isSubscribed: true };
 
-        let updatedProfile: Update<Profile> = {
+        const updatedProfile: Update<Profile> = {
           id: newProfile.id,
           changes: newProfile,
         };
@@ -115,7 +115,7 @@ export const AfterSubscribeUpdateAllAccountsStoreEffect = createEffect(
           ],
         } as Subscribers<Profile>;
 
-        let updatedProfile: Update<Profile> = {
+        const updatedProfile: Update<Profile> = {
           id: newProfile.id,
           changes: newProfile,
         };
@@ -144,7 +144,7 @@ export const AfterSubscribeUpdateFilterAccountsStoreEffect = createEffect(
       map((accounts) => {
         newProfile = { ...newProfile, isSubscribed: true };
 
-        let t = JSON.parse(JSON.stringify(accounts));
+        const t = JSON.parse(JSON.stringify(accounts));
         // console.log("---t---",t)
 
         t.items = t.items.map((v: Profile) =>
@@ -197,7 +197,7 @@ export const AfterUnsubscribeUpdateProfileStoreEffect = createEffect(
       map((v) => {
         newProfile = { ...newProfile, isSubscribed: false };
 
-        let updatedProfile: Update<Profile> = {
+        const updatedProfile: Update<Profile> = {
           id: newProfile.id,
           changes: newProfile,
         };
@@ -239,7 +239,7 @@ export const AfterUnsubscribeUpdateAllAccountsStoreEffect = createEffect(
           ],
         } as Subscribers<Profile>;
 
-        let updatedProfile: Update<Profile> = {
+        const updatedProfile: Update<Profile> = {
           id: newProfile.id,
           changes: newProfile,
         };
@@ -276,7 +276,7 @@ export const AfterUnsubscribeUpdateFilterAccountsStoreEffect = createEffect(
           ],
         } as Subscribers<Profile>;
 
-        let updatedProfile: Update<Profile> = {
+        const updatedProfile: Update<Profile> = {
           id: newProfile.id,
           changes: newProfile,
         };

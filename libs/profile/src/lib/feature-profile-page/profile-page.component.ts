@@ -44,6 +44,7 @@ export class ProfilePageComponent implements OnInit {
   subscribersEntity$!: Observable<SubEntities>;
   currentUserId!: number | string;
 
+
   constructor(
     private route: ActivatedRoute,
     private store: Store,

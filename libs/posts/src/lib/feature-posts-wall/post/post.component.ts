@@ -24,7 +24,7 @@ import { AvatarCircleComponent } from '@tt/common-ui';
   styleUrl: './post.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostComponent implements OnChanges, AfterContentInit {
+export class PostComponent implements OnChanges {
   text = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -50,9 +50,6 @@ export class PostComponent implements OnChanges, AfterContentInit {
   @Output()
   createCom = new EventEmitter();
 
-  // @ContentChild('comment', {read:CommentComponent})
-  // comment!: CommentComponent;
-
   comment = contentChild(AvatarCircleComponent, {
     read: AvatarCircleComponent,
   });
@@ -69,13 +66,7 @@ export class PostComponent implements OnChanges, AfterContentInit {
       this.text = '';
     }
 
-    console.log('changes', changes['post']);
-
     this.cdr.markForCheck();
-  }
-
-  ngAfterContentInit() {
-    console.log('ngAfterContentInit', this.comment()?.profileAvatar);
   }
 
   onDelCom() {
